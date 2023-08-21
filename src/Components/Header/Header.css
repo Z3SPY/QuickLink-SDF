@@ -1,0 +1,104 @@
+/*Variables*/
+:root {
+    --spacing: 50px;
+}
+
+#Header {
+    background-color: #FFF5E0;
+    border-bottom: 2.5px solid #141e464b;
+    margin: 0px 5rem;
+}
+
+#selector {
+    position: absolute;
+    top: 0rem;
+    transition: 1s ease-in-out;
+}
+
+#selector svg {
+    transition: 0.5s ease-in;
+
+}
+
+
+#navBarButtons > li:after{
+    content: '';
+    display: block;
+    margin: auto;
+    height: 1.5px;
+    width: 0px;
+    background: transparent;
+}
+
+#navBarButtons > li.active:after{
+    background: red;
+    animation: bottomSlide 0.5s ease-in-out 0.2s 1 forwards;
+
+}
+
+.active a {
+    color: red;
+}
+
+
+#navBarButtons > li:nth-child(1).active ~ #selector {
+    transform: translateX(calc(var(--spacing) * 0));
+}
+
+
+
+#navBarButtons > li:nth-child(2).active ~ #selector  {
+    transform: translateX(calc(var(--spacing) * 2.6));
+}
+
+#navBarButtons > li:nth-child(3).active ~ #selector { 
+    transform: translateX(calc(var(--spacing) * 5.3));
+}
+
+#navBarButtons > li:nth-child(4).active ~ #selector  {
+    transform: translateX(calc(var(--spacing) * 7.6));
+}
+
+
+#navBarButtons > li.active ~ #selector svg {
+    animation: slidein 1s ease-in-out 0.1ms 1 normal;
+}
+
+
+@keyframes slidein {
+    0% {
+        height: 20px;
+    } 
+    50% {
+        height: 0px;
+    }
+    100% {
+        height: 20px;
+    }
+  
+}
+
+@keyframes bottomSlide {
+    0% {
+        width: 0%;
+    } 
+    100% {
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-width: 1379px) {
+    /* For mobile phones: */
+    #Header {
+        margin: 0px 2rem;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    #Header {
+        margin: 0px 1.75rem;
+    }
+}
+  
