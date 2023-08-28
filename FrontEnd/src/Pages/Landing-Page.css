@@ -2,9 +2,16 @@
     margin: 0px;
     padding: 0px;
     background-color: #FFF5E0;
+    height: 50rem;
 }
 
 .text {
     width: 35rem;
+    top: 26rem;
+    left: 15rem;
+}
 
+#Showcase {
+    height: 40rem;
+    position: absolute;
 }

@@ -1,7 +1,18 @@
 * {
 }
 
-html, .App {
-    background-color: #FFF5E0
+html {
+    overflow-x: hidden;
 }
 
+html, .App {
+    background-color: #FFF5E0;
+    padding: 0;
+    margin: 0;
+}
+
+
+#root {
+    padding: 0;
+    margin: 0;
+}

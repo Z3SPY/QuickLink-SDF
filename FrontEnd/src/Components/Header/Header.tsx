@@ -24,7 +24,7 @@ const navItems : Array<navButton> = [
 
 const Header = () => {
 
-  const [isActive, setIsActive] = useState(0);
+  const [isActive, setIsActive] = useState(1);
 
   const NavBtn = (p : any) => {
 
@@ -57,8 +57,8 @@ const Header = () => {
   /*Dunno What an Aria Current is, putting this here so I remember */
 
   return (
-    <div>
-      <nav className="fixed w-11/12 z-20 top-0 left-0 border-b border-gray-200 " id="Header">
+    <div className="fixed w-screen inset-0 z-20 headerCont">
+      <nav className="fixed w-11/12 top-0 left-0 border-b border-gray-200 " id="Header">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
           <a href="#" className="flex items-center">
