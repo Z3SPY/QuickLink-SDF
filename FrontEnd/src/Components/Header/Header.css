@@ -38,13 +38,13 @@
 }
 
 #navBarButtons > li.active:after{
-    background: red;
+    background: hsl(0, 100%, 50%);
     animation: bottomSlide 0.5s ease-in-out 0.2s 1 forwards;
 
 }
 
 .active a {
-    color: red;
+    color: #ff0000;
 }
 
 

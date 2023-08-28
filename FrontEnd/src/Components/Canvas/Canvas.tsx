@@ -67,9 +67,7 @@ class Point {
       this.vx += this.force * Math.cos(this.angle);
       this.vy += this.force * Math.sin(this.angle);
     } else {
-      this.vx = (Math.random() * 1.5);
-      this.vy = (Math.random() * 1.5);
-
+      this.vy = (Math.random() * 1);
     }
 
     this.x += (this.vx *= this.friction) + (this.originX - this.x) * this.ease;

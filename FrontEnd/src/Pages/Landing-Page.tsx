@@ -8,16 +8,16 @@ import "scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators";
 
 
 function LandingPage() {
-  const tl = gsap.timeline();
+  const tl : gsap.core.Timeline = gsap.timeline();
 
   useEffect(() => {
-    const controller = new ScrollMagic.Controller();
+    const controller : ScrollMagic.Controller    = new ScrollMagic.Controller();
     tl.to("#Showcase", {y: "20%" }); //Set Position
 
     // Scene 1: Animation when entering the "Showcase" section
     new ScrollMagic.Scene({
       triggerElement: '#Graphic',
-      triggerHook: 0.4,
+      triggerHook: 0.5,
       duration: '50%',
       offset: 100,
     })
@@ -25,15 +25,25 @@ function LandingPage() {
       .on('end', (event : any) => {
         if (event.scrollDirection == "FORWARD") {
           console.log("enter");
-          tl.to("#Showcase", { duration: 1, y: "-31%" }); //Slide when Scrolling Downwards
+          tl.to("#Showcase", { duration: 1, y: "-70%" }); //Slide when Scrolling Downwards
         } else if (event.scrollDirection == "REVERSE") { 
-          tl.to("#Showcase", { duration: 1, y: "0%" }); //Slide when Scrolling Backwards
+          tl.to("#Showcase", { duration: 1, y: "20%" }); //Slide when Scrolling Backwards
         }
       }).addIndicators!();
 
     return () => controller.destroy(true);
   }, []);
 
+  /* NOTE TO SELF 
+
+    Change How The Text Appears On Load.
+    Add Description Text at the bottom.
+    Font Could look cleaner.
+
+  
+  
+  */
+  
   return (
     <div id="landing-page">
       <Header />
@@ -41,7 +51,7 @@ function LandingPage() {
         <div id="Graphic">
           <div className='text absolute'>
             <h1 className="text-6xl ">
-              <span style={{ color: '#FFBA86' }}>CRAFTING</span>
+              <span style={{ color: '#FFBA86' }}>LINKING</span> 
               <span style={{ color: '#C23373' }}>DREAMS</span> ONE FREELANCE GIG AT A TIME
             </h1>
           </div>
@@ -49,11 +59,13 @@ function LandingPage() {
         </div>
       </div>
 
-      <div id="Showcase" className='w-screen h-auto bg-black z-20'>
-        <div className="grid grid-cols-4 gap-4">
-          <div className='bg-yellow-500'> </div>
-          <div className='bg-yellow-500'> a </div>
-          <div className='bg-yellow-500'> a </div>
+      <div id="Showcase" className='w-screen h-auto z-20'>
+        <div className="flex pt-11 gap-3 w-11/12 ml-10 flex-wrap" id="Showcase-Pictures">
+          <div className='flex-grow bg-yellow-500'> a </div>
+          <div className='w-full  bg-red-500 '> a</div>
+          <div className='w-2/3' style={{ backgroundColor: '#C23373' }}> a</div>
+          <div className='flex-grow bg-red-500' > a</div>
+          <div className='flex-grow  bg-yellow-500 '> a</div>
         </div>
       </div>
     </div>
