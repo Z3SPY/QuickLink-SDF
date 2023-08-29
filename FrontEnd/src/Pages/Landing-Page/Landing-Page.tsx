@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import Header from '../Components/Header/Header.tsx';
-import Canvas from '../Components/Canvas/Canvas.tsx';
+import Header from '../../Components/Header/Header.tsx';
+import Canvas from '../../Components/Canvas/Canvas.tsx';
 import './Landing-Page.css';
 import ScrollMagic from 'scrollmagic';
 import gsap from 'gsap';
@@ -49,11 +49,11 @@ function LandingPage() {
       <Header />
       <div className='App file:w-full h-screen z-1'>
         <div id="Graphic">
-          <div className='text absolute'>
-            <h1 className="text-6xl ">
-              <span style={{ color: '#FFBA86' }}>LINKING</span> 
-              <span style={{ color: '#C23373' }}>DREAMS</span> ONE FREELANCE GIG AT A TIME
-            </h1>
+          <div className='text absolute text-6xl'>
+              <div style={{ color: '#FFBA86' }}>CONNECTING</div>
+              <div style={{ color: '#C23373' }}> CREATIVITY:</div>
+              <div>LINKING ARTIST WORLDWIDE</div>
+            
           </div>
           <Canvas />
         </div>
@@ -61,11 +61,11 @@ function LandingPage() {
 
       <div id="Showcase" className='w-screen h-auto z-20'>
         <div className="flex pt-11 gap-3 w-11/12 ml-10 flex-wrap" id="Showcase-Pictures">
-          <div className='flex-grow bg-yellow-500'> a </div>
-          <div className='w-full  bg-red-500 '> a</div>
-          <div className='w-2/3' style={{ backgroundColor: '#C23373' }}> a</div>
-          <div className='flex-grow bg-red-500' > a</div>
-          <div className='flex-grow  bg-yellow-500 '> a</div>
+          <div className='flex-grow bg-yellow-500'> </div>
+          <div className='w-full  bg-red-500 '>  </div>
+          <div className='w-2/3' style={{ backgroundColor: '#C23373' }}>  </div>
+          <div className='flex-grow bg-red-500' >  </div>
+          <div className='flex-grow  bg-yellow-500 '>  </div>
         </div>
       </div>
     </div>

@@ -10,21 +10,28 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/react-masonry-layout": "^0.4.2",
     "@types/scrollmagic": "^2.0.4",
     "canvas-sketch": "^0.7.7",
     "canvas-sketch-util": "^1.10.0",
     "gsap": "^3.12.2",
     "jquery-ui": "^1.13.2",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-layout-masonry": "^1.0.6",
+    "react-responsive-masonry": "^2.1.7",
     "scroll-polyfill": "^1.0.1",
     "scrollmagic": "^2.0.8",
     "scrollmagic-plugin-gsap": "^1.0.4"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.16",
+    "@types/lodash": "^4.14.197",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/react-responsive-masonry": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
