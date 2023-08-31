@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Header from '../../Components/Header/Header.tsx';
 import Canvas from '../../Components/Canvas/Canvas.tsx';
+import Login from '../../Components/User-Registration-Login/Login'
 import './Landing-Page.css';
 import ScrollMagic from 'scrollmagic';
 import gsap from 'gsap';
@@ -49,7 +50,7 @@ function LandingPage() {
       <Header />
       <div className='App file:w-full h-screen z-1'>
         <div id="Graphic">
-          <div className='text absolute text-6xl'>
+          <div className='text absolute left-32 top-64 text-7xl sm:text-7xl md:text-8xl md:w-auto lg:text-6xl lg:w-1/3 '>
               <div style={{ color: '#FFBA86' }}>CONNECTING</div>
               <div style={{ color: '#C23373' }}> CREATIVITY:</div>
               <div>LINKING ARTIST WORLDWIDE</div>
@@ -68,6 +69,9 @@ function LandingPage() {
           <div className='flex-grow  bg-yellow-500 '>  </div>
         </div>
       </div>
+
+      <Login />
+
     </div>
   );
 }
