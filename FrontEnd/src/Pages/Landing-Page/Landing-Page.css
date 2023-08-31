@@ -1,22 +1,4 @@
-/*Scroll Bar Start*/
-::-webkit-scrollbar {
-    width: 8px;
-}
-  
-/* Track */
-::-webkit-scrollbar-track {
-    opacity: 0;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-   
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: black; 
-    border-radius: 10px;
-}
 
-/*Scroll Bar End*/
 
 
 .App {
@@ -32,12 +14,10 @@
 
 
 .text {
-    width: 35rem;
     height: auto;
-    top: 26rem;
-    left: 20rem;
     color: #141E46;
 }
+
 
 #Graphic > div.text.absolute > div { 
     transform: rotateY(90deg);
