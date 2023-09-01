@@ -58,11 +58,11 @@
 }
 
 #navBarButtons > li:nth-child(3).active ~ #selector { 
-    transform: translateX(calc(var(--spacing) * 5.3));
+    transform: translateX(calc(var(--spacing) * 5.2));
 }
 
 #navBarButtons > li:nth-child(4).active ~ #selector  {
-    transform: translateX(calc(var(--spacing) * 7.6));
+    transform: translateX(calc(var(--spacing) * 7.5));
 }
 
 
