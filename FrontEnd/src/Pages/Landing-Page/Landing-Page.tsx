@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import Header from '../../Components/Header/Header.tsx';
 import Canvas from '../../Components/Canvas/Canvas.tsx';
-import Login from '../../Components/User-Registration-Login/Login'
+import Login from '../../Components/User-Authentication/Login.tsx'
+import Register from '../../Components/User-Authentication/Register.tsx'
 import './Landing-Page.css';
 import ScrollMagic from 'scrollmagic';
 import gsap from 'gsap';
@@ -26,7 +27,7 @@ function LandingPage() {
       .on('end', (event : any) => {
         if (event.scrollDirection == "FORWARD") {
           console.log("enter");
-          tl.to("#Showcase", { duration: 1, y: "-70%" }); //Slide when Scrolling Downwards
+          tl.to("#Showcase", { duration: 0.5, y: "-70%" }); //Slide when Scrolling Downwards
         } else if (event.scrollDirection == "REVERSE") { 
           tl.to("#Showcase", { duration: 1, y: "20%" }); //Slide when Scrolling Backwards
         }
@@ -50,17 +51,21 @@ function LandingPage() {
       <Header />
       <div className='App file:w-full h-screen z-1'>
         <div id="Graphic">
-          <div className='text absolute left-32 top-64 text-7xl sm:text-7xl md:text-8xl md:w-auto lg:text-6xl lg:w-1/3 '>
+          <div className='z-20 text absolute left-32 top-64 text-7xl sm:text-7xl md:text-8xl md:w-auto lg:text-6xl '>
               <div style={{ color: '#FFBA86' }}>CONNECTING</div>
               <div style={{ color: '#C23373' }}> CREATIVITY:</div>
-              <div>LINKING ARTIST WORLDWIDE</div>
-            
+              <div>LINKING ARTIST </div>
+              <div>WORLDWIDE</div>
+
           </div>
           <Canvas />
         </div>
       </div>
 
-      <div id="Showcase" className='w-screen h-auto z-20'>
+      <Login />
+      <Register />
+      <div id="ShowcaseAnchor" className='w-screen h-auto bg-transparent absolute bottom-96' />
+      <div id="Showcase" className='w-screen h-full'>
         <div className="flex pt-11 gap-3 w-11/12 ml-10 flex-wrap" id="Showcase-Pictures">
           <div className='flex-grow bg-yellow-500'> </div>
           <div className='w-full  bg-red-500 '>  </div>
@@ -70,7 +75,13 @@ function LandingPage() {
         </div>
       </div>
 
-      <Login />
+      <div id="Blog" className='w-screen h-screen z-20 bg-yellow-500 relative'>
+        a
+      </div>
+      <div id="Support" className='w-screen h-screen z-20 bg-red-500 relative'>
+        a
+      </div>
+      
 
     </div>
   );

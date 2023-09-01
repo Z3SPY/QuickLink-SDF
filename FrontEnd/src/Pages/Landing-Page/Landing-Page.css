@@ -19,11 +19,12 @@
 }
 
 
-#Graphic > div.text.absolute > div { 
+#Graphic > div.text.absolute > div{ 
     transform: rotateY(90deg);
     /*opacity: 0;*/
     transform-origin: bottom;
 }
+
 
 
 #Graphic > div.text.absolute > div:nth-child(1) {
@@ -36,6 +37,10 @@
 
 #Graphic > div.text.absolute > div:nth-child(3) {
     animation: 1s ease-out 1.65s 1 loadText forwards;
+}
+
+#Graphic > div.text.absolute > div:nth-child(4) {
+    animation: 1s ease-out 1.85s 1 loadText forwards;
 }
 
 #Showcase {
@@ -55,6 +60,10 @@
     object-fit: contain;
     height: 100%;
     width: 100%;
+}
+
+#Blog {
+    margin-top: 50rem;
 }
 
 

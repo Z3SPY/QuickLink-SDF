@@ -1,14 +1,16 @@
 import React, { useState, useRef, useEffect}from 'react'
 import './Header.css'
 import 'flowbite'
-import Login from '../User-Registration-Login/Login'
-
+import Login from '../User-Authentication/Login'
+import ScrollMagic from 'scrollmagic';
+import gsap from 'gsap';
+import "scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators";
 
 
   
 const navItems: Array<{ name: string, id: number, goTo: string }> = [
-  { name: "HOME", id: 1, goTo: "#" }, { name: "FIND TALENT", id: 2, goTo: "#Showcase" },
-  { name: "BLOG", id: 3, goTo: "#" }, { name: "SUPPORT", id: 4, goTo: "#" },
+  { name: "HOME", id: 1, goTo: "#" }, { name: "FIND TALENT", id: 2, goTo: "#ShowcaseAnchor" },
+  { name: "BLOG", id: 3, goTo: "#Blog" }, { name: "SUPPORT", id: 4, goTo: "#Support" },
 ];
   /*new navButton("HOME", 1), new navButton("FREELANCERS", 2), 
   new navButton("BLOG", 3), new navButton("SUPPORT",4)*/
@@ -16,7 +18,47 @@ const navItems: Array<{ name: string, id: number, goTo: string }> = [
 
 const Header = () => {
 
+ 
+
   const [isActive, setIsActive] = useState(1);
+
+   //const tl : gsap.core.Timeline = gsap.timeline();
+   useEffect(() => {
+    const controller : ScrollMagic.Controller    = new ScrollMagic.Controller();
+    // Scene 1: Animation when entering the "Showcase" section
+    let prevIsActive = isActive;
+
+    const scene = new ScrollMagic.Scene({
+      triggerElement: '.App',
+      triggerHook: 0,
+      duration: '275%',
+    })
+      .addTo(controller)
+      .on('progress', (event : any) => {
+        // Store the current isActive value
+        const currentIsActive =
+          event.progress >= 0.08344497607655503 && event.progress < 0.42870813397129187
+            ? 2
+            : event.progress >= 0.42870813397129187 && event.progress < 0.7942583732057417
+            ? 3
+            : event.progress >= 0.7942583732057417
+            ? 4
+            : 1;
+
+        // Check if isActive has changed before updating it
+        if (currentIsActive !== prevIsActive) {
+          setIsActive(currentIsActive);
+          prevIsActive = currentIsActive; // Update the stored value
+        }
+      });
+
+    return () => {       
+      scene.destroy(true);
+      controller.destroy(true);
+    }
+  }, []);
+
+
 
   const NavBtn = (p : any) => {
 
@@ -47,7 +89,7 @@ const Header = () => {
   }
 
 
-  function OpenLogin() {
+  function LoginFunc() {
     console.log("Clicked");
   }
 
@@ -64,7 +106,12 @@ const Header = () => {
           </a>
         
           <div className="flex md:order-2">
-              <button type="button" className=" border-2 border-red-100 text-gray-900  font-medium rounded-lg text-base lg:px-10 px-4 py-2 text-center mr-3 md:mr-0" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" onClick={OpenLogin}>GET STARTED</button>
+              <button type="button" className=" border-2 border-red-100 text-gray-900  
+              font-medium rounded-lg text-base lg:px-10 px-4 py-2 text-center mx-2 md:mr-0" 
+              data-modal-target="authentication-modal-Login" data-modal-toggle="authentication-modal-Login" onClick={LoginFunc}> Login </button>
+              <button type="button" className=" border-2 border-red-100 text-gray-900  
+              font-medium rounded-lg text-base lg:px-10 px-4 py-2 text-center mx-2 md:mr-0" 
+              data-modal-target="authentication-modal-Register" data-modal-toggle="authentication-modal-Register" onClick={LoginFunc}> Register </button>
               <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                   <span className="sr-only">Open main menu</span>
                   <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -78,7 +125,7 @@ const Header = () => {
               
 
               {
-                navItems.map((item : navButton) => {
+                navItems.map((item : { name: string, id: number, goTo: string }) => {
                   return (
                     <NavBtn name={item.name} id={item.id} goTo={item.goTo}/>
                   );
@@ -86,7 +133,7 @@ const Header = () => {
               }
               
               
-              <div id="selector" className="sm:hidden md:hidden">
+              <div id="selector" className="sm:hidden md:hidden lg:block">
                 <svg width="50" height="50">
                   <rect x="0" y="0" width="10" height="20" style={{fill:'red', strokeWidth:5, opacity:0.5}}/>
                 </svg>
