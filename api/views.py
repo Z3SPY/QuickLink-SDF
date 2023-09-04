@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view 
+from django.http import JsonResponse
 
 #For DB Values
-from .models import Note
-from .serializers import NoteSerializer
+from .models import Users
+from .serializers import UserSerializer
 
 # Each function gets its own window within django framework
 # Create your views here.
@@ -46,21 +47,27 @@ def getRoutes(request):
 
     return Response(routes)
 
-# Querying the database and rending the values out
-@api_view(['GET'])
-def getNotes(request):
+
+
+#Gets Users 
+@api_view(['GET', 'POST']) 
+def getUsers(request):
     #Serializing all values from our notes object, we are getting notes from notes class
-    notes = Note.objects.all()
-    serializer = NoteSerializer(notes, many=True) #We are passing notes var, many = true means we are serializing multiple objects
+    user = Users.objects.all().filter(name="Jake")
+    serializer = UserSerializer(user, many=True) #We are passing notes var, many = true means we are serializing multiple objects
     return Response(serializer.data)
 
 
+def check_user_existence(request):
+    username = request.GET.get('username', None)
+    password = request.GET.get('password', None)
+    if username:
+        try: 
+            user = Users.objects.get(email=username)
+            user_exists = True
+        except Users.DoesNotExist:
+            user_exists = False
+    else:
+        user_exists = False
 
-#Gets a single Note
-#pk = primary key, the id of the specific note we want to get
-@api_view(['GET']) 
-def getNote(request, pk):
-    #Serializing all values from our notes object, we are getting notes from notes class
-    notes = Note.objects.get(id=pk)
-    serializer = NoteSerializer(notes, many=False) #We are passing notes var, many = true means we are serializing multiple objects
-    return Response(serializer.data)
+    return JsonResponse({'user_exists': user_exists})

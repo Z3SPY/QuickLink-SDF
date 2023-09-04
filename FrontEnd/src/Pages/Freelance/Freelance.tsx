@@ -1,4 +1,4 @@
-import Header from '../../Components/Header/Header.tsx';
+import LoogedInHeader from '../../Components/Header/LoggedInHeader.tsx';
 import { useState, useEffect } from 'react';
 import ScrollMagic from 'scrollmagic';
 import gsap from 'gsap';
@@ -10,7 +10,25 @@ import './Freelance.css';
 
 function PhotoComp(item : any) {
 
-    return( <img className='rounded-3xl' src={item.url}/>);
+    return( 
+      <div>
+          <div>
+            <img className='rounded-3xl' style={{ minHeight: '200px' }} src={item.url} alt="Picture"/>
+            <div></div>
+          </div>
+          
+          <div className='mt-2 ml-2'>
+            <h1 className='font-semibold mb-2'>TITLE</h1>
+            <div className="absolute rounded-full bg-red-500 h-6 w-6" />
+            <h2 className='ml-8'>Person</h2>
+
+          </div>
+          
+      </div>
+    
+    
+    
+    );
 }
 
 
@@ -29,17 +47,24 @@ function FreelanceSelector(){
 
     return(
         <div>
-            <Header></Header>
-            <div className='w-10/12 h-10 rounded-3xl mt-28 mx-40 bg-white'> Search Bar </div>
-            <div className='w-10/12 h-96 rounded-3xl mt-12 mx-40 bg-blue-600'> a </div>
-            <div id="User-Container" className='w-auto mx-40 mt-4'> 
-            <Masonry columns={{ 640: 1, 768: 2, 1024: 3, 1280: 5 }} gap={16}>
-                {images.map(PhotoComp)}
-            </Masonry>
+            <LoogedInHeader />
+            <div id="User-Container" className='w-auto mx-40 mt-28'> 
+            <Masonry columns={{ 640: 2, 768: 3, 1024: 3, 1280: 7 }} gap={16}    >
+                
+                {images.map((card : any, index : number) => {
+                  return (
+                    <div key={index}>
+                        {PhotoComp(card)}
+                    </div>
+                  )
+                })}
+
+              </Masonry>
 
             </div>
         </div>
     )
 }
+//<div className='w-10/12 h-10 rounded-3xl mt-28 mx-40 bg-white'> Search Bar </div>
 
 export default FreelanceSelector;

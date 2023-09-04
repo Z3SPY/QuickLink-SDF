@@ -1,0 +1,14 @@
+#User-Container {
+    width:  calc(100vw * .90);
+    min-width: 600px;
+    margin-left: calc(100vw * .05);
+}
+
+
+@media only screen and (max-width: 725px) {
+    /* For mobile phones: */
+    #User-Container{
+        margin-left: calc(100vw * .05);
+    }
+    
+}

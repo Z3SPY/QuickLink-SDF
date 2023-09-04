@@ -88,14 +88,14 @@ const globalMousePos: { radius: number; x: number; y: number } = {
 const img : any = document.getElementById("cat")!;
 
 const settings = {
-  dimensions: [700, 700]
+  dimensions: [window.screen.height * .70, window.screen.width * .40]
 }
 
 let fontSize = 1200;
 let fontFamily = 'Isidora Sans';
 
 
-
+console.log("yo" + (settings.dimensions[0]) + (settings.dimensions[1]));
 // Canvas Component Start //
 const Canvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);

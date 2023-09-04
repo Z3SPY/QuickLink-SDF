@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import LandingPage from './Pages/Landing-Page/Landing-Page'
 import FreelanceSelector from './Pages/Freelance/Freelance'
+import FreelancePage from './Pages/Freelance/Freelance-page'
 import Login from './Components/User-Authentication/Login'
 import './css/App.css'
 
