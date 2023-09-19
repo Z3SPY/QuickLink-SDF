@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'flowbite';
-import './Login.css'
+import './Login.css';
 
 
 
@@ -12,15 +12,19 @@ function Login() {
     function LoginFunction(event : any) {
         console.log("logged");
         event.preventDefault()
-        console.log(event.target.email.value);
-        console.log(event.target.password.value);
-
-        getUserVal(event.target.email.value);
+    
+        const curEmail = event.target.email.value;
+        const curPassword = event.target.password.value;
+        console.log(curPassword + " " +curEmail);
+        getUserVal(curEmail, curPassword);
     }
 
-    let getUserVal = async(name : string) => {
+    let getUserVal = async(name : string, password : string) => {
         const username = name;
-        let response = await fetch(`http://127.0.0.1:8000/api/getUser/?username=${username}`)
+        const givenPass = password;
+
+
+        await fetch(`/api/getUser/?username=${username}&password=${givenPass}`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -28,7 +32,7 @@ function Login() {
             return response.json();
         })
         .then((data) => {
-            if (data.user_exists) {
+            if (data.user_logged_in) {
                 alert("User exists!");
             } else {
                 alert("User does not exist.");
@@ -38,8 +42,7 @@ function Login() {
             console.error("Error occurred while checking user existence:", error);
             alert("Error occurred while checking user existence.");
         });
-        //let data = await response.json();
-        console.log('DATA:', response);
+
     }
 
     return (

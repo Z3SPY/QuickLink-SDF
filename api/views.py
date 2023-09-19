@@ -1,11 +1,18 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view 
+from rest_framework import generics
+
 from django.http import JsonResponse
 
 #For DB Values
 from .models import Users
+from .models import ProfilePage
+from django.contrib.auth import authenticate
+
 from .serializers import UserSerializer
+from .serializers import ProfileSerializer
+
 
 # Each function gets its own window within django framework
 # Create your views here.
@@ -61,13 +68,30 @@ def getUsers(request):
 def check_user_existence(request):
     username = request.GET.get('username', None)
     password = request.GET.get('password', None)
-    if username:
+    
+    if username and password:
         try: 
             user = Users.objects.get(email=username)
-            user_exists = True
-        except Users.DoesNotExist:
-            user_exists = False
-    else:
-        user_exists = False
+            print("User: " + username + " Password: " + password)
+            #print(authenticate(request, email=user.email, password=password))
 
-    return JsonResponse({'user_exists': user_exists})
+            if user and user.password == password:
+                user_logged_in = True
+                print("1")
+            else:
+                print("2")
+                user_logged_in = False
+        except Users.DoesNotExist:
+            user_logged_in= False
+    else:
+        user_logged_in = False
+
+    return JsonResponse({'user_logged_in': user_logged_in})
+
+
+
+@api_view(['GET']) 
+def ProfilePageDetail(request):
+    profile = ProfilePage.objects.all()
+    serializer = ProfileSerializer(profile, many=True)
+    return Response(serializer.data)

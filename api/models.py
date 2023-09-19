@@ -15,3 +15,16 @@ class Users(models.Model):
     
     def __str__(self):
         return self.name[:50] # pylint: disable=unsubscriptable-object
+
+
+class ProfilePage(models.Model):
+    user = models.OneToOneField(
+        Users, 
+        on_delete = models.CASCADE,
+        primary_key = True,
+    )
+    bio = models.TextField(null=True, blank=True)
+    profile_picture = models.ImageField(null=True, blank=True)
+
+    def __str__(self):
+        return self.bio[:50] # pylint: disable=unsubscriptable-object

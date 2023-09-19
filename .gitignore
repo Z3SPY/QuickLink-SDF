@@ -30,3 +30,12 @@ playground-temp
 temp
 TODOs.md
 .eslintcache
+
+# Environments 
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/

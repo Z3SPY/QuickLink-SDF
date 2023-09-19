@@ -14,7 +14,7 @@ function LandingPage() {
 
   useEffect(() => {
     const controller : ScrollMagic.Controller    = new ScrollMagic.Controller();
-    tl.to("#Showcase", {y: "20%" }); //Set Position
+    tl.to("#Showcase", {y: "20vh" }); //Set Position
 
     // Scene 1: Animation when entering the "Showcase" section
     new ScrollMagic.Scene({
@@ -27,9 +27,9 @@ function LandingPage() {
       .on('end', (event : any) => {
         if (event.scrollDirection == "FORWARD") {
           console.log("enter");
-          tl.to("#Showcase", { duration: 0.5, y: "-70%" }); //Slide when Scrolling Downwards
+          tl.to("#Showcase", { duration: 0.5, y: "-70vh" }); //Slide when Scrolling Downwards
         } else if (event.scrollDirection == "REVERSE") { 
-          tl.to("#Showcase", { duration: 1, y: "20%" }); //Slide when Scrolling Backwards
+          tl.to("#Showcase", { duration: 1, y: "20vh" }); //Slide when Scrolling Backwards
         }
       }).addIndicators!();
 

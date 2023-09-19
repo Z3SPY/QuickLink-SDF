@@ -11,7 +11,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 function Register() {
 
     const [date, setDate] = useState(false);
-
+    function LoginFunction(event : any) {
+        console.log("Register");
+        
+    }
     
     return (
         <div id="authentication-modal-Register" tabIndex={-1} aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -29,13 +32,13 @@ function Register() {
                             <h3 className="mb-4 text-xs font-medium text-gray-400 text-center">Start Your Quick Link Journey</h3>
                             <form className="space-y-5" action="post">
                                 <div>
-                                    <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Email or Username" required />
+                                    <input type="email" name="email" id="regEmail" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Email or Username" required />
                                 </div>
                                 <div>
-                                    <input type="password" name="password" id="password" placeholder="Set up Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                                    <input type="password" name="password" id="regPassword" placeholder="Set up Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                                 </div>
                                 <div>
-                                    <input type="password" name="password" id="password" placeholder="Confirm Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                                    <input type="password" name="password" id="regPasswordConf" placeholder="Confirm Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                                 </div>
                                 
                                 <div>

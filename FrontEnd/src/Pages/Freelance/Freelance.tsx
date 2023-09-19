@@ -10,10 +10,11 @@ import './Freelance.css';
 
 function PhotoComp(item : any) {
 
+    //Add A hover element here
     return( 
-      <div>
+      <div >
           <div>
-            <img className='rounded-3xl' style={{ minHeight: '200px' }} src={item.url} alt="Picture"/>
+            <img className='rounded-3xl' style={{ minHeight: '200px' , minWidth: '236px'}} src={item.url} alt="Picture"/>
             <div></div>
           </div>
           
@@ -35,7 +36,7 @@ function PhotoComp(item : any) {
 function FreelanceSelector(){
     const [images, setImages] = useState<{ url: string }[]>([]);
     useEffect(() => {
-        fetch("https://picsum.photos/v2/list?page=2&limit=20")
+        fetch("https://picsum.photos/v2/list?page=2&limit=50")
           .then((res) => res.json())
           .then((data) => {
             const images = data.map((d: any) => ({
@@ -49,7 +50,7 @@ function FreelanceSelector(){
         <div>
             <LoogedInHeader />
             <div id="User-Container" className='w-auto mx-40 mt-28'> 
-            <Masonry columns={{ 640: 2, 768: 3, 1024: 3, 1280: 7 }} gap={16}    >
+            <Masonry columns={{ 640: 2, 768: 3, 1024: 3, 1280: 6 }} gap={16}    >
                 
                 {images.map((card : any, index : number) => {
                   return (

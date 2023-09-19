@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.getRoutes, name="routes"),
     path('users/', views.getUsers, name="Users"),
     path('getUser/', views.check_user_existence, name="getUsers"),
+    path('profile/', views.ProfilePageDetail, name="getProfile")
     #The line of code below is for getting a singular note, from our notes database, the dir needs to defined and the variable pk can be changed in views.py
 ]
