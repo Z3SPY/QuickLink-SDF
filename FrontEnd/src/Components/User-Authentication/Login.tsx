@@ -1,9 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import 'flowbite';
-import './Login.css'
+import './Login.css';
+
+
 
 
 function Login() {
+
+    //const [curUser, getUser] = useState<{ user: string, pass: string }>({ user: "", pass: "" });
+
+    function LoginFunction(event : any) {
+        console.log("logged");
+        event.preventDefault()
+    
+        const curEmail = event.target.email.value;
+        const curPassword = event.target.password.value;
+        console.log(curPassword + " " +curEmail);
+        getUserVal(curEmail, curPassword);
+    }
+
+    let getUserVal = async(name : string, password : string) => {
+        const username = name;
+        const givenPass = password;
+
+
+        await fetch(`/api/getUser/?username=${username}&password=${givenPass}`)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.user_logged_in) {
+                alert("User exists!");
+            } else {
+                alert("User does not exist.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error occurred while checking user existence:", error);
+            alert("Error occurred while checking user existence.");
+        });
+
+    }
+
     return (
       
             <div id="authentication-modal-Login" tabIndex={-1} aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -19,7 +60,7 @@ function Login() {
                             <div className="w-10 h-10 bg-red-500 rounded-full mx-36"></div>
                             <h1 className="mb-4 ml-16 text-5xl font-medium text-gray-800 "> <span className="text-red-500">Quick-</span>Link </h1>
                             <h3 className="mb-1 text-xl font-medium text-gray-800 text-center">Sign in to our platform</h3>
-                            <form className="space-y-5" action="post">
+                            <form className="space-y-5" action="GET" onSubmit={LoginFunction}>
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-800 ">Your email</label>
                                     <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="name@company.com" required />
@@ -40,7 +81,7 @@ function Login() {
                                 <div className="text-sm font-medium text-gray-8000 ">
                                     Not registered? <a href="#" className="text-red-500 hover:underline hover:text-gray-800">Create account</a>
                                 </div>
-                                <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Login to your account</button>
+                                <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" >Login to your account</button>
                                 
                             </form>
                             <div style={{marginTop: '10px'}}className="text-xl font-medium text-gray-800 mt-1 text-center "> OR </div>

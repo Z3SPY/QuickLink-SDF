@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 
 urlpatterns = [
     #This line of code tells the script that every routing within the given directory, should be handled by the api's folder
-    path('', include('api.urls')),
+    path('api/', include('api.urls')),
     path("admin/", admin.site.urls),
 ]

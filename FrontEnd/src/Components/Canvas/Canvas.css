@@ -4,6 +4,10 @@
     transform-style: preserve-3d;
 }
 
+#Animated canvas {
+  width: 40vw;
+  height: 80vh;
+}
 
 @media only screen and (max-width: 645px) {
     .positioning {

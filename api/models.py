@@ -6,10 +6,27 @@ from django.db import models
 
 #Notes Class
 #We are creating a new notes class
-class Note(models.Model):
-    body = models.TextField(null=True, blank=True)
-    updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now_add=True)
+
+
+class Users(models.Model):
+    name =  models.TextField(null=True, blank=True)
+    email = models.TextField(null=True, blank=True)
+    password =  models.TextField(null=True, blank=True)
+    
+    def __str__(self):
+        return self.name[:50] # pylint: disable=unsubscriptable-object
+
+
+class ProfilePage(models.Model):
+    user = models.OneToOneField(
+        Users, 
+        on_delete = models.CASCADE,
+        primary_key = True,
+    )
+    bio = models.TextField(null=True, blank=True)
+    profile_picture = models.ImageField(null=True, blank=True)
+    exp_container = models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return self.body[0:50]
+        return self.bio[:50] # pylint: disable=unsubscriptable-object
+

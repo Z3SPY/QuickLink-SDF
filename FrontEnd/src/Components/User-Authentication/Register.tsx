@@ -10,8 +10,11 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 function Register() {
 
-    const [date, setDate] = useState(false);
-
+    const [date, setDate] = useState<Date | null>(new Date());
+    function RegisterFunction(event : any) {
+        console.log("Register");
+        
+    }
     
     return (
         <div id="authentication-modal-Register" tabIndex={-1} aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -27,15 +30,15 @@ function Register() {
                             <h1 className="mb-4 text-5xl font-medium text-gray-800 text-center"> <span className="text-red-500">Quick-</span>Link </h1>
                             <h3 className="mb-1 text-xl font-medium text-gray-800 text-center">Sign Up and Register</h3>
                             <h3 className="mb-4 text-xs font-medium text-gray-400 text-center">Start Your Quick Link Journey</h3>
-                            <form className="space-y-5" action="post">
+                            <form className="space-y-5" action="post" onSubmit={RegisterFunction}>
                                 <div>
-                                    <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Email or Username" required />
+                                    <input type="email" name="email" id="regEmail" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Email or Username" required />
                                 </div>
                                 <div>
-                                    <input type="password" name="password" id="password" placeholder="Set up Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                                    <input type="password" name="password" id="regPassword" placeholder="Set up Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                                 </div>
                                 <div>
-                                    <input type="password" name="password" id="password" placeholder="Confirm Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                                    <input type="password" name="password" id="regPasswordConf" placeholder="Confirm Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                                 </div>
                                 
                                 <div>
@@ -45,7 +48,7 @@ function Register() {
                                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                                             </svg>
                                         </div>
-                                        <DatePicker name="Date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" selected={date} onChange={(date : any) => setDate(date===false? new Date() : date)} placeholderText={'Birth Date'}  />
+                                        <DatePicker name="Date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" selected={date} onChange={(date : any | null) => setDate(date===false? new Date() : date)} placeholderText={'Birth Date'}  />
                                     </div>
                                 </div>
 
