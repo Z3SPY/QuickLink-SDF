@@ -25,6 +25,8 @@ class ProfilePage(models.Model):
     )
     bio = models.TextField(null=True, blank=True)
     profile_picture = models.ImageField(null=True, blank=True)
+    exp_container = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return self.bio[:50] # pylint: disable=unsubscriptable-object
+

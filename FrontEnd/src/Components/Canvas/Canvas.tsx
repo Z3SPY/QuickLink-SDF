@@ -147,7 +147,7 @@ const Canvas: React.FC = () => {
       var ratio = Math.min(ratioX, ratioY);
          
 
-      context.drawImage(img, 3, 0, img.naturalWidth * ratio + 15, img.naturalHeight * ratio + 15); //Resize Image
+      context.drawImage(img, 3, 0, img.naturalWidth * ratio + 15, img.naturalHeight * ratio + 20); //Resize Image
       const typeData = context.getImageData(0, 0, cols, rows).data;
     //Img End
 

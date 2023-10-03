@@ -1,0 +1,42 @@
+#profile {
+    min-height: 20.25rem;
+    height: auto;
+    width: 100vw;
+}
+
+#background {
+    min-height: 20rem;
+    border-radius: 15px 15px 0px 0px;
+
+}
+
+#editBut {
+    min-height: 2rem;
+    min-width: 2rem;
+    width: 2rem;
+    left: 90%;
+    margin-top: 10px;
+}
+
+#userPic {
+    min-height: 96%;
+    min-width: 96%;
+    width: 96%;
+    border-radius: 15px;
+    left: 2.5px;
+    top: 2.5px;
+}
+
+.userBorder {
+    min-height: 8rem;
+    min-width: 8rem;
+    width: 8%;
+    border-radius: 15px;
+    bottom: 5rem;
+    left: 2rem;
+}
+
+#userDesc {
+    bottom: 70px;
+    width: 90%;
+}
