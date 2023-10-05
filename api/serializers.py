@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer # Different types of serializers exist. We are using model serailizer
-from .models import Users
 from .models import ProfilePage
+from django.contrib.auth.models import User
+
 
 # For parsing data from our database
 """ 
@@ -10,15 +11,15 @@ Serializers also provide deserialization, allowing parsed data to be converted b
 """
 
 
-class UserSerializer(ModelSerializer):
-    class Meta:
-        model = Users
-        fields = '__all__' 
-
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model = ProfilePage
         fields = '__all__'
+
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'        
 
 
 # fields = '__all__' shows all values in our notes class

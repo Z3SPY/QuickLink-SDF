@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'flowbite';
 import './Login.css';
+import 'flowbite/dist/flowbite.js'
 
 
 

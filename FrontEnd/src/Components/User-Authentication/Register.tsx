@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import 'flowbite';
 import 'flowbite/dist/flowbite.css'; // Import Flowbite 
+import 'flowbite/dist/flowbite.js'
+
 
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
