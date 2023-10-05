@@ -1,10 +1,18 @@
 import React, { useState, useRef, useEffect}from 'react'
 import './Header.css'
 import 'flowbite'
-import Login from '../User-Authentication/Login'
+import 'flowbite/dist/flowbite.js'
 import ScrollMagic from 'scrollmagic';
 import gsap from 'gsap';
 import "scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators";
+import '../User-Authentication/Login.css';
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+
+import { Button, Checkbox, Label, Modal, TextInput, Navbar} from 'flowbite-react';
+
+
+
 
 
   
@@ -16,10 +24,187 @@ const navItems: Array<{ name: string, id: number, goTo: string }> = [
   new navButton("BLOG", 3), new navButton("SUPPORT",4)*/
 
 
-const Header = () => {
-  const [LoggedInState, setLoggedState] = useState(false);
- 
 
+const Login = (p : any) => {
+  const [email, setEmail] = useState("");
+    function LoginFunction(event : any) {
+      console.log("logged");
+      event.preventDefault()
+      const curEmail = event.target.email.value;
+      const curPassword = event.target.password.value;
+      console.log(curPassword + " " +curEmail);
+      getUserVal(curEmail, curPassword);
+  }
+
+  let getUserVal = async(name : string, password : string) => {
+      const username = name;
+      const givenPass = password;
+
+
+      await fetch(`/api/getUser/?username=${username}&password=${givenPass}`)
+      .then((response) => {
+          if (!response.ok) {
+              throw new Error("Network response was not ok");
+          }
+          return response.json();
+      })
+      .then((data) => {
+          if (data.user_logged_in) {
+              alert("User exists!");
+          } else {
+              alert("User does not exist.");
+          }
+      })
+      .catch((error) => {
+          console.error("Error occurred while checking user existence:", error);
+          alert("Error occurred while checking user existence.");
+      });
+
+  }
+
+  return (
+      <Modal dismissible show={p.propsOpenModal === 'form-login'} popup onClose={() => p.OpenModalFunc(undefined)}>
+        <Modal.Body className='auth-Container'>
+          <Modal.Header className='closeModal' />
+        <div className="relative w-full">
+                    <div className="relative bg-white p-2  ">
+                        <div className="px-6 py-6 lg:px-8">
+                            <div className="w-10 h-10 mx-auto bg-red-500 rounded-full"></div>
+                            <h1 className="mb-4 text-5xl font-medium text-gray-800 text-center"> <span className="text-red-500">Quick-</span>Link </h1>
+                            <h3 className="mb-1 text-xl font-medium text-gray-800 text-center">Sign in to our platform</h3>
+                            <form className="space-y-5" action="GET" onSubmit={LoginFunction}>
+                                <div>
+                                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-800 ">Your username</label>
+                                    <input type="text" name="username" id="email" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="ex: JohnAdams123" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-800">Your password</label>
+                                    <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                                </div>
+                                <div className="flex justify-between">
+                                    <div className="flex items-start">
+                                        <div className="flex items-center h-5">
+                                            <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 " />
+                                        </div>
+                                        <label htmlFor="remember" className="ml-2 text-sm font-medium text-gray-800 ">Remember me</label>
+                                    </div>
+                                    <a href="#" className="text-sm text-red-500 hover:underline hover:text-gray-800 ">Lost Password?</a>
+                                </div>
+                                <div className="text-sm font-medium text-gray-8000 ">
+                                    Not registered? <a href="#" className="text-red-500 hover:underline hover:text-gray-800">Create account</a>
+                                </div>
+                                <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" >Login to your account</button>
+                                
+                            </form>
+                            <div style={{marginTop: '10px'}}className="text-xl font-medium text-gray-800 mt-1 text-center "> OR </div>
+                            <ul className="my-2 space-y-3 ">
+                                <li>
+                                    <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-blue-100 hover:bg-gray-100 group hover:shadow">
+                                        <img src="./icons8-google.svg" className="h-7" alt="Google Logo" />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Sign in with Google</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-blue-100 hover:bg-gray-100 group hover:shadow">
+                                        <img src="./icons8-linkedin.svg" className="h-7" alt="Google Logo" />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Sign in with LinkedIn</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-blue-100 hover:bg-gray-100 group hover:shadow">
+                                        <img src="./icons8-twitterx.svg" className="h-7" alt="Google Logo" />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Sign in with Twitter</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </Modal.Body>
+      </Modal>
+  )
+}
+
+
+const Register = (p : any) => {
+  const [date, setDate] = useState<Date | null>(new Date());
+
+  return (
+    <Modal dismissible show={p.propsOpenModal === 'form-register'}  popup onClose={() => p.OpenModalFunc(undefined)}>
+        <Modal.Body className='auth-Container'>
+          <Modal.Header className='closeModal'/>
+          <div className="relative w-full">
+            <div className="relative bg-white p-2 rounded-3xl mt-10 ">
+                
+                        <div className="px-6 py-6 lg:px-8">
+                            <h1 className="mb-4 text-5xl font-medium text-gray-800 text-center"> <span className="text-red-500">Quick-</span>Link </h1>
+                            <h3 className="mb-1 text-xl font-medium text-gray-800 text-center">Sign Up and Register</h3>
+                            <h3 className="mb-4 text-xs font-medium text-gray-400 text-center">Start Your Quick Link Journey</h3>
+                            <form className="space-y-5" action="post">
+                                <div>
+                                    <input type="email" name="email" id="regEmail" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Email or Username" required />
+                                </div>
+                                <div>
+                                    <input type="password" name="password" id="regPassword" placeholder="Set up Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                                </div>
+                                <div>
+                                    <input type="password" name="password" id="regPasswordConf" placeholder="Confirm Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                                </div>
+                                
+                                <div>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-20">
+                                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                            </svg>
+                                        </div>
+                                        <DatePicker name="Date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" selected={date} onChange={(date : any | null) => setDate(date===false? new Date() : date)} placeholderText={'Birth Date'}  />
+                                    </div>
+                                </div>
+
+                                
+                                <button type="submit" className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create Account</button>
+                                
+                            </form>
+                            <div style={{marginTop: '10px'}}className="text-xl font-medium text-gray-800 mt-1 text-center "> OR </div>
+                            <ul className="my-2 space-y-3 ">
+                                <li>
+                                    <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-blue-100 hover:bg-gray-100 group hover:shadow">
+                                        <img src="./icons8-google.svg" className="h-7" alt="Google Logo" />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Register with Google</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-blue-100 hover:bg-gray-100 group hover:shadow">
+                                        <img src="./icons8-linkedin.svg" className="h-7" alt="Google Logo" />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Register with LinkedIn</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-blue-100 hover:bg-gray-100 group hover:shadow">
+                                        <img src="./icons8-twitterx.svg" className="h-7" alt="Google Logo" />
+                                        <span className="flex-1 ml-3 whitespace-nowrap">Register with Twitter</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </Modal.Body>
+      </Modal>
+
+  )
+  
+}
+
+
+
+const Header = () => {
+  const [openModal, setOpenModal] = useState<string | undefined>();
+  const props = { openModal, setOpenModal};
+
+
+  const [LoggedInState, setLoggedState] = useState(false);
   const [isActive, setIsActive] = useState(1);
 
    //const tl : gsap.core.Timeline = gsap.timeline();
@@ -90,64 +275,56 @@ const Header = () => {
     );
   }
 
-
-  function LoginFunc() {
-    console.log("Clicked");
-  }
+  
 
   /*Dunno What an Aria Current is, putting this here so I remember */
   /** Note IM Using FlowBite for popup */
 
   return ( 
-    <div className="fixed w-screen inset-0 z-50 headerCont">
-      <nav className="fixed w-full top-0 left-0 ">
-        <div className="flex flex-wrap items-center justify-between mx-auto p-4" id="Header">
 
-          <a href="#" className="flex items-center">
+    <Navbar
+      fluid
+      rounded
+      
+      className='fixed w-screen inset-0 z-50 mx-auto headerCont' id="Header"
+    >
+      <Navbar.Brand href="https://flowbite-react.com">
+       
+        <a href="#" className="flex items-center">
               <span className="self-center text-2xl font-semibold whitespace-nowrap text-red-500">Quick-<span className='text-black'>Link</span></span>
-          </a>
+        </a>
+      </Navbar.Brand>
+      <div className="flex md:order-2">
+        
+        <Navbar.Toggle />
+      </div>
 
 
-            <div className="flex md:order-2">
-                <button id="logHdr" type="button" className=" border-2 border-red-100 text-gray-900  
-                font-medium rounded-lg text-base lg:px-10 px-8 py-2 text-center mx-2 md:mr-0" 
-                data-modal-target="authentication-modal-Login" data-modal-toggle="authentication-modal-Login" onClick={LoginFunc}> Login </button>
-                <button id="regHdr" type="button" className=" border-2 border-red-100 text-gray-900  
-                font-medium rounded-lg text-base lg:px-10 px-8 py-2 text-center mx-2 md:mr-0" 
-                data-modal-target="authentication-modal-Register" data-modal-toggle="authentication-modal-Register" onClick={LoginFunc}> Register </button>
-                <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
-                    <span className="sr-only">Open main menu</span>
-                    <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-              <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0" id="navBarButtons">
-                
-
-                {
-                  navItems.map((item : { name: string, id: number, goTo: string }) => {
-                    return (
-                      <NavBtn name={item.name} id={item.id} goTo={item.goTo}/>
-                    );
-                  })
-                }
-                
-                
-                <div id="selector" className="sm:hidden md:hidden lg:block">
-                  <svg width="50" height="50">
-                    <rect x="0" y="0" width="10" height="20" style={{fill:'red', strokeWidth:5, opacity:0.5}}/>
-                  </svg>
-                </div>
-              </ul>
-            </div>
-          
+      <Navbar.Collapse id="navBarButtons">
+        
+        <Button id="logHdr" onClick={() => props.setOpenModal('form-login')} className="flex md:order-2 border-2 border-red-100 text-gray-900  
+                    font-medium rounded-lg text-base lg:px-10 px-8 py-2 text-center mx-2 md:mr-0">LOGIN</Button>
+        <Button id="regHdr" onClick={() => props.setOpenModal('form-register')} className="flex md:order-2 border-2 border-red-100 text-gray-900  
+                    font-medium rounded-lg text-base lg:px-10 px-8 py-2 text-center mx-2 md:mr-0">REGISTER</Button>
+        
+        {
+          navItems.map((item : { name: string, id: number, goTo: string }) => {
+            return (
+              <NavBtn name={item.name} id={item.id} goTo={item.goTo}/>
+            );
+          })
+        }
+       <div id="selector" className="sm:hidden md:hidden lg:block">
+          <svg width="50" height="50">
+            <rect x="0" y="0" width="10" height="20" style={{fill:'red', strokeWidth:5, opacity:0.5}}/>
+          </svg>
         </div>
+      </Navbar.Collapse>
 
-      </nav>
-    </div>
+      <Login propsOpenModal={props.openModal} OpenModalFunc={props.setOpenModal}></Login>
+          <Register propsOpenModal={props.openModal} OpenModalFunc={props.setOpenModal}></Register>
+    </Navbar>
+    
       
 
 

@@ -6,12 +6,17 @@ from rest_framework import generics
 from django.http import JsonResponse
 
 #For DB Values
-from .models import Users
 from .models import ProfilePage
 from django.contrib.auth import authenticate
 
-from .serializers import UserSerializer
 from .serializers import ProfileSerializer
+
+
+#Django User 
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+
+from .serializers import UserSerializer
 
 
 # Each function gets its own window within django framework
@@ -60,28 +65,32 @@ def getRoutes(request):
 @api_view(['GET', 'POST']) 
 def getUsers(request):
     #Serializing all values from our notes object, we are getting notes from notes class
-    user = Users.objects.all().filter(name="Jake")
+    user = User.objects.all()
     serializer = UserSerializer(user, many=True) #We are passing notes var, many = true means we are serializing multiple objects
     return Response(serializer.data)
 
 
-def check_user_existence(request):
-    username = request.GET.get('username', None)
-    password = request.GET.get('password', None)
-    
-    if username and password:
-        try: 
-            user = Users.objects.get(email=username)
-            print("User: " + username + " Password: " + password)
-            #print(authenticate(request, email=user.email, password=password))
 
-            if user and user.password == password:
+
+
+def check_user_existence(request):
+    userNm = request.GET.get('username', None)
+    pssWrd = request.GET.get('password', None)
+    
+    if userNm and pssWrd:
+        try: 
+            user = authenticate(username=userNm, password=pssWrd)
+            print("User: " + userNm + " Password: " + pssWrd)
+            #print(authenticate(request, email=user.email, password=password))
+        
+            if user is not None:
+                # Backend to Authenticate Credentials
                 user_logged_in = True
                 print("1")
             else:
                 print("2")
                 user_logged_in = False
-        except Users.DoesNotExist:
+        except User.DoesNotExist:
             user_logged_in= False
     else:
         user_logged_in = False
