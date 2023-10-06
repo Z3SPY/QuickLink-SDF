@@ -27,13 +27,13 @@ const navItems: Array<{ name: string, id: number, goTo: string }> = [
 
 const Login = (p : any) => {
   const [email, setEmail] = useState("");
-    function LoginFunction(event : any) {
+  function LoginFunction(event : any) {
       console.log("logged");
       event.preventDefault()
-      const curEmail = event.target.email.value;
+      const curUsername = event.target.userNm.value;
       const curPassword = event.target.password.value;
-      console.log(curPassword + " " +curEmail);
-      getUserVal(curEmail, curPassword);
+      console.log(curPassword + " " +curUsername);
+      getUserVal(curUsername, curPassword);
   }
 
   let getUserVal = async(name : string, password : string) => {
@@ -75,7 +75,7 @@ const Login = (p : any) => {
                             <form className="space-y-5" action="GET" onSubmit={LoginFunction}>
                                 <div>
                                     <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-800 ">Your username</label>
-                                    <input type="text" name="username" id="email" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="ex: JohnAdams123" required />
+                                    <input type="text" name="username" id="userNm" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="ex: JohnAdams123" required />
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-800">Your password</label>
@@ -128,6 +128,44 @@ const Login = (p : any) => {
 
 const Register = (p : any) => {
   const [date, setDate] = useState<Date | null>(new Date());
+  function RegisterFunction(event : any) {
+    console.log("Registered");
+    event.preventDefault()
+    const curUsername = event.target.regUserNm.value;
+    const curEmail = event.target.regEmail.value;
+    const curPassword = event.target.regPassword.value;
+
+    console.log(curPassword + " " + curUsername + " " + curEmail);
+    createUserVal(curUsername, curEmail , curPassword);
+  }
+
+  let createUserVal = async(name : string, email: string, password : string, ) => {
+      const givenUsername = name;
+      const givenPass = password;
+      const givenEmail = email;
+
+
+      await fetch(`/api/createUser/?username=${givenUsername}&password=${givenPass}&email=${givenEmail}`)
+      .then((response) => {
+          if (!response.ok) {
+              throw new Error("Network response was not ok");
+          }
+          return response.json();
+      })
+      .then((data) => {
+          if (data.user_logged_in) {
+              alert("User created!");
+          } else {
+              alert("Failed to create user");
+          }
+      })
+      .catch((error) => {
+          console.error("Error occurred while creating user:", error);
+          alert("Error occurred while creating user:");
+      });
+
+  }
+
 
   return (
     <Modal dismissible show={p.propsOpenModal === 'form-register'}  popup onClose={() => p.OpenModalFunc(undefined)}>
@@ -140,9 +178,12 @@ const Register = (p : any) => {
                             <h1 className="mb-4 text-5xl font-medium text-gray-800 text-center"> <span className="text-red-500">Quick-</span>Link </h1>
                             <h3 className="mb-1 text-xl font-medium text-gray-800 text-center">Sign Up and Register</h3>
                             <h3 className="mb-4 text-xs font-medium text-gray-400 text-center">Start Your Quick Link Journey</h3>
-                            <form className="space-y-5" action="post">
+                            <form className="space-y-5" action="POST" onSubmit={RegisterFunction}>
                                 <div>
-                                    <input type="email" name="email" id="regEmail" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Email or Username" required />
+                                    <input type="text" name="username" id="regUserNm" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Username" required />
+                                </div>
+                                <div>
+                                    <input type="email" name="email" id="regEmail" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Email" required />
                                 </div>
                                 <div>
                                     <input type="password" name="password" id="regPassword" placeholder="Set up Password" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
