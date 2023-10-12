@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/react-masonry-layout": "^0.4.2",
     "@types/scrollmagic": "^2.0.4",
+    "axios": "^1.5.1",
     "canvas-sketch": "^0.7.7",
     "canvas-sketch-util": "^1.10.0",
     "flowbite": "^1.8.1",

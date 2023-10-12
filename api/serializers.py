@@ -1,6 +1,8 @@
 from rest_framework.serializers import ModelSerializer # Different types of serializers exist. We are using model serailizer
 from .models import ProfilePage
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
 
 
 # For parsing data from our database
@@ -16,10 +18,20 @@ class ProfileSerializer(ModelSerializer):
         model = ProfilePage
         fields = '__all__'
 
-class UserSerializer(ModelSerializer):
+
+
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'        
+
+
+class GetUserNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username')
+    
+
 
 
 # fields = '__all__' shows all values in our notes class

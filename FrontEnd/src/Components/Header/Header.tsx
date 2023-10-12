@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect}from 'react'
+import { useNavigate } from "react-router-dom";
 import './Header.css'
 import 'flowbite'
 import 'flowbite/dist/flowbite.js'
@@ -12,21 +13,26 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { Button, Checkbox, Label, Modal, TextInput, Navbar} from 'flowbite-react';
 
 
+//*Seding token with reqeuests
+const getAuthToken = () => {
+  const token = localStorage.getItem('authToken');
+  return token ? `Token ${token}` : '';
+};
 
 
-
-  
-const navItems: Array<{ name: string, id: number, goTo: string }> = [
-  { name: "HOME", id: 1, goTo: "#" }, { name: "FIND TALENT", id: 2, goTo: "#ShowcaseAnchor" },
-  { name: "BLOG", id: 3, goTo: "#Blog" }, { name: "SUPPORT", id: 4, goTo: "#Support" },
-];
-  /*new navButton("HOME", 1), new navButton("FREELANCERS", 2), 
-  new navButton("BLOG", 3), new navButton("SUPPORT",4)*/
-
-
-
+//LOGIN COMPONENT -------------------------------------------------
 const Login = (p : any) => {
-  const [email, setEmail] = useState("");
+  const [userData, setUserData] = useState<Record<string, any>>({});
+
+  const navigate = useNavigate();
+
+  function navigateIfSuccess(data : any) {
+    // Somewhere in your code, e.g. inside a handler:
+    //REMINDER UTILIZE DJANGO TOKENS
+    //navigate("/posts", {state:{userData}}); 
+    navigate("/profile", {state:{recievedData: data}}); 
+  }
+  
   function LoginFunction(event : any) {
       console.log("logged");
       event.preventDefault()
@@ -39,8 +45,6 @@ const Login = (p : any) => {
   let getUserVal = async(name : string, password : string) => {
       const username = name;
       const givenPass = password;
-
-
       await fetch(`/api/getUser/?username=${username}&password=${givenPass}`)
       .then((response) => {
           if (!response.ok) {
@@ -51,6 +55,14 @@ const Login = (p : any) => {
       .then((data) => {
           if (data.user_logged_in) {
               alert("User exists!");
+              //Check and manipulate for token
+              console.log(data.data);
+              if (data.data.Token) {
+                localStorage.setItem('authToken', data.data.token);
+                setUserData(data);
+                navigateIfSuccess(data);
+
+              } 
           } else {
               alert("User does not exist.");
           }
@@ -124,8 +136,10 @@ const Login = (p : any) => {
       </Modal>
   )
 }
+//LOGIN COMPONENT -------------------------------------------------
 
 
+//REGISTER COMPONENT ----------------------------------------------
 const Register = (p : any) => {
   const [date, setDate] = useState<Date | null>(new Date());
   function RegisterFunction(event : any) {
@@ -237,7 +251,17 @@ const Register = (p : any) => {
   )
   
 }
+//REGISTER COMPONENT ----------------------------------------------
 
+
+
+ 
+const navItems: Array<{ name: string, id: number, goTo: string }> = [
+  { name: "HOME", id: 1, goTo: "#" }, { name: "FIND TALENT", id: 2, goTo: "#ShowcaseAnchor" },
+  { name: "BLOG", id: 3, goTo: "#Blog" }, { name: "SUPPORT", id: 4, goTo: "#Support" },
+];
+  /*new navButton("HOME", 1), new navButton("FREELANCERS", 2), 
+  new navButton("BLOG", 3), new navButton("SUPPORT",4)*/
 
 
 const Header = () => {

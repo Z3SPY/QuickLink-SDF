@@ -1,5 +1,6 @@
 import LoogedInHeader from '../../Components/Header/LoggedInHeader.tsx';
 import { useState, useEffect } from 'react';
+import {useLocation} from 'react-router-dom';
 import ScrollMagic from 'scrollmagic';
 import gsap from 'gsap';
 import random from "lodash/random";
@@ -34,6 +35,8 @@ function PhotoComp(item : any) {
 
 
 function FreelanceSelector(){
+
+
     const [images, setImages] = useState<{ url: string }[]>([]);
     useEffect(() => {
         fetch("https://picsum.photos/v2/list?page=2&limit=50")

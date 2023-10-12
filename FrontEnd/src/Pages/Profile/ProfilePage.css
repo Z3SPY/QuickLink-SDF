@@ -1,7 +1,13 @@
+html {
+    padding: 0;
+    margin: 0;
+}
+
 #profile {
     min-height: 20.25rem;
     height: auto;
-    width: 100vw;
+    width: 95vw;
+    background-color: #303034 ;
 }
 
 #background {
@@ -19,24 +25,33 @@
 }
 
 #userPic {
-    min-height: 96%;
-    min-width: 96%;
-    width: 96%;
+    min-height: 90%;
+    min-width: 92%;
     border-radius: 15px;
-    left: 2.5px;
-    top: 2.5px;
+    left: 5px;
+    top: 5px;
 }
 
 .userBorder {
     min-height: 8rem;
     min-width: 8rem;
-    width: 8%;
+    width: 6%;
     border-radius: 15px;
     bottom: 5rem;
     left: 2rem;
+    background-color: #303034 ;
+
 }
 
 #userDesc {
     bottom: 70px;
     width: 90%;
+}
+
+/*Portfolio*/
+#portfolio {
+    background-color: #303034;
+    width: 95%;
+    min-height: 50vh;
+    height: auto;
 }

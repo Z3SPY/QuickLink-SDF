@@ -1,22 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view 
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 
 from django.http import JsonResponse
+
 
 #For DB Values
 from .models import ProfilePage
 from django.contrib.auth import authenticate
+
 
 from .serializers import ProfileSerializer
 
 
 #Django User 
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
+from rest_framework.authtoken.models import Token
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, GetUserNameSerializer
 
 
 # Each function gets its own window within django framework
@@ -92,6 +99,7 @@ def create_user(request):
 
 
 def check_user_existence(request):
+    
     userNm = request.GET.get('username', None)
     pssWrd = request.GET.get('password', None)
     
@@ -100,20 +108,49 @@ def check_user_existence(request):
             user = authenticate(username=userNm, password=pssWrd)
             print("User: " + userNm + " Password: " + pssWrd)
             #print(authenticate(request, email=user.email, password=password))
-        
-            if user is not None:
+            userCur = User.objects.filter(username=userNm)
+            userSerializer = GetUserNameSerializer(userCur, many=True)
+            #print(userSerializer.data[0])
+            if request.user.is_authenticated:
                 # Backend to Authenticate Credentials
+               
+
+                token = Token.objects.get_or_create(user=user)
+                Response = {
+                    "status":status.HTTP_200_OK,
+                    "message": "success",
+                    "data": {
+                        "Token": token[0].key,
+                        "UserData": userSerializer.data[0]
+                    }
+
+                }
+
                 user_logged_in = True
                 print("1")
+                
+                
             else:
-                print("2")
+                Response = {
+                    "status":status.HTTP_401_UNAUTHORIZED,
+                    "message": "Invalid Email or Password",
+                    "data": {}
+                }
+
                 user_logged_in = False
+                print("2")
         except User.DoesNotExist:
             user_logged_in= False
     else:
+        Response = {
+                "status": status.HTTP_400_BAD_REQUEST,
+                "message": "bad request",
+                "data": {}
+        }
+            
         user_logged_in = False
 
-    return JsonResponse({'user_logged_in': user_logged_in})
+    return JsonResponse({'user_logged_in': user_logged_in, **Response})
 
 
 
@@ -122,3 +159,14 @@ def ProfilePageDetail(request):
     profile = ProfilePage.objects.all()
     serializer = ProfileSerializer(profile, many=True)
     return Response(serializer.data)
+
+@api_view(['GET', 'POST'])
+def GetProfilePageDetail(request, pk):
+    profileDetails = ProfilePage.objects.filter(user__username__startswith=pk)
+    print("1")
+    serializer = ProfileSerializer(profileDetails, many=True)
+    return Response(serializer.data)
+
+
+
+        

@@ -45,7 +45,7 @@
 
 #Showcase {
     margin-top: 35rem;
-    height: 500%;
+    height: 200%;
     position: absolute;
     background-color: #141E46;
 }
@@ -66,6 +66,9 @@
     margin-top: 50rem;
 }
 
+#Support {
+    background-color: #9b2d30;
+}
 
 @keyframes loadGraphics {
     0% {
@@ -85,3 +88,6 @@
         transform: rotateX(0deg);;
     }
   }
+
+/*Blog Animation*/
+

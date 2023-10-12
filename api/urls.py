@@ -7,8 +7,9 @@ from . import views #Import views from this folder
 urlpatterns = [
     path('', views.getRoutes, name="routes"),
     path('users/', views.getUsers, name="Users"),
+    path('profileValues/', views.ProfilePageDetail, name="profileValues"),
     path('getUser/', views.check_user_existence, name="getUsers"),
     path('createUser/', views.create_user, name="createUser"),
-    path('profile/', views.ProfilePageDetail, name="getProfile")
+    path('profile/<str:pk>/', views.GetProfilePageDetail, name="getProfile")
     #The line of code below is for getting a singular note, from our notes database, the dir needs to defined and the variable pk can be changed in views.py
 ]
