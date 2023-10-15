@@ -1,13 +1,58 @@
+.backGround {
+    background-color: #303034;
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
 html {
     padding: 0;
     margin: 0;
 }
 
+
+
+/*PHOTOS AND UPLOAD*/ 
+/*Portfolio*/
+#portfolio {
+    background-color: #303034;
+    width: 150%;
+    min-height: 56vh;
+    height: auto;
+    box-shadow: 0 0 100px black;
+    flex-grow: 4;
+
+}
+
+#Upload-Btn {
+    background-color: #29292b;
+}
+#Upload-Btn:hover > h1 > button{ 
+    transition: 0.3s;
+}
+
+#Upload-Btn:hover > h1 > button {
+    background-color: #ffffffb9;
+    transform: translateX(5px);
+    color: #000000;
+}
+
+#Photo-List {
+    overflow: auto;
+    max-height: 80vh;
+}
+
+
+
+/*SIDE PROFILE*/
 #profile {
     min-height: 20.25rem;
     height: auto;
     width: 95vw;
     background-color: #303034 ;
+    box-shadow: 0 0 50px black;
 }
 
 #background {
@@ -48,10 +93,23 @@ html {
     width: 90%;
 }
 
-/*Portfolio*/
-#portfolio {
-    background-color: #303034;
-    width: 95%;
-    min-height: 50vh;
-    height: auto;
+#Experience {
 }
+
+#Experience-Cont {
+    width: auto;
+}
+
+/*Experience Card*/
+.ExpCard {
+    min-height: 10rem;
+    width: 90%;
+    
+}
+
+/*END*/
+
+
+
+
+

@@ -30,7 +30,7 @@ const Login = (p : any) => {
     // Somewhere in your code, e.g. inside a handler:
     //REMINDER UTILIZE DJANGO TOKENS
     //navigate("/posts", {state:{userData}}); 
-    navigate("/profile", {state:{recievedData: data}}); 
+    navigate("/posts", {state:{recievedData: data}}); 
   }
   
   function LoginFunction(event : any) {
@@ -55,6 +55,7 @@ const Login = (p : any) => {
       .then((data) => {
           if (data.user_logged_in) {
               alert("User exists!");
+              console.log(data);
               //Check and manipulate for token
               console.log(data.data);
               if (data.data.Token) {

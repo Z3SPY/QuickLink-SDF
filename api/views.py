@@ -90,6 +90,11 @@ def create_user(request):
                                  password=pssWrd)
             print("New User Created")
             user_logged_in = True
+
+            #Create New Profile Page
+            newPage = ProfilePage(user=user, displayName=userNm, bio="Personal informaion here", profile_picture=None, exp_container=None)
+            newPage.save()
+
         except:
             print("invalid")
             user_logged_in = False

@@ -1,4 +1,4 @@
-import LoogedInHeader from '../../Components/Header/LoggedInHeader.tsx';
+import Header from '../../Components/Header/LoggedInHeader.tsx';
 import { useState, useEffect } from 'react';
 import {useLocation} from 'react-router-dom';
 import ScrollMagic from 'scrollmagic';
@@ -37,6 +37,16 @@ function PhotoComp(item : any) {
 function FreelanceSelector(){
 
 
+  //USE USE STATE IF IT FAILS
+  const location = useLocation();
+  const userData = location.state.recievedData; // Only functional Data
+
+  /**CREATE A TOKEN SYSTEM */
+  //If Token Available 
+  // Check if token valid
+  // If token Valid Call a serializer to populate data
+
+
     const [images, setImages] = useState<{ url: string }[]>([]);
     useEffect(() => {
         fetch("https://picsum.photos/v2/list?page=2&limit=50")
@@ -51,7 +61,7 @@ function FreelanceSelector(){
 
     return(
         <div>
-            <LoogedInHeader />
+            <Header UserData={userData} />
             <div id="User-Container" className='w-auto mx-40 mt-28'> 
             <Masonry columns={{ 640: 2, 768: 3, 1024: 3, 1280: 6 }} gap={16}    >
                 

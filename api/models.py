@@ -37,6 +37,7 @@ class ProfilePage(models.Model):
         on_delete = models.CASCADE,
         primary_key = True,
     )
+    displayName = models.TextField(null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     profile_picture = models.ImageField(null=True, blank=True)
     exp_container = models.JSONField(null=True, blank=True)
@@ -55,3 +56,43 @@ class ProfilePage(models.Model):
     def __str__(self):
         return self.bio[:50] # pylint: disable=unsubscriptable-object
 
+
+class ImagePost(models.Model):
+    # Title of the image post
+    title = models.CharField(max_length=200)
+    
+    # Description or caption for the image
+    description = models.TextField(null=True, blank=True)
+    
+    # Image file field for the post
+    #image = models.ImageField(upload_to='image_posts/')
+    profile_picture = models.ImageField(null=True, blank=True)
+    
+    # Date and time of the post creation
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # User who posted the image
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    # Comments related to the image post
+    comments = models.ManyToManyField(User, through='Comment', related_name='commented_posts')
+
+    def __str__(self):
+        return self.title
+    
+
+class Comment(models.Model):
+    # Comment text
+    text = models.TextField(null=True, blank=True)
+    
+    # Date and time of the comment
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    # User who posted the comment
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    # Image post associated with the comment
+    post = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Comment by {self.user.username} on {self.post.title}'
