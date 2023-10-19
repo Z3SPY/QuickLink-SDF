@@ -116,7 +116,8 @@ def check_user_existence(request):
             userCur = User.objects.filter(username=userNm)
             userSerializer = GetUserNameSerializer(userCur, many=True)
             #print(userSerializer.data[0])
-            if request.user.is_authenticated:
+            
+            if user.is_authenticated:
                 # Backend to Authenticate Credentials
                
 
@@ -134,7 +135,7 @@ def check_user_existence(request):
                 user_logged_in = True
                 print("1")
                 
-                
+
             else:
                 Response = {
                     "status":status.HTTP_401_UNAUTHORIZED,

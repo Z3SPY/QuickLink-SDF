@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import json
 from django.contrib.postgres.fields import JSONField
-from django.contrib.postgres.fields import ArrayField
 import django.contrib.postgres.fields
 
 
@@ -58,8 +57,8 @@ class ProfilePage(models.Model):
 
     def __str__(self):
         return self.bio[:50] # pylint: disable=unsubscriptable-object
-
-
+    
+    
 
 
 class ImagePost(models.Model):
@@ -79,15 +78,15 @@ class ImagePost(models.Model):
     # User who posted the image
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
+    tags = models.JSONField(null=True, blank=True)
+
     # Comments related to the image post
     comments = models.ManyToManyField(User, through='Comment', related_name='commented_posts')
-
-    post_tags = ArrayField(models.CharField(max_length=30, blank=True), default=list)
-
 
     def __str__(self):
         return self.title
     
+
 
 class Comment(models.Model):
     # Comment text
@@ -104,3 +103,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.user.username} on {self.post.title}'
+
+
+
+
+

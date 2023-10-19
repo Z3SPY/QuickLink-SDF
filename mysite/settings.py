@@ -85,12 +85,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'QLDB',
-        'USER': 'user',
+        'USER': 'root',
         'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '1234',
+        'HOST':'localhost',
+        'PORT':'3306',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        }
     }
 }
 

@@ -9,6 +9,6 @@ from django.contrib.auth.models import User
 
 
 admin.site.register(ProfilePage)
-admin.site.register(Comment)
 admin.site.register(ImagePost)
 
+admin.site.register(Comment)
