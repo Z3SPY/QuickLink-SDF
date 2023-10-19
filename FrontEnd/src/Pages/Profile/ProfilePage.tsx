@@ -3,7 +3,9 @@ import {useLocation} from 'react-router-dom';
 import Header from '../../Components/Header/LoggedInHeader.tsx';
 import './ProfilePage.css';
 import axios from 'axios';
-import { error } from 'jquery';
+import 'flowbite';
+import 'flowbite/dist/flowbite.js';
+import { Button, Checkbox, Label, Modal, TextInput, Navbar} from 'flowbite-react';
 
 
 //Take User
@@ -17,10 +19,31 @@ const ExperienceCont = (p : any) => {
   )
 }
 
+
+const EditProfileView = (p: any) => {
+  //Should Change the value of profile and edit
+
+
+  return (
+    <Modal dismissible show={p.propsOpenModal === 'form-edit-profile'}  popup onClose={() => p.OpenModalFunc(undefined)}>
+        <Modal.Body className='auth-Container'>
+          <Modal.Header className='closeModal'/>
+          
+        </Modal.Body>
+      </Modal>
+  )
+}
+
+
+
+
+
 function ProfilePage() {
   
   const [curAccountName, setAccountName] = useState(null);
   const [profile, setProfile] = useState<any>(null);
+  const [openModal, setOpenModal] = useState<string | undefined>();
+  const props = { openModal, setOpenModal};
   const location = useLocation(); // For getting values from navigate
 
 
@@ -71,8 +94,10 @@ function ProfilePage() {
                   <h1 className='text-gray-200 text-xl '> Start your journey by uploading your work. <button className='text-base p-2 ml-2 rounded-lg bg-gray-600'> Upload Content </button> </h1>
               </div>
               <div id="Selector">
-                <div> ADD MINI SEARCH BAR</div>
-                <h1 className='text-gray-200 text-2xl mt-10'>Portfolio</h1>
+                <div className='Search mt-5'> 
+                  <input type="text" placeholder='search' />    
+                </div>
+                <h1 className='text-gray-200 text-2xl mt-5'>Portfolio</h1>
               </div>
               <div id="Photo-List" className='flex flex-wrap'>
                 <div className='bg-gray-300 min-w-[15rem] mx-3 min-h-[15rem] mt-5'></div>
@@ -83,16 +108,13 @@ function ProfilePage() {
                 <div className='bg-gray-300 min-w-[15rem] mx-3 min-h-[15rem] mt-5'></div>
                 <div className='bg-gray-300 min-w-[15rem] mx-3 min-h-[15rem] mt-5'></div>
                 <div className='bg-gray-300 min-w-[15rem] mx-3 min-h-[15rem] mt-5'></div>
-
                 
-                
-
               </div>
           </div>
 
           <div id='profile' className='mt-10 ml-10 rounded-xl  relative'>
             <div id='background' className='bg-gray-300 '> </div>
-            <div id='editBut' className='bg-yellow-300 absolute hover:bg-orange-100'></div>
+            <Button id='editBut' onClick={() => props.setOpenModal('form-edit-profile')} className='bg-yellow-300 absolute hover:bg-orange-100'></Button>
             <div className='userBorder relative'>
               <div id='userPic' className='bg-red-300 absolute'> </div>
             </div>
@@ -108,14 +130,12 @@ function ProfilePage() {
                 <ExperienceCont />
                 <ExperienceCont />
               </div>
-              
-
             </div>
           </div>
 
           
       </div>
-
+      <EditProfileView propsOpenModal={props.openModal} OpenModalFunc={props.setOpenModal} />
       
     </div>
   );

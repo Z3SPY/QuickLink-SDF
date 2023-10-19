@@ -4,6 +4,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import json
 from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import ArrayField
+import django.contrib.postgres.fields
+
 
 # Create your models here.
 # Where we desing our Database
@@ -57,6 +60,8 @@ class ProfilePage(models.Model):
         return self.bio[:50] # pylint: disable=unsubscriptable-object
 
 
+
+
 class ImagePost(models.Model):
     # Title of the image post
     title = models.CharField(max_length=200)
@@ -66,7 +71,7 @@ class ImagePost(models.Model):
     
     # Image file field for the post
     #image = models.ImageField(upload_to='image_posts/')
-    profile_picture = models.ImageField(null=True, blank=True)
+    image_picture = models.ImageField(null=True, blank=True)
     
     # Date and time of the post creation
     created_at = models.DateTimeField(auto_now_add=True)
@@ -76,6 +81,9 @@ class ImagePost(models.Model):
     
     # Comments related to the image post
     comments = models.ManyToManyField(User, through='Comment', related_name='commented_posts')
+
+    post_tags = ArrayField(models.CharField(max_length=30, blank=True), default=list)
+
 
     def __str__(self):
         return self.title

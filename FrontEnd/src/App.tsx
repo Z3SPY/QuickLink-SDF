@@ -11,6 +11,7 @@ import ProfilePage from './Pages/Profile/ProfilePage'
 import JobsContentPage from './Pages/Job-Page-Content-Page/JobsContentPage'
 import JobsPage from './Pages/Jobs-Page/JobsPage'
 import LoggedInHeader from "./Components/Header/LoggedInHeader";
+import UploadPage from "./Pages/UploadPage/Upload.tsx";
 
 import './css/App.css'
 
@@ -34,7 +35,10 @@ function App() {
           <Route path="/Jobs" element={<JobsPage />} /> 
           <Route path="/JobsPage/:JobsID" element={<JobsContentPage />} /> 
           
-          <Route path="/Profile" element={<ProfilePage />} /> 
+          <Route path="/Profile" element={<ProfilePage />} > 
+            <Route path="Upload" element={<UploadPage />} /> 
+          </Route> 
+          
           
      </Routes>
    </Router>
