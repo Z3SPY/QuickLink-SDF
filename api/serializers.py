@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer # Different types of serializers exist. We are using model serailizer
-from .models import ProfilePage
+from .models import ProfilePage, ImagePost
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -30,6 +30,20 @@ class GetUserNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username')
+
+
+class GetPostValuesSerializer(serializers.ModelSerializer):
+    user = serializers.CharField()
+    class Meta:
+        model =  ImagePost
+        fields =('user' , 'image_picture' , 'title', 'id')
+
+class GetAllPostValues(serializers.ModelSerializer):
+    class Meta:
+        model = ImagePost
+        fields = '__all__'
+
+
     
 
 

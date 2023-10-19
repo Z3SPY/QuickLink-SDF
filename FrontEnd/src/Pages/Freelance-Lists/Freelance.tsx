@@ -1,6 +1,6 @@
 import Header from '../../Components/Header/LoggedInHeader.tsx';
 import { useState, useEffect, useRef } from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate, generatePath} from 'react-router-dom';
 import React from "react"
 import { Suspense, lazy } from 'react';
 
@@ -37,32 +37,38 @@ function PhotoComp({ src }:{src : any}) {
       entries.forEach((entry : any) => {
         if (entry.isIntersecting) {
           // Load the image when it enters the viewport
+          //NOT LOADING BECAUSE NOT ENOUGH
           const img = new Image();
-          img.src = src;
+          img.src = `data:image/png;base64,${src.image_picture}`;
           img.onload = () => {
             imageRef.current.src = img.src!;
           };
-  
+
           // Stop observing the image once it's loaded
           observer.unobserve(imageRef.current);
         }
       });
     };
 
+    const navigate = useNavigate();
+    const SwitchPage = (id : any) => {
+      navigate(`/UserPost/${id}`)
+    }
+
 
     //NOTE: change git.jpg
     //Add A hover element here
     return( 
-      <div className='img-card-container'>
+      <div className='img-card-container' onClick={() => {SwitchPage(src.id)}}>
           <div className='card-img'>
             <img ref={imageRef} src={"./gir.jpg"} className='rounded-3xl' style={{ minHeight: '200px' , minWidth: '236px'}} alt="Picture"/>
             
           </div>
           <div className='text-card'>
               <div className='m-0 text-container'>
-                <h1 className='font-semibold mb-2'>TITLETITLETITTITLETITLETITTITLETITLETITTITLETITLETIT</h1>
+                <h1 className='font-semibold mb-2'>{src.title}</h1>
                 <div className="absolute rounded-full bg-red-500 h-6 w-6" />
-                <h2 className='ml-8'>Person</h2>
+                <h2 className='ml-8'>{src.user}</h2>
               </div>
           </div>
       </div>
@@ -71,6 +77,9 @@ function PhotoComp({ src }:{src : any}) {
     
     );
 };
+
+
+
 
 
 function FreelanceSelector(){
@@ -87,19 +96,42 @@ function FreelanceSelector(){
   
   
   
-    const [images, setImages] = useState<{ url: string }[]>([]);
+    const [images, setImages] = useState<{ encodedString: string }[]>([]);
     useEffect(() => {
 
-        fetch("https://picsum.photos/v2/list?page=2&limit=50")
+      fetch(`/api/obtainPostList`)
+        .then((response) => {
+          if (!response.ok) {
+              throw new Error("Network response was not ok");
+          }
+          console.log("worked")
+          return response.json();
+        })
+        .then((data) => {
+          if (data) {
+            console.log(data);
+            const images = data.Posts.map((d: any) => ({
+              encodedString: d.image_picture
+            }));
+
+            setImages(data.Posts);
+            console.log(images);
+          }
+        })
+
+        /*fetch("https://picsum.photos/v2/list?page=2&limit=50")
           .then((res) => res.json())
           .then((data) => {
             const images = data.map((d: any) => ({
               url: d.download_url
             }));
 
+
             setImages(images);
-          });
+          });*/
       }, []);
+
+      
 
     return(
         <div>
@@ -108,10 +140,10 @@ function FreelanceSelector(){
             <div id="User-Container" className='w-auto mx-40 mt-28'> 
             <Masonry columns={{ 640: 2, 768: 3, 1024: 3, 1280: 6 }} gap={16}    >
                 
-                {images.map((card : any, index : number) => {
+                {images.map((base64 : any, index : number) => {
                   return (
                     <div key={index}>
-                        <PhotoComp src={card.url}/>
+                        <PhotoComp src={base64}/>
                     </div>
                   )
                 })}

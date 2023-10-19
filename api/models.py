@@ -5,6 +5,8 @@ from django.dispatch import receiver
 import json
 from django.contrib.postgres.fields import JSONField
 import django.contrib.postgres.fields
+import base64
+
 
 
 # Create your models here.
@@ -44,6 +46,7 @@ class ProfilePage(models.Model):
     profile_picture = models.ImageField(null=True, blank=True)
     exp_container = models.JSONField(null=True, blank=True)
 
+
     # Deserialize JSON data into Python objects when retrieving
     def get_objects(self):
         if self.exp_container:
@@ -56,7 +59,7 @@ class ProfilePage(models.Model):
         self.my_objects = json.dumps(value)
 
     def __str__(self):
-        return self.bio[:50] # pylint: disable=unsubscriptable-object
+        return self.displayName[:50] # pylint: disable=unsubscriptable-object
     
     
 
@@ -70,13 +73,27 @@ class ImagePost(models.Model):
     
     # Image file field for the post
     #image = models.ImageField(upload_to='image_posts/')
-    image_picture = models.ImageField(null=True, blank=True)
+    #WE are converting it TO BLOB Binary64 DATA
+    #image_picture = models.ImageField(null=True, blank=True)
+    image_picture = models.TextField(null=True,
+            db_column='data',
+            blank=True)
+    
+    
+    def set_data(self, data):
+        self._data = base64.encodestring(data)
+
+    def get_data(self):
+        return base64.decodestring(self._data)
+
+    data = property(get_data, set_data)
+
     
     # Date and time of the post creation
     created_at = models.DateTimeField(auto_now_add=True)
     
     # User who posted the image
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(ProfilePage, on_delete=models.CASCADE, null=True, blank=True)
     
     tags = models.JSONField(null=True, blank=True)
 
@@ -85,6 +102,9 @@ class ImagePost(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+        
     
 
 

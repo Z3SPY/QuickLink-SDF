@@ -11,11 +11,11 @@ from django.http import JsonResponse
 
 
 #For DB Values
-from .models import ProfilePage
+from .models import ProfilePage, ImagePost
 from django.contrib.auth import authenticate
 
 
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer, GetPostValuesSerializer
 
 
 #Django User 
@@ -23,50 +23,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
 
-from .serializers import UserSerializer, GetUserNameSerializer
+from .serializers import UserSerializer, GetUserNameSerializer, GetAllPostValues
 
 
 # Each function gets its own window within django framework
 # Create your views here.
 # All routes I want to pass into my application
-@api_view(['GET']) #Specify the methods allowed to this view i.e GET, PUT, POST, DELETE
-def getRoutes(request):
-    routes = [
-        {
-            'Endpoint': '/notes/',
-            'method': 'GET',
-            'body': None,
-            'description': 'Returns an array of notes'
-        },
-        {
-            'Endpoint': '/notes/id',
-            'method': 'GET',
-            'body': None,
-            'description': 'Returns a single note object'
-        },
-        {
-            'Endpoint': '/notes/create/',
-            'method': 'POST',
-            'body': {'body': ""},
-            'description': 'Creates new note with data sent in post request'
-        },
-        {
-            'Endpoint': '/notes/id/update/',
-            'method': 'PUT',
-            'body': {'body': ""},
-            'description': 'Creates an existing note with data sent in post request'
-        },
-        {
-            'Endpoint': '/notes/id/delete/',
-            'method': 'DELETE',
-            'body': None,
-            'description': 'Deletes and exiting note'
-        },
-    ]
-
-    return Response(routes)
-
-
 
 #Gets Users 
 @api_view(['GET', 'POST']) 
@@ -119,8 +81,6 @@ def check_user_existence(request):
             
             if user.is_authenticated:
                 # Backend to Authenticate Credentials
-               
-
                 token = Token.objects.get_or_create(user=user)
                 Response = {
                     "status":status.HTTP_200_OK,
@@ -174,5 +134,18 @@ def GetProfilePageDetail(request, pk):
     return Response(serializer.data)
 
 
+def GetAllPosts(request):
+    ListPosts = ImagePost.objects.all()
+    serializer = GetPostValuesSerializer(ListPosts, many=True)
+    return JsonResponse({'Posts': serializer.data})
 
-        
+def GetSpecificPost(request, pk):
+    GetPost = ImagePost.objects.filter(user=pk)
+    serializer = GetAllPostValues(GetPost, many=True)
+    return JsonResponse(serializer.data)
+
+
+
+
+
+

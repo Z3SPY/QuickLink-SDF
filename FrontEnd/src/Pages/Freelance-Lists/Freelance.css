@@ -16,11 +16,15 @@
 .img-card-container:hover > .card-img, .card-img:hover{
     filter: invert(0%) sepia(4%) saturate(16%) hue-rotate(63deg) brightness(60%) contrast(80%);
     border-radius: 100%;
+}
+
+.img-card-container:hover {
     cursor: pointer;
 }
 
 .text-container {
     height: auto;
+    width: 100%;
     word-wrap: break-word;
     position: relative;
   
