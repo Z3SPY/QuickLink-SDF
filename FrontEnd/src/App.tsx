@@ -28,16 +28,16 @@ function App() {
     <Router>
 
      <Routes>
-        <Route path="/" element={<LandingPage />} /> 
+          <Route path="/" element={<LandingPage />} /> 
           <Route path="/Posts" element={<FreelanceSelector />} /> 
           <Route path="/UserPost/:PostsID" element={<UserContentPage />} /> 
 
           <Route path="/Jobs" element={<JobsPage />} /> 
           <Route path="/JobsPage/:JobsID" element={<JobsContentPage />} /> 
           
-          <Route path="/Profile" element={<ProfilePage />} > 
-            <Route path="Upload" element={<UploadPage />} /> 
-          </Route> 
+          <Route path="/Profile" element={<ProfilePage />} /> 
+          <Route path="/Profile/Upload" element={<UploadPage />} /> 
+
           
           
      </Routes>

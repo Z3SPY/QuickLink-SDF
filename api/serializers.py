@@ -3,6 +3,7 @@ from .models import ProfilePage, ImagePost
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
+from drf_extra_fields.fields import Base64ImageField
 
 
 # For parsing data from our database
@@ -34,15 +35,27 @@ class GetUserNameSerializer(serializers.ModelSerializer):
 
 class GetPostValuesSerializer(serializers.ModelSerializer):
     user = serializers.CharField()
+    image_picture = serializers.ImageField()
     class Meta:
         model =  ImagePost
         fields =('user' , 'image_picture' , 'title', 'id')
+  
+    @property
+    def get_image_url(self) -> str:
+        if self.image_pictur and hasattr(self.image_file, 'url'):
+            return f"http://127.0.0.1:8000{self.image_picture.url}"
 
 class GetAllPostValues(serializers.ModelSerializer):
     class Meta:
         model = ImagePost
         fields = '__all__'
 
+class PostSerializer(serializers.ModelSerializer):
+    image_picture = Base64ImageField()
+
+    class Meta:
+        model= ImagePost
+        fields= ('title','image_picture','description')
 
     
 

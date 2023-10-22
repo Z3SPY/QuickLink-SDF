@@ -6,6 +6,7 @@ import axios from 'axios';
 import 'flowbite';
 import 'flowbite/dist/flowbite.js';
 import { Button, Checkbox, Label, Modal, TextInput, Navbar} from 'flowbite-react';
+import { useNavigate } from "react-router-dom";
 
 
 //Take User
@@ -62,8 +63,11 @@ function ProfilePage() {
   //I NOW HAVE USERNAME AND TOKEN
   // CHECK IF TOKEN VALID
   // THEN PROCEED WITH USEEFFECT
+  const navigate = useNavigate();
 
-
+  const UploadNavigate = () => {
+    navigate("/profile/Upload");
+  }
 
 
   useEffect(() => {
@@ -91,7 +95,7 @@ function ProfilePage() {
         <div id="profileContent-Container" className='flex'>
           <div id='portfolio' className='mt-10 rounded-xl p-5 '>
               <div id="Upload-Btn" className='w-full h-[6rem] rounded-xl text-center p-8'>
-                  <h1 className='text-gray-200 text-xl '> Start your journey by uploading your work. <button className='text-base p-2 ml-2 rounded-lg bg-gray-600'> Upload Content </button> </h1>
+                  <h1 className='text-gray-200 text-xl '> Start your journey by uploading your work. <button onClick={UploadNavigate} className='text-base p-2 ml-2 rounded-lg bg-gray-600'> Upload Content </button> </h1>
               </div>
               <div id="Selector">
                 <div className='Search mt-5'> 

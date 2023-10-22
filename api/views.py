@@ -5,6 +5,13 @@ from rest_framework import generics, status
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import json
+import inspect
+
+
+import base64
+from django.core.files.base import ContentFile
+
 
 
 from django.http import JsonResponse
@@ -23,14 +30,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
 
-from .serializers import UserSerializer, GetUserNameSerializer, GetAllPostValues
+from .serializers import UserSerializer, GetUserNameSerializer, GetAllPostValues, PostSerializer
 
 
 # Each function gets its own window within django framework
 # Create your views here.
 # All routes I want to pass into my application
 
-#Gets Users 
+# AUTHENTICATION BASED VIEWS
 @api_view(['GET', 'POST']) 
 def getUsers(request):
     #Serializing all values from our notes object, we are getting notes from notes class
@@ -119,7 +126,7 @@ def check_user_existence(request):
     return JsonResponse({'user_logged_in': user_logged_in, **Response})
 
 
-
+# PROFILE BASED VIEWS
 @api_view(['GET']) 
 def ProfilePageDetail(request):
     profile = ProfilePage.objects.all()
@@ -134,6 +141,10 @@ def GetProfilePageDetail(request, pk):
     return Response(serializer.data)
 
 
+
+
+# POST BASED VIEWS
+@api_view(['GET', 'POST'])
 def GetAllPosts(request):
     ListPosts = ImagePost.objects.all()
     serializer = GetPostValuesSerializer(ListPosts, many=True)
@@ -144,7 +155,30 @@ def GetSpecificPost(request, pk):
     serializer = GetAllPostValues(GetPost, many=True)
     return JsonResponse(serializer.data)
 
+def CreateNewPost(request):
+    postDataTitle = request.GET.get('Title', None)
+    postDataDesc = request.GET.get('Desc', None)
+    postDataImage = request.GET.get('Img', None)
+   
+    
+    if postDataTitle and postDataDesc:
+        try:
+            format, imgstr = postDataImage.split(';base64,') 
+            ext = format.split('/')[-1] 
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            
 
+            #Create New Profile Page
+            #newPost = ImagePost(title=postDataTitle, description=postDataDesc, image_picture=postDataImage['user_file'])
+            newPost = ImagePost(title=postDataTitle, description=postDataDesc, image_picture=data)
+            newPost.save()
+            
+            return JsonResponse({'message': 'Image post created successfully!'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
+
+    return JsonResponse({'error': 'Invalid request method. Use POST to create an image post.', 'code': postDataTitle})
+   
 
 
 

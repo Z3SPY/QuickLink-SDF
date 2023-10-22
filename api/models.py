@@ -74,19 +74,29 @@ class ImagePost(models.Model):
     # Image file field for the post
     #image = models.ImageField(upload_to='image_posts/')
     #WE are converting it TO BLOB Binary64 DATA
-    #image_picture = models.ImageField(null=True, blank=True)
+    #image_picture = models.ImageField(null=True, blank=True, upload_to='uploads/')
+
+    image_picture = models.ImageField(upload_to='image_posts/', null=True)
+
+
+    
+    """
     image_picture = models.TextField(null=True,
             db_column='data',
             blank=True)
-    
-    
     def set_data(self, data):
         self._data = base64.encodestring(data)
 
     def get_data(self):
         return base64.decodestring(self._data)
+    """
 
-    data = property(get_data, set_data)
+
+    def set_data(self, data):
+        self.image_picture = data
+
+    def get_data(self):
+        return self.image_picture
 
     
     # Date and time of the post creation

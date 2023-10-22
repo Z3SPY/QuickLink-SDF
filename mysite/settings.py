@@ -149,3 +149,7 @@ REST_FRAMEWORK = {
 
 #Adding Auto Field for Django Models
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+#For Photos
+MEDIA_URL = "/media/"
+MEDIA_ROOT=os.path.join(BASE_DIR,"media/")

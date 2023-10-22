@@ -13,7 +13,7 @@ import './Freelance.css';
 function PhotoComp({ src }:{src : any}) {
 
     const imageRef = useRef(document.createElement("img"));
-
+    console.log(src.image_picture)
     useEffect(() => {
       const options = {
         root: null,
@@ -33,13 +33,15 @@ function PhotoComp({ src }:{src : any}) {
       };
     }, []);
 
+    //For Base64 `data:image/png;base64,${src.image_picture}`
+
     const handleIntersection = (entries : any, observer : any) => {
       entries.forEach((entry : any) => {
         if (entry.isIntersecting) {
           // Load the image when it enters the viewport
           //NOT LOADING BECAUSE NOT ENOUGH
           const img = new Image();
-          img.src = `data:image/png;base64,${src.image_picture}`;
+          img.src =  `http://127.0.0.1:8000/${src.image_picture}`;
           img.onload = () => {
             imageRef.current.src = img.src!;
           };
@@ -55,9 +57,6 @@ function PhotoComp({ src }:{src : any}) {
       navigate(`/UserPost/${id}`)
     }
 
-
-    //NOTE: change git.jpg
-    //Add A hover element here
     return( 
       <div className='img-card-container' onClick={() => {SwitchPage(src.id)}}>
           <div className='card-img'>
