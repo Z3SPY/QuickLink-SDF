@@ -71,6 +71,24 @@ def getUsers(request):
 
 
 
+def create_user(request):
+    userNm = request.GET.get('username', None)
+    email = request.GET.get('email', None)
+    pssWrd = request.GET.get('password', None)
+    
+    if userNm and pssWrd and email:
+        try:
+            user =  User.objects.create_user(username=userNm,
+                                 email=email,
+                                 password=pssWrd)
+            print("New User Created")
+            user_logged_in = True
+        except:
+            print("invalid")
+            user_logged_in = False
+    else:
+        user_logged_in = False
+    return JsonResponse({'user_logged_in': user_logged_in})
 
 
 def check_user_existence(request):
