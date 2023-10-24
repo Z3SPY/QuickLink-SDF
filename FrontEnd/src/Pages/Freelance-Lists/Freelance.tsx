@@ -87,6 +87,7 @@ function FreelanceSelector(){
   //USE USE STATE IF IT FAILS
   const location = useLocation();
   const userData = location.state.recievedData; // Only functional Data
+  console.log(userData);
 
   /**CREATE A TOKEN SYSTEM */
   //If Token Available 

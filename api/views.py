@@ -61,7 +61,7 @@ def create_user(request):
             user_logged_in = True
 
             #Create New Profile Page
-            newPage = ProfilePage(user=user, displayName=userNm, bio="Personal informaion here", profile_picture=None, exp_container=None)
+            newPage = ProfilePage(user=user, displayName=userNm, userAuth=userNm, bio="Personal informaion here", profile_picture=None, exp_container=None)
             newPage.save()
 
         except:
@@ -142,7 +142,6 @@ def GetProfilePageDetail(request, pk):
 
 
 
-
 # POST BASED VIEWS
 @api_view(['GET', 'POST'])
 def GetAllPosts(request):
@@ -156,21 +155,27 @@ def GetSpecificPost(request, pk):
     return JsonResponse(serializer.data)
 
 def CreateNewPost(request):
-    postDataTitle = request.GET.get('Title', None)
-    postDataDesc = request.GET.get('Desc', None)
-    postDataImage = request.GET.get('Img', None)
-   
-    
+    data = json.loads(request.body)
+
+    postDataTitle =  data['form']['user_title']
+    postDataDesc = data['form']['user_description']
+    postUserAuth = data['form']['user_auth']
+    postDataImage = data['files']['user_file']
+    print(data)    
+
+        
     if postDataTitle and postDataDesc:
         try:
             format, imgstr = postDataImage.split(';base64,') 
             ext = format.split('/')[-1] 
             data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-            
+            #profile_response = GetProfilePageDetail(request, "Joshua")
+            #profile_data = profile_response.data
 
+            profile_response = ProfilePage.objects.filter(user__username__startswith=postUserAuth).first()
+            
             #Create New Profile Page
-            #newPost = ImagePost(title=postDataTitle, description=postDataDesc, image_picture=postDataImage['user_file'])
-            newPost = ImagePost(title=postDataTitle, description=postDataDesc, image_picture=data)
+            newPost = ImagePost(title=postDataTitle, description=postDataDesc, image_picture=data, user=profile_response)
             newPost.save()
             
             return JsonResponse({'message': 'Image post created successfully!'})
@@ -178,6 +183,8 @@ def CreateNewPost(request):
             return JsonResponse({'error': str(e)})
 
     return JsonResponse({'error': 'Invalid request method. Use POST to create an image post.', 'code': postDataTitle})
+
+
    
 
 

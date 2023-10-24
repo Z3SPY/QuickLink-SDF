@@ -46,6 +46,7 @@ class ProfilePage(models.Model):
     profile_picture = models.ImageField(null=True, blank=True)
     exp_container = models.JSONField(null=True, blank=True)
 
+    userAuth = models.TextField(null=True, blank=True)
 
     # Deserialize JSON data into Python objects when retrieving
     def get_objects(self):

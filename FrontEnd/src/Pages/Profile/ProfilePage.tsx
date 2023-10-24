@@ -41,7 +41,7 @@ const EditProfileView = (p: any) => {
 
 function ProfilePage() {
   
-  const [curAccountName, setAccountName] = useState(null);
+  const [curAccData, setAccData] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [openModal, setOpenModal] = useState<string | undefined>();
   const props = { openModal, setOpenModal};
@@ -50,8 +50,10 @@ function ProfilePage() {
 
 
   //This IS A PROBLEM WITH RE RENDERING, ONLY RENDER WITH USE STATE
-  const DataCont = location.state.recievedData;
+  //Might be smart to use a useState or smthn
+  const DataCont = location.state.recievedData; //gets Data from previous Location after change page
   const userContainer = DataCont.data.UserData;
+  
  //REMEMBER 
 
 
@@ -65,8 +67,9 @@ function ProfilePage() {
   // THEN PROCEED WITH USEEFFECT
   const navigate = useNavigate();
 
-  const UploadNavigate = () => {
-    navigate("/profile/Upload");
+  const UploadNavigate = (data : any) => {
+    console.log(data.userAuth);
+    navigate("/profile/Upload", {state:{recievedData: data.userAuth, returnObj: DataCont }});
   }
 
 
@@ -95,7 +98,7 @@ function ProfilePage() {
         <div id="profileContent-Container" className='flex'>
           <div id='portfolio' className='mt-10 rounded-xl p-5 '>
               <div id="Upload-Btn" className='w-full h-[6rem] rounded-xl text-center p-8'>
-                  <h1 className='text-gray-200 text-xl '> Start your journey by uploading your work. <button onClick={UploadNavigate} className='text-base p-2 ml-2 rounded-lg bg-gray-600'> Upload Content </button> </h1>
+                  <h1 className='text-gray-200 text-xl '> Start your journey by uploading your work. <button onClick={() => {UploadNavigate(profile[0])}} className='text-base p-2 ml-2 rounded-lg bg-gray-600'> Upload Content </button> </h1>
               </div>
               <div id="Selector">
                 <div className='Search mt-5'> 
