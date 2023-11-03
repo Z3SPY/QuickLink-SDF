@@ -1,6 +1,11 @@
 .positioning {
     position: absolute;
-    bottom: 50px;
+    bottom: 100px;
+    transform-style: preserve-3d;
+}
+
+#Animated canvas {
+  height: 80vh;
 }
 
 @media only screen and (max-width: 645px) {

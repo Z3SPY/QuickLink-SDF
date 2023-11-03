@@ -1,23 +1,7 @@
-/*Scroll Bar Start*/
-::-webkit-scrollbar {
-    width: 8px;
-}
-  
-/* Track */
-::-webkit-scrollbar-track {
-    opacity: 0;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-   
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: black; 
-    border-radius: 10px;
-}
 
-/*Scroll Bar End*/
-
+body {
+    background-color: #FFF5E0 ;
+}
 
 .App {
     margin: 0px;
@@ -32,18 +16,17 @@
 
 
 .text {
-    width: 35rem;
     height: auto;
-    top: 26rem;
-    left: 20rem;
     color: #141E46;
 }
 
-#Graphic > div.text.absolute > div { 
+
+#Graphic > div.text.absolute > div{ 
     transform: rotateY(90deg);
     /*opacity: 0;*/
     transform-origin: bottom;
 }
+
 
 
 #Graphic > div.text.absolute > div:nth-child(1) {
@@ -58,9 +41,13 @@
     animation: 1s ease-out 1.65s 1 loadText forwards;
 }
 
+#Graphic > div.text.absolute > div:nth-child(4) {
+    animation: 1s ease-out 1.85s 1 loadText forwards;
+}
+
 #Showcase {
     margin-top: 35rem;
-    height: 100%;
+    height: 200%;
     position: absolute;
     background-color: #141E46;
 }
@@ -77,6 +64,13 @@
     width: 100%;
 }
 
+#Blog {
+    margin-top: 50rem;
+}
+
+#Support {
+    background-color: #9b2d30;
+}
 
 @keyframes loadGraphics {
     0% {
@@ -96,3 +90,6 @@
         transform: rotateX(0deg);;
     }
   }
+
+/*Blog Animation*/
+

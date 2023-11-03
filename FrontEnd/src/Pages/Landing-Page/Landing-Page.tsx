@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Header from '../../Components/Header/Header.tsx';
 import Canvas from '../../Components/Canvas/Canvas.tsx';
+import Login from '../../Components/User-Authentication/Login.tsx'
+import Register from '../../Components/User-Authentication/Register.tsx'
 import './Landing-Page.css';
 import ScrollMagic from 'scrollmagic';
 import gsap from 'gsap';
@@ -11,8 +13,8 @@ function LandingPage() {
   const tl : gsap.core.Timeline = gsap.timeline();
 
   useEffect(() => {
-    const controller : ScrollMagic.Controller    = new ScrollMagic.Controller();
-    tl.to("#Showcase", {y: "20%" }); //Set Position
+    const controller : ScrollMagic.Controller  = new ScrollMagic.Controller();
+    tl.to("#Showcase", {y: "20vh" }); //Set Position
 
     // Scene 1: Animation when entering the "Showcase" section
     new ScrollMagic.Scene({
@@ -25,11 +27,32 @@ function LandingPage() {
       .on('end', (event : any) => {
         if (event.scrollDirection == "FORWARD") {
           console.log("enter");
-          tl.to("#Showcase", { duration: 1, y: "-70%" }); //Slide when Scrolling Downwards
+
+          if (window.innerHeight <= 685) {
+            tl.to("#Showcase", { duration: 0.5, y: "-110vh" }); //Slide when Scrolling Downwards
+          } else
+            tl.to("#Showcase", { duration: 0.5, y: "-85vh" }); 
         } else if (event.scrollDirection == "REVERSE") { 
-          tl.to("#Showcase", { duration: 1, y: "20%" }); //Slide when Scrolling Backwards
+          tl.to("#Showcase", { duration: 1, y: "20vh" }); //Slide when Scrolling Backwards
         }
       }).addIndicators!();
+
+
+    // Scene 2: animation when Entering Blog
+    new ScrollMagic.Scene({
+      triggerElement: '#Showcase',
+      triggerHook: 0.5,
+      duration: '120%',
+      offset: 100,
+    })
+      .addTo(controller)
+      .on('end', (event : any) => {
+        if (event.scrollDirection == "FORWARD") {
+          
+        }
+      })
+
+
 
     return () => controller.destroy(true);
   }, []);
@@ -49,25 +72,32 @@ function LandingPage() {
       <Header />
       <div className='App file:w-full h-screen z-1'>
         <div id="Graphic">
-          <div className='text absolute text-6xl'>
+          <div className='z-20 text absolute left-32 top-64 text-7xl sm:text-7xl md:text-8xl md:w-auto lg:text-6xl '>
               <div style={{ color: '#FFBA86' }}>CONNECTING</div>
               <div style={{ color: '#C23373' }}> CREATIVITY:</div>
-              <div>LINKING ARTIST WORLDWIDE</div>
-            
+              <div>LINKING ARTIST </div>
+              <div>WORLDWIDE</div>
+
           </div>
           <Canvas />
         </div>
       </div>
 
-      <div id="Showcase" className='w-screen h-auto z-20'>
-        <div className="flex pt-11 gap-3 w-11/12 ml-10 flex-wrap" id="Showcase-Pictures">
-          <div className='flex-grow bg-yellow-500'> </div>
-          <div className='w-full  bg-red-500 '>  </div>
-          <div className='w-2/3' style={{ backgroundColor: '#C23373' }}>  </div>
-          <div className='flex-grow bg-red-500' >  </div>
-          <div className='flex-grow  bg-yellow-500 '>  </div>
-        </div>
+      <Login />
+      <Register />
+      <div id="ShowcaseAnchor" className='w-screen h-auto bg-transparent absolute bottom-96' />
+      
+      <div id="Showcase" className='w-screen h-full'>
+        
       </div>
+
+      <div id="Blog" className='w-screen h-screen z-20 bg-yellow-300 relative  '>
+      </div>
+      <div id="Support" className='w-screen h-screen z-20  relative'>
+        a
+      </div>
+      
+
     </div>
   );
 }

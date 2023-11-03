@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect}from 'react'
 import './Canvas.css'
 
+
+// Points Class Start //
 class Point {
   x: number;
   y: number;
@@ -46,7 +48,7 @@ class Point {
     ctx.fillStyle = this.fill;
 
     ctx.save();
-    ctx.translate(this.x + 50, this.y + 50);
+    ctx.translate(this.x + 10, this.y + 70);
     ctx.translate(this.cell * 0.5, this.cell * 0.5);
 
     ctx.beginPath();
@@ -66,9 +68,7 @@ class Point {
       this.angle = Math.atan2(this.dy, this.dx);
       this.vx += this.force * Math.cos(this.angle);
       this.vy += this.force * Math.sin(this.angle);
-    } else {
-      this.vy = (Math.random() * 1);
-    }
+    } 
 
     this.x += (this.vx *= this.friction) + (this.originX - this.x) * this.ease;
     this.y += (this.vy *= this.friction) + (this.originY - this.y) * this.ease;
@@ -77,7 +77,7 @@ class Point {
   }
 }
 
-
+// Points Class END //
 
 const globalMousePos: { radius: number; x: number; y: number } = {
   radius: 3000,
@@ -85,20 +85,41 @@ const globalMousePos: { radius: number; x: number; y: number } = {
   y: 0,
 };
 
-
-
-
 const img : any = document.getElementById("cat")!;
 
 const settings = {
-  dimensions: [800, 800]
+  dimensions: [window.screen.height * .70, window.screen.width * .40]
 }
 
 let fontSize = 1200;
 let fontFamily = 'Isidora Sans';
 
+
+console.log("yo" + (settings.dimensions[0]) + (settings.dimensions[1]));
+// Canvas Component Start //
 const Canvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [rotState, setRotState] = useState("translate(0%, 0%) perspective(600px) rotateY(10deg) rotateX(10deg)");
+
+  //Canvas State For Rotate Animation Start
+  var State = "";
+  let lFollowX : number  = 0;
+  let lFollowY : number = 0;
+  let  rotationX : number = 0;
+  let  rotationY  : number = 0;
+  let friction : number = 1 / 12;
+
+  
+
+  function updateCanvasState(xRot : number , yRot : number) {
+    rotationX += (xRot - rotationX) * friction;
+    rotationY += (yRot - rotationY) * friction;
+    setRotState("translate(0%, 0%) perspective(1000px) rotateY("+-rotationX+"deg) rotateX("+rotationY+"deg)");
+    //console.log(rotationY + " " + rotationX);
+  }
+
+  //Canvas State For Rotate Animation Start
+
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -106,7 +127,7 @@ const Canvas: React.FC = () => {
     let frameCount = 0;
     let animationFrameId : any = null!;
 
-    const cell : number = 10;
+    const cell : number = 17;
     const cols : number = Math.floor((settings.dimensions[0] - 100)/cell);
     const rows : number = Math.floor((settings.dimensions[1] - 100)/ cell);
     const numCells : number = cols * rows; //Creates a cell grid size of 54 x 54
@@ -126,7 +147,7 @@ const Canvas: React.FC = () => {
       var ratio = Math.min(ratioX, ratioY);
          
 
-      context.drawImage(img, 3, 0, img.naturalWidth * ratio + 15, img.naturalHeight * ratio + 15); //Resize Image
+      context.drawImage(img, 2.5, 0, img.naturalWidth * ratio + 10, img.naturalHeight * ratio + 20); //Resize Image
       const typeData = context.getImageData(0, 0, cols, rows).data;
     //Img End
 
@@ -155,16 +176,23 @@ const Canvas: React.FC = () => {
 window.addEventListener('mousemove', (event) => {
 
   if (catContext != null) {
-  const rect = catContext.getBoundingClientRect();
-  globalMousePos.x = (event.clientX - rect.left) - 50;
-  globalMousePos.y = (event.clientY - rect.top) - 50;
-  }
-    
+    const rect = catContext.getBoundingClientRect();
+    globalMousePos.x = (event.clientX - rect.left) - 50;
+    globalMousePos.y = (event.clientY - rect.top) - 50;
 
+    var lMouseX = Math.max(-200, Math.min(100, settings.dimensions[0]/ 2 - globalMousePos.x));
+    var lMouseY = Math.max(-200, Math.min(100, settings.dimensions[1]/2 - event.clientY));
+    
+    lFollowX = (12 * lMouseX) / 100; // 100 : 12 = lMouxeX : lFollow
+    lFollowY = (10 * lMouseY) / 100;
+  }
+
+  
+
+  updateCanvasState(lFollowX, lFollowY);
+  
   //console.log(globalMousePos);
 });
-
-
     const render = () => {
       frameCount++
       context.clearRect(0, 0, settings.dimensions[0], settings.dimensions[1]);
@@ -178,14 +206,20 @@ window.addEventListener('mousemove', (event) => {
     return () => {
       window.cancelAnimationFrame(animationFrameId)
     }
+    
 
   }, []);
+  
 
   return (
-    <div>
-      <canvas ref={canvasRef} width={settings.dimensions[0] - 50} height={settings.dimensions[1]} className="positioning md:hidden sm:hidden lg:flex left-2/4 shadow-2xl" id="CatCanvas"></canvas>
+    <div id="Animated">
+      <canvas ref={canvasRef} width={settings.dimensions[0] - 50} height={settings.dimensions[1]}
+      style={{ 'transform': rotState}} 
+      className="positioning md:hidden sm:hidden lg:flex left-2/4 shadow-2xl" id="CatCanvas"></canvas>
     </div>
   );
 };
+
+// Canvas Component End //
 
 export default Canvas;

@@ -1,25 +1,44 @@
 /*Variables*/
 :root {
-    --spacing: 50px;
+    --spacing: 1.7rem;
     margin: 0px;
     padding: 0px;
 }
 
 .headerCont {
     background-color: #FFF5E0;
-    height: 4.6rem;
+    height: 4.8rem;
 }
 
 #Header {
     background-color: #FFF5E0;
     border-bottom: 2.5px solid #141e464b;
-    margin: 0px 5rem;
+    max-width: calc(100% - 10rem);
+    min-width: 100vw;
+    box-shadow: 0 0 20px black;
+}
+
+.auth-Container {
+    box-shadow: 0 0 50px black;
+}
+
+
+.closeModal { 
+    position: relative;
+    width: 100%;
+    margin-left: 20px;
+}
+
+#Auth-Buttons {
+    position: relative;
+    left: 15%;
 }
 
 #selector {
     position: absolute;
     top: 0rem;
     transition: 1s ease-in-out;
+    
 }
 
 #selector svg {
@@ -27,8 +46,47 @@
 
 }
 
+#regHdr {
+    background-color: #ff7b00;
+    color: white;
+}
 
-#navBarButtons > li:after{
+#logHdr, 
+#regHdr{
+    position: relative;
+    left:30%;
+    margin-left: 5px;
+}
+
+#logHdr:hover,
+#regHdr:hover {
+    background-color: #ffffff;
+    animation: btn 0.1s ease-in-out  1 forwards;
+    color: black;
+}
+
+@keyframes btn {
+    0% {
+    } 
+    100% {
+        border-color: #FFF5E0;
+        transform: translateY(.1rem);
+    }
+  
+}
+
+
+#navBarButtons {
+    background-color: #FFF5E0;
+
+
+}
+
+#navBarButtons ul{
+}
+
+
+#navBarButtons ul > li:after{
     content: '';
     display: block;
     margin: auto;
@@ -37,10 +95,23 @@
     background: transparent;
 }
 
-#navBarButtons > li.active:after{
+
+#navBarButtons ul > li{
+    margin-top: 3px;
+
+}
+
+#navBarButtons ul > li.active:after{
     background: hsl(0, 100%, 50%);
+
     animation: bottomSlide 0.5s ease-in-out 0.2s 1 forwards;
 
+}
+
+
+
+a:hover {
+    color: #ff0000;
 }
 
 .active a {
@@ -48,26 +119,30 @@
 }
 
 
-#navBarButtons > li:nth-child(1).active ~ #selector {
-    transform: translateX(calc(var(--spacing) * 0));
+#navBarButtons ul > li:nth-child(3).active ~ #selector {
+    transform: translateX(calc(var(--spacing) * 1));
 }
 
 
-#navBarButtons > li:nth-child(2).active ~ #selector  {
-    transform: translateX(calc(var(--spacing) * 2.6));
+#navBarButtons ul > li:nth-child(4).active ~ #selector  {
+    transform: translateX(calc(var(--spacing) * 5.5));
 }
 
-#navBarButtons > li:nth-child(3).active ~ #selector { 
-    transform: translateX(calc(var(--spacing) * 5.3));
+#navBarButtons ul > li:nth-child(5).active ~ #selector { 
+    transform: translateX(calc(var(--spacing) * 10));
 }
 
-#navBarButtons > li:nth-child(4).active ~ #selector  {
-    transform: translateX(calc(var(--spacing) * 7.6));
+#navBarButtons ul > li:nth-child(6).active ~ #selector  {
+    transform: translateX(calc(var(--spacing) * 13.9));
 }
 
 
-#navBarButtons > li.active ~ #selector svg {
+#navBarButtons ul > li.active ~ #selector svg {
     animation: slidein 1s ease-in-out 0.1ms 1 normal;
+}
+
+#search-navbar {
+    width: calc(100vw * .50);
 }
 
 
@@ -97,14 +172,91 @@
 @media only screen and (max-width: 1379px) {
     /* For mobile phones: */
     #Header {
-        margin: 0px 2rem;
+        max-width: calc(100% - 1rem);
+    }
+    #search-navbar {
+        width: calc(100vw * .30);
+    }
+
+    #navBarButtons {
+        padding: 0px;
+    }
+
+
+    #logHdr, 
+    #regHdr{
+        position: relative;
+        padding: 0px;
+        margin: 0px;
+        left:10%;
+
     }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
     /* For mobile phones: */
     #Header {
-        margin: 0px 1.75rem;
+        max-width: calc(100% - 1px);
     }
+    #search-navbar {
+        width: calc(95vw);
+    }
+    #navBarButtons {
+        background-color: #FFF5E0;
+        text-align: center;
+        border-top-style: none;
+        margin-top: 10px;
+        margin-bottom: 100px;
+        padding: 0px 10px;
+        box-shadow: 0 10px 10px black;
+
+        animation: slowDrop 0.2s ease-in-out  1 forwards;
+    }
+
+    #selector {
+        display: none;
+    }
+
+    #navBarButtons > ul {
+        padding: 0px;
+        margin-left: 0px;
+        padding-bottom: 30px;
+    }
+
+    #navBarButtons ul > li{
+        background-color: #b3a382da;
+    
+    }
+
+    #navBarButtons ul > li.active{
+        background-color: #FFF5E0;
+    
+    }
+    
+    #logHdr, 
+    #regHdr{
+       
+        left:0px;
+
+    }
+    
+
+}
+
+@media only screen and (max-width: 377px) {
+    /* For mobile phones: */
+    
+
+    
 }
   
+
+
+@keyframes slowDrop {
+    0% {
+        transform: translateY(0px);
+    } 
+    100%{ 
+        transform: translateY(5px);
+    }
+}
