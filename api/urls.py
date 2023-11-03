@@ -12,7 +12,7 @@ urlpatterns = [
     path('getUser/', views.check_user_existence, name="getUsers"),
     path('createUser/', views.create_user, name="createUser"),
     path('obtainPostList/', views.GetAllPosts, name="GetAllPost"),
-    path('obtainPost/<str:pk>', views.GetSpecificPost, name="GetSpecificPost"),
+    path('post/<str:pk>/', views.GetSpecificPost, name="GetSpecificPost"),
     path('profile/<str:pk>/', views.GetProfilePageDetail, name="getProfile"),
     path('createNewPost/', views.CreateNewPost, name="createNewPost")
     #The line of code below is for getting a singular note, from our notes database, the dir needs to defined and the variable pk can be changed in views.py

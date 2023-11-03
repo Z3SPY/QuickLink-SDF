@@ -30,7 +30,12 @@ function App() {
      <Routes>
           <Route path="/" element={<LandingPage />} /> 
           <Route path="/Posts" element={<FreelanceSelector />} /> 
-          <Route path="/UserPost/:PostsID" element={<UserContentPage />} /> 
+          <Route path="/UserPost/:PostsID" element={<UserContentPage />} 
+            loader={({params}) => {
+              console.log(params.PostsID);
+              return params;
+            }}
+          /> 
 
           <Route path="/Jobs" element={<JobsPage />} /> 
           <Route path="/JobsPage/:JobsID" element={<JobsContentPage />} /> 

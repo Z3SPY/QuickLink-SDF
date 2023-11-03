@@ -1,10 +1,13 @@
 :root {
   --bg: #303034; 
-  --fg: rgba(65, 65, 70, 0.796);
+  --fg: rgba(65, 65, 70, 1);
 }
 
 #Post-Page {
     background-color: var(--bg);
+    min-height: 300vh;
+    position: absolute;
+    max-height: 300vh;
 }
 
 
@@ -19,11 +22,13 @@
     min-height: 75vh;
     background-color: var(--fg);
     height: auto;
+    overflow-x: auto;
     max-height: 200vh;
 
 }
 #Post-Description {
     min-height: 170vh; /* opera */
+    max-height: 170vh;
     max-width: 480px;
     height: auto;
     background-color: var(--fg);
@@ -63,10 +68,17 @@
 .Design {
     min-height: 10vh;
     max-height: 10vh;
-    background-color: #ff4006a4;
     border-radius: 20px 20px 0px 0px;
     box-shadow: 0 0 15px black;
 
+}
+
+.ProfilePic div {
+    border-radius: 100%;
+}   
+
+.ProfileVals {
+    padding: 1rem;
 }
 
 

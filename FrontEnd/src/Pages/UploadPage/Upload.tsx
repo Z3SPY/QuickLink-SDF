@@ -7,22 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 
 
-function getCookie(name : any) {
-  var cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-      var cookies = document.cookie.split(';');
-      for (var i = 0; i < cookies.length; i++) {
-          var cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-          }
-      }
-  }
-  return cookieValue;
-}
-
-
 
 function UploadPage() {
     const [curProfile, setCurProfile] = useState<string>("");
@@ -69,8 +53,6 @@ function UploadPage() {
         //data.form.user_title , data.form.user_file, data.form.user_description
         try {
 
-            var csrfToken = getCookie('csrftoken')
-
             //PROBLEM WITH TOKEN PLEASE FIX LATER
 
             fetch('https://httpbin.org/post', {
@@ -87,8 +69,6 @@ function UploadPage() {
                 mode: 'same-origin',
                 headers: {
                   'Content-Type': 'application/json',
-                  'X-CSRFToken': csrfToken!,
-
                 },
                 body: JSON.stringify(data),
               })

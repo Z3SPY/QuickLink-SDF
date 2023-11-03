@@ -13,7 +13,7 @@ import './Freelance.css';
 function PhotoComp({ src }:{src : any}) {
 
     const imageRef = useRef(document.createElement("img"));
-    console.log(src.image_picture)
+    //console.log(src.image_picture)
     useEffect(() => {
       const options = {
         root: null,
@@ -42,6 +42,7 @@ function PhotoComp({ src }:{src : any}) {
           //NOT LOADING BECAUSE NOT ENOUGH
           const img = new Image();
           img.src =  `http://127.0.0.1:8000/${src.image_picture}`;
+          console.log(img.src);
           img.onload = () => {
             imageRef.current.src = img.src!;
           };
@@ -147,6 +148,7 @@ function FreelanceSelector(){
                     </div>
                   )
                 })}
+
 
               </Masonry>
 

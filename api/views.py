@@ -8,6 +8,9 @@ from rest_framework.views import APIView
 import json
 import inspect
 
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 import base64
 from django.core.files.base import ContentFile
@@ -149,11 +152,13 @@ def GetAllPosts(request):
     serializer = GetPostValuesSerializer(ListPosts, many=True)
     return JsonResponse({'Posts': serializer.data})
 
+@api_view(['GET'])
 def GetSpecificPost(request, pk):
-    GetPost = ImagePost.objects.filter(user=pk)
+    GetPost = ImagePost.objects.filter(id=pk)
     serializer = GetAllPostValues(GetPost, many=True)
-    return JsonResponse(serializer.data)
+    return Response(serializer.data)
 
+@csrf_exempt
 def CreateNewPost(request):
     data = json.loads(request.body)
 
