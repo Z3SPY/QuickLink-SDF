@@ -13,7 +13,7 @@ function LandingPage() {
   const tl : gsap.core.Timeline = gsap.timeline();
 
   useEffect(() => {
-    const controller : ScrollMagic.Controller    = new ScrollMagic.Controller();
+    const controller : ScrollMagic.Controller  = new ScrollMagic.Controller();
     tl.to("#Showcase", {y: "20vh" }); //Set Position
 
     // Scene 1: Animation when entering the "Showcase" section
@@ -36,6 +36,23 @@ function LandingPage() {
           tl.to("#Showcase", { duration: 1, y: "20vh" }); //Slide when Scrolling Backwards
         }
       }).addIndicators!();
+
+
+    // Scene 2: animation when Entering Blog
+    new ScrollMagic.Scene({
+      triggerElement: '#Showcase',
+      triggerHook: 0.5,
+      duration: '120%',
+      offset: 100,
+    })
+      .addTo(controller)
+      .on('end', (event : any) => {
+        if (event.scrollDirection == "FORWARD") {
+          
+        }
+      })
+
+
 
     return () => controller.destroy(true);
   }, []);
@@ -69,20 +86,14 @@ function LandingPage() {
       <Login />
       <Register />
       <div id="ShowcaseAnchor" className='w-screen h-auto bg-transparent absolute bottom-96' />
+      
       <div id="Showcase" className='w-screen h-full'>
-        <div className="flex pt-11 gap-3 w-11/12 ml-10 flex-wrap" id="Showcase-Pictures">
-          <div className='flex-grow bg-yellow-300'> </div>
-          <div className='w-full  bg-red-500 '>  </div>
-          <div className='w-2/3' style={{ backgroundColor: '#C23373' }}>  </div>
-          <div className='flex-grow bg-red-500' >  </div>
-          <div className='flex-grow  bg-yellow-300 '>  </div>
-        </div>
+        
       </div>
 
-      <div id="Blog" className='w-screen h-screen z-20 bg-yellow-300 relative'>
-        a
+      <div id="Blog" className='w-screen h-screen z-20 bg-yellow-300 relative  '>
       </div>
-      <div id="Support" className='w-screen h-screen z-20 bg-red-500 relative'>
+      <div id="Support" className='w-screen h-screen z-20  relative'>
         a
       </div>
       

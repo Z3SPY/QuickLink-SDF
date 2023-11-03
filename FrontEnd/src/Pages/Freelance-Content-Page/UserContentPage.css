@@ -1,0 +1,92 @@
+:root {
+  --bg: #303034; 
+  --fg: rgba(65, 65, 70, 1);
+}
+
+#Post-Page {
+    background-color: var(--bg);
+    min-height: 300vh;
+    position: absolute;
+    max-height: 300vh;
+}
+
+
+#Post-Container {
+    height: calc(100vh * .85); /* opera */
+    min-width: 600px;
+    flex: 3;
+}
+
+
+#Post-Recommend {
+    min-height: 75vh;
+    background-color: var(--fg);
+    height: auto;
+    overflow-x: auto;
+    max-height: 200vh;
+
+}
+#Post-Description {
+    min-height: 170vh; /* opera */
+    max-height: 170vh;
+    max-width: 480px;
+    height: auto;
+    background-color: var(--fg);
+
+}
+
+
+
+#Post-Img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    background-color: var(--fg);
+    box-shadow: 0 0 50px black;
+
+}
+
+#Post-UserValues {
+    min-height: 50vh;
+    max-height: 50vh;
+    width: 100%;
+    background-color: #141212a4;
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 0 0 15px rgb(19, 19, 19);
+
+
+}
+
+#Post-Comments {
+    min-height: 70vh; /* opera */
+    background-color: rgba(0, 0, 0, 0.445);
+
+}
+
+.Design {
+    min-height: 10vh;
+    max-height: 10vh;
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 0 0 15px black;
+
+}
+
+.ProfilePic div {
+    border-radius: 100%;
+}   
+
+.ProfileVals {
+    padding: 1rem;
+}
+
+
+
+@media only screen and (max-width: 725px) {
+    /* For mobile phones: */
+    #Post-Container, #Recommended{
+        margin-left: calc(100vw * .05);
+    }
+    
+}

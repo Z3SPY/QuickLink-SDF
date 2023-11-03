@@ -127,7 +127,7 @@ const Canvas: React.FC = () => {
     let frameCount = 0;
     let animationFrameId : any = null!;
 
-    const cell : number = 14;
+    const cell : number = 17;
     const cols : number = Math.floor((settings.dimensions[0] - 100)/cell);
     const rows : number = Math.floor((settings.dimensions[1] - 100)/ cell);
     const numCells : number = cols * rows; //Creates a cell grid size of 54 x 54
@@ -147,7 +147,7 @@ const Canvas: React.FC = () => {
       var ratio = Math.min(ratioX, ratioY);
          
 
-      context.drawImage(img, 3, 0, img.naturalWidth * ratio + 15, img.naturalHeight * ratio + 20); //Resize Image
+      context.drawImage(img, 2.5, 0, img.naturalWidth * ratio + 10, img.naturalHeight * ratio + 20); //Resize Image
       const typeData = context.getImageData(0, 0, cols, rows).data;
     //Img End
 
