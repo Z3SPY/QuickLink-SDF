@@ -106,11 +106,13 @@ function UploadPage() {
     return (
       <div className="background p-0 m-0 pt-32">
         <div className="m-auto bg-gray-600 rounded-xl lg:w-[40vw] h-[70vh] md:w-[50vw] shadow-2xl">
-          <form action="POST"  onSubmit={submit}>
-            <input type="file" id="file" accept=".png, .jpg" />
-            <input type="text" id="title"></input>
-            <input type="text" id="desc"></input>
-            <button ref={uploadDivRef} type="submit">Upload File</button>
+          <form action="POST"  onSubmit={submit} className="flex flex-col [&>*]:p-2 text-white">
+            <input type="file" id="file" accept=".png, .jpg"  className="w-[90%] mx-[5%]" />
+            <label htmlFor="title"> TITLE </label>
+            <input type="text" id="title" className="w-[90%] mx-[5%] text-black"></input>
+            <label htmlFor="desc"> DESCRIPTION</label>
+            <input type="text" id="desc" className="w-[90%] mx-[5%] text-black"></input>
+            <button ref={uploadDivRef} type="submit" className="w-[90%] mx-[5%] mt-4 bU" > Upload File</button>
           </form>
         </div>
       </div>

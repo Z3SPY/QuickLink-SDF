@@ -59,7 +59,7 @@ function PhotoComp({ src }:{src : any}) {
     }
 
     return( 
-      <div className='img-card-container' onClick={() => {SwitchPage(src.id)}}>
+      <div className='img-card-container' onClick={() => {SwitchPage(src.id)}} >
           <div className='card-img'>
             <img ref={imageRef} src={"./gir.jpg"} className='rounded-3xl' style={{ minHeight: '200px' , minWidth: '236px'}} alt="Picture"/>
             
@@ -99,7 +99,6 @@ function FreelanceSelector(){
   
     const [images, setImages] = useState<{ encodedString: string }[]>([]);
     useEffect(() => {
-
       fetch(`/api/obtainPostList`)
         .then((response) => {
           if (!response.ok) {
@@ -139,7 +138,7 @@ function FreelanceSelector(){
             <Header UserData={userData} />
             <div id="User-Tags"></div>
             <div id="User-Container" className='w-auto mx-40 mt-28'> 
-            <Masonry columns={{ 640: 2, 768: 3, 1024: 3, 1280: 6 }} gap={16}    >
+            <Masonry columns={{ 640: 2, 768: 3, 1024: 4, 1280: 6 }} gap={16}    >
                 
                 {images.map((base64 : any, index : number) => {
                   return (
