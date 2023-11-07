@@ -99,7 +99,6 @@ function FreelanceSelector(){
   
     const [images, setImages] = useState<{ encodedString: string }[]>([]);
     useEffect(() => {
-
       fetch(`/api/obtainPostList`)
         .then((response) => {
           if (!response.ok) {

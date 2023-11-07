@@ -198,7 +198,7 @@ function FreelancePage(){
                   <div className='Design bg-red-700'></div>
                   <div className='ProfilePic relative bottom-[2rem] left-[1rem] flex text-xl '>
                     <div className='bg-red-500 h-[4.4rem] w-[4.5rem] '></div>
-                    <p className='mt-9 ml-3'>name</p>
+                    <p className='mt-9 ml-3'>{ postValues != null ? postValues.user : "Name Description"}</p>
                   </div>
 
                   <div className='ProfileVals'>
