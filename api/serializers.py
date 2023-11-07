@@ -46,6 +46,7 @@ class GetPostValuesSerializer(serializers.ModelSerializer):
             return f"http://127.0.0.1:8000{self.image_picture.url}"
 
 class GetAllPostValues(serializers.ModelSerializer):
+    user = serializers.CharField()
     class Meta:
         model = ImagePost
         fields = '__all__'
