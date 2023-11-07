@@ -3,6 +3,7 @@ import React,{ useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Masonry from 'react-layout-masonry';
 import {useParams, useNavigate} from 'react-router-dom';
 import './UserContentPage.css';
+import '../Freelance-Lists/Freelance.css';
 
 
 function PhotoComp({ src }:{src : any}) {
@@ -46,14 +47,14 @@ function PhotoComp({ src }:{src : any}) {
   const navigate = useNavigate();
   const SwitchPage = (id : any) => {
     navigate(`/UserPost/${id}`)
-    window.location.reload();
-
+    location.reload();
+    
   }
 
   return( 
     <div className='img-card-container' onClick={() => {SwitchPage(src.id)}}>
         <div className='card-img'>
-          <img ref={imageRef} src={"./gir.jpg"} className='rounded-3xl' style={{ minHeight: '200px' , minWidth: '236px'}} alt="Picture"/>
+          <img ref={imageRef} src={"./gir.jpg"} className='rounded-3xl' alt="Picture"/>
         </div>
         <div className='text-card'>
             <div className='m-0 text-container'>
@@ -90,13 +91,14 @@ function PostPhoto(props : any) {
 
   return(
     <div className='aboslute top-1/2 left-1/2'>
-      <img className='object-fill min-w-[10vw] min-h-[30vh] max-w-[50vw] max-h-[100vh] w-full h-full' src={`http://127.0.0.1:8000/${image}`}></img>
+      <img className='object-fill min-w-[10vw] min-h-[30vh] max-w-[60vw] max-h-[100vh] w-full h-full' src={`http://127.0.0.1:8000/${image}`}></img>
     </div>
   )
 }
 
 
 function FreelancePage(){
+  window.scrollTo(0, 0);
 
   const params = useParams();
   const curID = params.PostsID;
@@ -172,46 +174,69 @@ function FreelancePage(){
                       { postValues != null ? <PostPhoto img={postValues.image_picture}></PostPhoto> : null}
                   </div>
                 </div>
+                
+                
                 <div id="Post-Recommend" className='w-full mx-5 shadow '> 
-                  <div className='w-[40%] mx-10 mt-10 text-white'> 
-                      <h1 className='txt-white'> RECOMMENDED </h1>
-                      <Masonry className='mt-10' columns={{ 640: 2, 768: 3, 1024: 3, 1280: 5 }} gap={16}    >
-                        {images.map((base64 : any, index : number) => {
-                          return (
-                            <div key={index}>
-                                <PhotoComp src={base64}/>
-                            </div>
-                          )
-                        })}
-                    </Masonry>
+                    <div className='w-[40%] mx-10 mt-10 text-white'> 
+                        <h1 className='txt-white'> RECOMMENDED </h1>
+                        <Masonry className='mt-10' columns={{ 600: 2, 1300: 3, 1301: 4, 1628: 5 }} gap={16}    >
+                          {images.map((base64 : any, index : number) => {
+                            return (
+                              <div key={index}>
+                                  <PhotoComp src={base64}/>
+                              </div>
+                            )
+                          })}
+                      </Masonry>
 
+                    </div>
                   </div>
-                </div>
               </div>
 
-              <div id="Post-Description" className='flex-wrap grow rounded-3xl shadow m-5 mr-6'>
+              <div id="Post-Description" className='flex-wrap flexgrow rounded-3xl shadow m-5 mr-6'>
                 <div id="Post-UserValues" className='text-white'> 
                   <div className='Design bg-red-700'></div>
-                  <div className='ProfilePic relative bottom-[2rem] left-[1rem] flex'>
+                  <div className='ProfilePic relative bottom-[2rem] left-[1rem] flex text-xl '>
                     <div className='bg-red-500 h-[4.4rem] w-[4.5rem] '></div>
-                    <p className='mt-9 ml-3'>Name</p>
+                    <p className='mt-9 ml-3'>name</p>
                   </div>
+
                   <div className='ProfileVals'>
-                    <h1> Title </h1>
-                    <h2> Description </h2>
+                    <h1 className='text-gray-200 text-2xl'> { postValues != null ? postValues.title : "Placeholder" } </h1>
+                    <h2  className='text-gray-500'> { postValues != null ? postValues.description : "Description"} </h2>
                   </div>
                 </div>
-                <div id="Post-Comments" className=' '>
-                  <h1 className='text-gray-400 p-5'> 1 Comment</h1>
+                <div id="Post-Comments" className=''>
                   <div id="Comment-List">
+                    <h1 className='text-white ml-5 pb-4 pt-5 text-xl'>COMMENTS</h1>
 
+                    <div className='Comment-Item text-gray-500'>
+                      <div className='flex'>
+                        <div className='rounded-xl bg-red-400 w-[25px] h-[25px]' />
+                        <h1 className='ml-2'>name name</h1>
+                      </div>
+                        <p className='ml-12'>Comment Comment Comment Comment Comment Comment Comment Comment</p>
+                    </div>
+                    <div className='Comment-Item Inner-Item text-gray-600'>
+                      <div className='flex'>
+                        <div className='rounded-xl bg-red-400 w-[25px] h-[25px]' />
+                        <h1 className='ml-2'>name name</h1>
+                      </div>
+                        <p className='ml-12'>Comment Comment Comment Comment Comment Comment Comment Comment</p>
+                    </div>
                   </div>
+                  <h1 className='text-gray-400 p-5'> 2 Comments</h1>
+                    <div className='Comment-Submit'> 
+                      <form>
+                          <textarea id="Comment-Submit-Textarea rounded-3xl" rows={2} cols={55} name="Comment">
+                          </textarea>
+                      </form>
+                    </div>
                 </div>
-
-
 
 
               </div>
+
               
 
             </div>
