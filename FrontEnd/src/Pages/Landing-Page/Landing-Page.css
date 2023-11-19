@@ -1,95 +1,111 @@
-
 body {
-    background-color: #FFF5E0 ;
+  background-color: #fff5e0;
 }
 
 .App {
-    margin: 0px;
-    padding: 0px;
-    background-color: #FFF5E0;
-    height: 50rem;
+  margin: 0px;
+  padding: 0px;
+  background-color: #fff5e0;
+  height: 50rem;
 }
 
 .App Canvas {
-    animation: 2s ease-out 0s 1 loadGraphics;
+  animation: 2s ease-out 0s 1 loadGraphics;
 }
-
 
 .text {
-    height: auto;
-    color: #141E46;
+  height: auto;
+  color: #141e46;
 }
 
-
-#Graphic > div.text.absolute > div{ 
-    transform: rotateY(90deg);
-    /*opacity: 0;*/
-    transform-origin: bottom;
+#Graphic > div.text.absolute > div {
+  transform: rotateY(90deg);
+  /*opacity: 0;*/
+  transform-origin: bottom;
 }
-
-
 
 #Graphic > div.text.absolute > div:nth-child(1) {
-    animation: 0.5s ease-out 1.25s 1 loadText forwards;
+  animation: 0.5s ease-out 1.25s 1 loadText forwards;
 }
 
 #Graphic > div.text.absolute > div:nth-child(2) {
-    animation: 0.5s ease-out 1.45s 1 loadText forwards;
+  animation: 0.5s ease-out 1.45s 1 loadText forwards;
 }
 
 #Graphic > div.text.absolute > div:nth-child(3) {
-    animation: 1s ease-out 1.65s 1 loadText forwards;
+  animation: 1s ease-out 1.65s 1 loadText forwards;
 }
 
 #Graphic > div.text.absolute > div:nth-child(4) {
-    animation: 1s ease-out 1.85s 1 loadText forwards;
+  animation: 1s ease-out 1.85s 1 loadText forwards;
 }
 
 #Showcase {
-    margin-top: 35rem;
-    height: 200%;
-    position: absolute;
-    background-color: #141E46;
+  margin-top: 35rem;
+  height: 1200%;
+  position: absolute;
+  background-color: #141e46;
 }
 
-#Showcase-Pictures div{
-    max-width: 70rem;
-    height: 17rem;
-    max-height: 17rem;
+#Showcase-Pictures div {
+  max-width: 70rem;
+  height: 17rem;
+  max-height: 17rem;
 }
 
 #Showcase-Pictures div img {
-    object-fit: contain;
-    height: 100%;
-    width: 100%;
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
 }
 
 #Blog {
-    margin-top: 50rem;
+  margin-top: 50rem;
+  overflow-y: hidden;
+  overflow-x: auto;
+  height: 100vh;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+#Blog::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.Image-Content {
+  padding: 50px;
+  display: flex;
+  width: auto;
+  justify-content: flex-start;
+}
+
+.Image-Content img {
+  width: auto;
+  height: 70vh;
+  margin: 10px;
 }
 
 #Support {
-    background-color: #9b2d30;
+  background-color: #9b2d30;
 }
 
 @keyframes loadGraphics {
-    0% {
-        transform: translateX(10%);
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    transform: translateX(10%);
+    opacity: 0;
   }
-  
-  @keyframes loadText {
-    0% {
-        transform:  rotateX(90deg);
-    }
-    100% {
-        transform: rotateX(0deg);;
-    }
+  100% {
+    opacity: 1;
   }
+}
+
+@keyframes loadText {
+  0% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
 
 /*Blog Animation*/
-

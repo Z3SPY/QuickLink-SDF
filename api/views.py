@@ -21,11 +21,11 @@ from django.http import JsonResponse
 
 
 #For DB Values
-from .models import ProfilePage, ImagePost
+from .models import ProfilePage, ImagePost, Comment
 from django.contrib.auth import authenticate
 
 
-from .serializers import ProfileSerializer, GetPostValuesSerializer
+from .serializers import ProfileSerializer, GetPostValuesSerializer, CommentSerializer
 
 
 #Django User 
@@ -154,9 +154,27 @@ def GetAllPosts(request):
 
 @api_view(['GET'])
 def GetSpecificPost(request, pk):
-    GetPost = ImagePost.objects.filter(id=pk)
-    serializer = GetAllPostValues(GetPost, many=True)
-    return Response(serializer.data)
+
+    try: 
+        GetPost = get_object_or_404(ImagePost,id=pk)
+        comments = Comment.objects.filter(post=GetPost)
+        serializer = GetAllPostValues(GetPost, many=False)
+
+                
+         # Serialize comments separately
+        comment_serializer = CommentSerializer(comments, many=True)
+        serialized_data = serializer.data
+        serialized_data['comments'] = comment_serializer.data
+
+        response_data = {
+            'post': serialized_data,
+        }
+
+        
+
+        return Response(response_data)
+    except ImagePost.DoesNotExist as e:
+        return Response(str(e), status=404)
 
 @csrf_exempt
 def CreateNewPost(request):
@@ -189,6 +207,8 @@ def CreateNewPost(request):
 
     return JsonResponse({'error': 'Invalid request method. Use POST to create an image post.', 'code': postDataTitle})
 
+
+# COMMENT VIEWS
 
    
 
