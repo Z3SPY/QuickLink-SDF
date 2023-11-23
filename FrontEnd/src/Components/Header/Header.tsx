@@ -18,6 +18,7 @@ import {
   TextInput,
   Navbar,
 } from "flowbite-react";
+import { number } from "prop-types";
 
 //*Seding token with reqeuests
 const getAuthToken = () => {
@@ -35,6 +36,7 @@ const Login = (p: any) => {
     // Somewhere in your code, e.g. inside a handler:
     //REMINDER UTILIZE DJANGO TOKENS
     //navigate("/posts", {state:{userData}});
+
     navigate("/posts", { state: { recievedData: data } });
   }
 
@@ -438,11 +440,11 @@ const Register = (p: any) => {
 };
 //REGISTER COMPONENT ----------------------------------------------
 
-const navItems: Array<{ name: string; id: number; goTo: string }> = [
-  { name: "HOME", id: 1, goTo: "#" },
-  { name: "FIND TALENT", id: 2, goTo: "#ShowcaseAnchor" },
-  { name: "BLOG", id: 3, goTo: "#Blog" },
-  { name: "SUPPORT", id: 4, goTo: "#Support" },
+const navItems: Array<{ name: string; id: number; goTo: number }> = [
+  { name: "HOME", id: 1, goTo: 0 },
+  { name: "FIND TALENT", id: 2, goTo: 0.0584 },
+  { name: "BLOG", id: 3, goTo: 0.133 },
+  { name: "SUPPORT", id: 4, goTo: 1 },
 ];
 /*new navButton("HOME", 1), new navButton("FREELANCERS", 2), 
   new navButton("BLOG", 3), new navButton("SUPPORT",4)*/
@@ -463,19 +465,17 @@ const Header = () => {
     const scene = new ScrollMagic.Scene({
       triggerElement: ".App",
       triggerHook: 0,
-      duration: "275%",
+      duration: "1300%",
     })
       .addTo(controller)
       .on("progress", (event: any) => {
         // Store the current isActive value
         const currentIsActive =
-          event.progress >= 0.08344497607655503 &&
-          event.progress < 0.42870813397129187
+          event.progress >= 0.02 && event.progress < 0.1
             ? 2
-            : event.progress >= 0.42870813397129187 &&
-              event.progress < 0.7942583732057417
+            : event.progress >= 0.1 && event.progress < 0.95
             ? 3
-            : event.progress >= 0.7942583732057417
+            : event.progress >= 0.95
             ? 4
             : 1;
 
@@ -509,12 +509,31 @@ const Header = () => {
       }
 
       handleState(curID);
+
+      // Define the numeric value you want to scroll to
+
+      /*var h: any = document.documentElement,
+        b: any = document.body,
+        st: any = "scrollTop",
+        sh: any = "scrollHeight";
+
+      var percent =
+        ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100; For Testing*/
+
+      // Smoothly scroll to the specified y-coordinate
+      const h: any = document.body;
+      const scrollPos = h.clientHeight * p.goTo;
+      console.log(scrollPos);
+
+      window.scrollTo({
+        top: scrollPos,
+        behavior: "smooth",
+      });
     };
 
     return (
       <li className={isActive == p.id ? "active" : ""}>
         <a
-          href={p.goTo}
           className="block py-2 lg:pl-3 pr-4 text-gray-900 md:pl-1 cursor-pointer"
           onClick={handleClick}
         >
@@ -564,7 +583,7 @@ const Header = () => {
           REGISTER
         </Button>
 
-        {navItems.map((item: { name: string; id: number; goTo: string }) => {
+        {navItems.map((item: { name: string; id: number; goTo: number }) => {
           return <NavBtn name={item.name} id={item.id} goTo={item.goTo} />;
         })}
         <div id="selector" className="sm:hidden md:hidden lg:block">

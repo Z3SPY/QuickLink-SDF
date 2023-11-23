@@ -128,7 +128,7 @@ class Comment(models.Model):
     
     # User who posted the comment
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    profileName =  models.CharField(max_length=200, null=True, blank=True)
     # Image post associated with the comment
     post = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
 

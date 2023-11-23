@@ -9,7 +9,7 @@ import random from "lodash/random";
 import Masonry from "react-layout-masonry";
 import "./Freelance.css";
 
-function PhotoComp({ src }: { src: any }) {
+function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
   const imageRef = useRef(document.createElement("img"));
   //console.log(src.image_picture)
   useEffect(() => {
@@ -53,7 +53,12 @@ function PhotoComp({ src }: { src: any }) {
 
   const navigate = useNavigate();
   const SwitchPage = (id: any) => {
-    navigate(`/UserPost/${id}`);
+    console.log("USERDATA", userdata);
+    navigate(`/UserPost/${id}`, { state: { recievedData: userdata } });
+
+    // /const userData = location.state.recievedData;
+
+    //    navigate("/posts", { state: { recievedData: data } });
   };
 
   return (
@@ -85,9 +90,10 @@ function PhotoComp({ src }: { src: any }) {
 
 function FreelanceSelector() {
   //USE USE STATE IF IT FAILS
+
   const location = useLocation();
   const userData = location.state.recievedData; // Only functional Data
-  console.log(userData);
+  console.log("YO", userData);
 
   /**CREATE A TOKEN SYSTEM */
   //If Token Available
@@ -115,17 +121,6 @@ function FreelanceSelector() {
           console.log(images);
         }
       });
-
-    /*fetch("https://picsum.photos/v2/list?page=2&limit=50")
-          .then((res) => res.json())
-          .then((data) => {
-            const images = data.map((d: any) => ({
-              url: d.download_url
-            }));
-
-
-            setImages(images);
-          });*/
   }, []);
 
   return (
@@ -137,7 +132,7 @@ function FreelanceSelector() {
           {images.map((base64: any, index: number) => {
             return (
               <div key={index}>
-                <PhotoComp src={base64} />
+                <PhotoComp src={base64} userdata={userData} />
               </div>
             );
           })}

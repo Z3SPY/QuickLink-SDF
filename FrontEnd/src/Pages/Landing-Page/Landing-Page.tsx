@@ -41,6 +41,32 @@ function LandingPage() {
     let blogRef = document.getElementById("Blog")!;
 
     /**THIS IS A DIVIDER */
+
+    const Sidetl: gsap.core.Timeline = gsap.timeline({
+      paused: true,
+    });
+
+    Sidetl.to("#Pic1", {
+      y: 5 * 50,
+      x: 1 * 50,
+      scale: 1.1,
+      rotation: -25,
+      duration: 1,
+    }); //Set Position
+
+    Sidetl.to(
+      "#Pic2",
+      {
+        y: -4 * 50,
+        x: -1 * 30,
+        scale: 1.1,
+        rotation: -25,
+        duration: 1,
+        delay: 0.5,
+      },
+      "<"
+    ); //Set Position
+
     new ScrollMagic.Scene({
       triggerElement: "#Blog",
       triggerHook: 0.5,
@@ -51,6 +77,16 @@ function LandingPage() {
       .setPin("#Blog")
       .on("progress", (event: any) => {
         blogRef.scrollLeft = event.progress * 2000;
+        const progress = event.progress;
+        console.log("Scroll Progress:", progress);
+
+        // Reverse the timeline if scrolling up
+        if (event.scrollDirection === "REVERSE" && progress <= 0.1) {
+          Sidetl.reverse();
+        } else if (progress > 0.1) {
+          Sidetl.play();
+        }
+        //Set Position
       }).addIndicators!();
 
     /**THIS IS A DIVIDER */
@@ -62,9 +98,7 @@ function LandingPage() {
       offset: 100,
     })
       .addTo(BboglogController)
-      .on("progress", (event: any) => {
-        //console.log(event.progress);
-      }).addIndicators!();
+      .on("progress", (event: any) => {}).addIndicators!();
 
     return () => {
       controller.destroy(true);
@@ -78,8 +112,6 @@ function LandingPage() {
     Add Description Text at the bottom.
     Font Could look cleaner.
 
-  
-  
   */
 
   return (
@@ -101,7 +133,7 @@ function LandingPage() {
       <Register />
       <div
         id="ShowcaseAnchor"
-        className="w-screen h-auto bg-transparent absolute bottom-96"
+        className="w-screen h-auto  absolute bottom-96 bg-black"
       />
 
       <div id="Showcase" className="w-screen h-full"></div>
@@ -110,8 +142,23 @@ function LandingPage() {
         id="Blog"
         className="w-screen h-screen z-20 bg-yellow-300 relative  "
       >
-        <div id="Bboglog" className="Image-Content">
-          <div className="bg-blue-800 w-[20vw] h-[20rem]"></div>
+        <div
+          id="Bboglog"
+          className="Image-Content [&>*]:relative drop-shadow-2xl	"
+        >
+          <h1 className="ml-5 pr-[6vw] relative text-White Blog-Text left-[2vw] top-10 flex flex-col font-custom word-holder">
+            <span>INSP IRING STOR IES</span>
+          </h1>
+
+          <img
+            src="/Showcase1.jpg"
+            className="bottom-[5vh] "
+            id="Pic1"
+            alt=""
+          />
+          <img src="/Showcase2.jpg" className="bottom-[5vh]" id="Pic2" alt="" />
+          <img src="/Showcase3.jpg" className="bottom-[5vh] ml-10" id="Pic3" />
+          <img src="/Showcase2.jpg" className="bottom-[5vh]" id="Pic4" />
         </div>
       </div>
       <div id="Support" className="w-screen h-screen z-20  relative">

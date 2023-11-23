@@ -50,7 +50,7 @@ def getUsers(request):
 
 
 
-def create_user(request):
+def create_user(request): 
     userNm = request.GET.get('username', None)
     email = request.GET.get('email', None)
     pssWrd = request.GET.get('password', None)
@@ -166,8 +166,11 @@ def GetSpecificPost(request, pk):
         serialized_data = serializer.data
         serialized_data['comments'] = comment_serializer.data
 
+
         response_data = {
             'post': serialized_data,
+            'user_ID': GetPost.user.user.id
+            
         }
 
         
@@ -209,6 +212,35 @@ def CreateNewPost(request):
 
 
 # COMMENT VIEWS
+@csrf_exempt
+def CreateComment(request):
+    data = json.loads(request.body)
+    
+
+    if data is not None:
+        comment = data['comment']
+        user = data['user']
+        post = data['post_ID']
+
+        # Get the user instance
+        try:
+            filtered_User = User.objects.get(id=user)
+            filtered_UserName = ProfilePage.objects.get(user=filtered_User)
+            print(filtered_UserName.displayName)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=400)
+        
+         # Get the specific post
+        try:
+            specific_post = ImagePost.objects.get(id=post)
+        except Comment.DoesNotExist:
+            return JsonResponse({'error': 'Post not found'}, status=400)
+
+        newComment = Comment(text=comment, user=filtered_User, profileName=filtered_UserName.displayName, post=specific_post)
+        newComment.save()
+        return JsonResponse({'message': 'Comment post created successfully!', 'username': filtered_UserName.displayName})
+
+    return JsonResponse({'error': 'Invalid request method. Use POST to create an comment.'})
 
    
 

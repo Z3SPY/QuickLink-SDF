@@ -22,6 +22,7 @@
 
 .auth-Container {
   box-shadow: 0 0 50px black;
+  background-color: white;
 }
 
 .closeModal {

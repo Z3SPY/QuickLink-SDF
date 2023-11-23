@@ -72,17 +72,42 @@ body {
   display: none; /* Safari and Chrome */
 }
 
+.Horizontal-Load {
+  animation: 0.5s ease-out 1.25s 1 loadGraphics forwards;
+}
+
+.Blog-Text {
+  text-shadow: 2px 2px 5px #000000;
+}
+
 .Image-Content {
   padding: 50px;
   display: flex;
-  width: auto;
+  width: 100%;
   justify-content: flex-start;
 }
 
-.Image-Content img {
+.Image-Content img,
+.Image-Content div {
   width: auto;
   height: 70vh;
-  margin: 10px;
+  margin: 20px 50px;
+  box-shadow: 10px 10px 20px black;
+}
+
+#Pic1,
+#Pic2 {
+  left: 0px;
+  transition: left 0.5s;
+}
+
+#Pic3 {
+  left: 50px;
+}
+
+#Pic1:hover,
+#Pic2:hover {
+  left: 20px;
 }
 
 #Support {
@@ -109,3 +134,10 @@ body {
 }
 
 /*Blog Animation*/
+
+.word-holder {
+  transform-style: preserve-3d;
+  font-size: 7.5rem;
+  line-height: 0.8;
+  white-space: pre-wrap;
+}

@@ -1,4 +1,4 @@
-import LoggedInHeader from "../../Components/Header/LoggedInHeader.tsx";
+import Header from "../../Components/Header/LoggedInHeader.tsx";
 import React, {
   useState,
   useEffect,
@@ -7,11 +7,12 @@ import React, {
   useRef,
 } from "react";
 import Masonry from "react-layout-masonry";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./UserContentPage.css";
 import "../Freelance-Lists/Freelance.css";
 
-function PhotoComp({ src }: { src: any }) {
+//RECOMMENDED
+function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
   const imageRef = useRef(document.createElement("img"));
   //console.log(src.image_picture)
   useEffect(() => {
@@ -49,7 +50,7 @@ function PhotoComp({ src }: { src: any }) {
 
   const navigate = useNavigate();
   const SwitchPage = (id: any) => {
-    navigate(`/UserPost/${id}`);
+    navigate(`/UserPost/${id}`, { state: { recievedData: userdata } });
     location.reload();
   };
 
@@ -78,18 +79,59 @@ function PhotoComp({ src }: { src: any }) {
     </div>
   );
 }
+//RECOMMENDED END
 
+//COMMENTS
 function Comment(props: any) {
   return (
-    <div className="Comment-Item text-gray-500">
+    <div className="Comment-Item text-gray-400">
       <div className="flex">
         <div className="rounded-xl bg-red-400 w-[25px] h-[25px]" />
-        <h1 className="ml-2"> {props.name} </h1>
+        <h1 className="ml-2 "> {props.name} </h1>
       </div>
-      <p className="ml-12">{props.text}</p>
+      <p className="ml-12 break-words	">{props.text} </p>
     </div>
   );
 }
+
+function submitComment(e: any, curUser: any, curPostID: any) {
+  //e.preventDefault(); // Delete Lator
+  const data = {
+    user: curUser,
+    comment: e.target.elements.comment.value,
+    post_ID: curPostID,
+  };
+
+  if (data.comment !== "") {
+    try {
+      //Calls Create Comments API
+      fetch(`/api/createComment/`, {
+        method: "POST",
+        mode: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((d) => {})
+        .catch((error) => {
+          alert("Error occurred while creating comment:" + error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    alert("Having Trouble Posting This Comment");
+  }
+}
+
+//COMMENTS END
 
 function PostPhoto(props: any) {
   const [image, setImage] = useState<string>();
@@ -98,16 +140,20 @@ function PostPhoto(props: any) {
   if (image != props.img) setImage(props.img);
 
   return (
-    <div className="aboslute top-1/2 left-1/2">
+    <div className="aboslute top-1/2 left-1/2 ">
       <img
-        className="object-fill min-w-[10vw] min-h-[30vh] max-w-[60vw] max-h-[100vh] w-full h-full"
+        className="max-h-[80vh] object-fill min-w-[10vw] min-h-[30vh] max-w-[60vw]  w-full h-full"
         src={`http://127.0.0.1:8000/${image}`}
       ></img>
     </div>
   );
 }
 
-function FreelancePage() {
+function ContentPage() {
+  const location = useLocation();
+  const userData = location.state.recievedData;
+  console.log("BAM", userData);
+
   window.scrollTo(0, 0);
 
   const params = useParams();
@@ -117,6 +163,7 @@ function FreelancePage() {
 
   const [postValues, setPostValues] = useState<any>();
   const [postComments, setPostComments] = useState<any>();
+  const [curAccUser, setUser] = useState<any>();
 
   const getPost = async () => {
     try {
@@ -125,6 +172,7 @@ function FreelancePage() {
         let data = await response.json();
         setPostValues(data.post); // Handles Post Values
         setPostComments(data.post.comments); //Handles Post Comments
+        setUser(data.user_ID);
       } else {
         console.log("NO");
         // Handle the case when the response is not ok (e.g., show an error message).
@@ -170,6 +218,7 @@ function FreelancePage() {
 
   return (
     <>
+      <Header UserData={userData}></Header>
       <div id="Post-Page" className="flex flex-wrap w-screen h-auto mt-20 ">
         <div id="Post-Container" className="flex flex-wrap">
           <div className="w-full h-full  relative">
@@ -191,7 +240,7 @@ function FreelancePage() {
                 {images.map((base64: any, index: number) => {
                   return (
                     <div key={index}>
-                      <PhotoComp src={base64} />
+                      <PhotoComp src={base64} userdata={userData} />
                     </div>
                   );
                 })}
@@ -228,11 +277,17 @@ function FreelancePage() {
           </div>
 
           <div id="Post-Comments" className="">
-            <div id="Comment-List">
-              <h1 className="text-white ml-5 pb-4 pt-5 text-xl">COMMENTS</h1>
+            <h1 className="text-white ml-5 pb-4 pt-5 text-xl ">COMMENTS</h1>
+
+            <div
+              id="Comment-List"
+              className="max-h-[10rem] overflow-y-auto overflow-x-hidden		"
+            >
               {postComments != null
                 ? postComments.map((e: any) => {
-                    return <Comment text={e.text} name={e.user}></Comment>;
+                    return (
+                      <Comment text={e.text} name={e.profileName}></Comment>
+                    );
                   })
                 : null}
             </div>
@@ -241,14 +296,21 @@ function FreelancePage() {
               {postComments != null ? postComments.length : 0} Comments
             </h1>
             <div className="Comment-Submit pb-5">
-              <form>
+              <form
+                onSubmit={(e) => submitComment(e, curAccUser, postValues.id)}
+              >
                 <textarea
-                  id="message"
+                  id="comment"
                   rows={4}
                   cols={55}
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Write your thoughts here..."
                 ></textarea>
+                <input
+                  type="submit"
+                  value="Submit"
+                  className="bg-red-700 hover:opacity-40 cursor-pointer	 text-white my-2 w-full p-2 h-[100%]"
+                />
               </form>
             </div>
           </div>
@@ -258,7 +320,7 @@ function FreelancePage() {
   );
 }
 
-export default FreelancePage;
+export default ContentPage;
 
 /**<div className="Comment-Item Inner-Item text-gray-600">
                 <div className="flex">
