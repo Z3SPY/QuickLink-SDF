@@ -62,9 +62,7 @@ const Login = (p: any) => {
       .then((data) => {
         if (data.user_logged_in) {
           alert("User exists!");
-          console.log(data);
-          //Check and manipulate for token
-          console.log(data.data);
+          console.log("PASSED DATA", data); // Pass to Authenticated Page After Success
           if (data.data.Token) {
             localStorage.setItem("authToken", data.data.token);
             setUserData(data);

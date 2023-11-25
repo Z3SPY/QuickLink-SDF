@@ -143,6 +143,18 @@ def GetProfilePageDetail(request, pk):
     serializer = ProfileSerializer(profileDetails, many=True)
     return Response(serializer.data)
 
+def GetSpecificUserPost(request, pk):
+    filtered_User = User.objects.get(id=pk)
+    filtered_UserProfile = ProfilePage.objects.get(user=filtered_User)
+    ListPostsUser = ImagePost.objects.filter(user=filtered_UserProfile)
+    serialized_Posts =  GetPostValuesSerializer(ListPostsUser, many=True).data
+
+    data = {
+        'message': 'Obtained all user posts.',
+        'posts': serialized_Posts
+    }
+    return JsonResponse(data)
+
 
 
 # POST BASED VIEWS
@@ -183,10 +195,10 @@ def GetSpecificPost(request, pk):
 def CreateNewPost(request):
     data = json.loads(request.body)
 
-    postDataTitle =  data['form']['user_title']
-    postDataDesc = data['form']['user_description']
-    postUserAuth = data['form']['user_auth']
-    postDataImage = data['files']['user_file']
+    postDataTitle =  data['user_title']
+    postDataDesc = data['user_description']
+    postUserAuth = data['user_auth']
+    postDataImage = data['user_file']
     print(data)    
 
         
@@ -241,6 +253,49 @@ def CreateComment(request):
         return JsonResponse({'message': 'Comment post created successfully!', 'username': filtered_UserName.displayName})
 
     return JsonResponse({'error': 'Invalid request method. Use POST to create an comment.'})
+
+# UPDATE PROFILE
+@csrf_exempt
+def EditProfile(request):
+    data = json.loads(request.body)
+    if data is not None:
+        postDataName =  data['name']
+        postDataDesc = data['desc']
+        postUserCont = data['cont']
+        postFileImage = data['picFile']
+        userID = data['id']
+
+        filtered_User = User.objects.get(id=userID)
+
+    if filtered_User is not None: 
+        #Retrieve object to be updated
+        try:
+            filtered_Profile = ProfilePage.objects.get(user=filtered_User)
+        except filtered_User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'})
+        
+        if postDataName is not None:
+            filtered_Profile.displayName = postDataName
+
+        if postDataDesc is not None:
+            filtered_Profile.bio = postDataDesc
+
+        if postFileImage is not None:
+            format, imgstr = postFileImage.split(';base64,') 
+            ext = format.split('/')[-1] 
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            filtered_Profile.profile_picture = data
+            
+
+
+
+        filtered_Profile.save()    
+    else:
+        return JsonResponse({'error': 'User not found'})
+
+
+
+    return JsonResponse({'error': 'Invalid '})
 
    
 

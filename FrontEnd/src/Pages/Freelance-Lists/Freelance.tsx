@@ -61,6 +61,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
     //    navigate("/posts", { state: { recievedData: data } });
   };
 
+  //GET PROFILE IMAGE LATOR
   return (
     <div
       className="img-card-container"
@@ -80,7 +81,9 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
       <div className="text-card">
         <div className="m-0 text-container">
           <h1 className="font-semibold mb-2">{src.title}</h1>
-          <div className="absolute rounded-full bg-red-500 h-6 w-6" />
+          <div className="absolute rounded-full bg-red-500 h-6 w-6">
+            <img src={`http://127.0.0.1:8000/${src.image_picture}`} alt="" />
+          </div>
           <h2 className="ml-8">{src.user}</h2>
         </div>
       </div>
@@ -89,8 +92,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
 }
 
 function FreelanceSelector() {
-  //USE USE STATE IF IT FAILS
-
+  //Might Use USESTATE if problematic
   const location = useLocation();
   const userData = location.state.recievedData; // Only functional Data
   console.log("YO", userData);

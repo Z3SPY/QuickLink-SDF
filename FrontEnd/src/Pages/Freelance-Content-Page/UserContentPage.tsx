@@ -95,7 +95,8 @@ function Comment(props: any) {
 }
 
 function submitComment(e: any, curUser: any, curPostID: any) {
-  //e.preventDefault(); // Delete Lator
+  e.preventDefault(); // Delete Lator
+
   const data = {
     user: curUser,
     comment: e.target.elements.comment.value,
@@ -119,7 +120,9 @@ function submitComment(e: any, curUser: any, curPostID: any) {
           }
           return response.json();
         })
-        .then((d) => {})
+        .then((d) => {
+          location.reload();
+        })
         .catch((error) => {
           alert("Error occurred while creating comment:" + error);
         });
@@ -135,7 +138,7 @@ function submitComment(e: any, curUser: any, curPostID: any) {
 
 function PostPhoto(props: any) {
   const [image, setImage] = useState<string>();
-  console.log(props.img);
+  //console.log(props.img);
 
   if (image != props.img) setImage(props.img);
 
@@ -151,8 +154,8 @@ function PostPhoto(props: any) {
 
 function ContentPage() {
   const location = useLocation();
-  const userData = location.state.recievedData;
-  console.log("BAM", userData);
+  const [userData, setUserData] = useState(location.state.recievedData);
+  //console.log("BAM", userData);
 
   window.scrollTo(0, 0);
 
@@ -172,7 +175,7 @@ function ContentPage() {
         let data = await response.json();
         setPostValues(data.post); // Handles Post Values
         setPostComments(data.post.comments); //Handles Post Comments
-        setUser(data.user_ID);
+        setUser(userData.data.UserData.id);
       } else {
         console.log("NO");
         // Handle the case when the response is not ok (e.g., show an error message).
@@ -194,26 +197,27 @@ function ContentPage() {
       })
       .then((data) => {
         if (data) {
-          console.log(data);
+          //console.log(data);
           const images = data.Posts.map((d: any) => ({
             encodedString: d.image_picture,
           }));
 
           setImages(data.Posts);
-          console.log(images);
+          //console.log(images);
         }
       });
   };
 
   //Set Values On Click
   useEffect(() => {
+    setUserData(location.state.recievedData);
     getPost();
     getAllPost();
-  }, []);
+  }, [location]);
 
   useEffect(() => {
-    console.log("Post values:", postValues);
-    console.log("Post comments:", postComments);
+    //console.log("Post values:", postValues);
+    //console.log("Post comments:", postComments);
   }, [postValues]);
 
   return (
@@ -221,15 +225,16 @@ function ContentPage() {
       <Header UserData={userData}></Header>
       <div id="Post-Page" className="flex flex-wrap w-screen h-auto mt-20 ">
         <div id="Post-Container" className="flex flex-wrap">
-          <div className="w-full h-full  relative">
-            <div id="Post-Img" className="w-auto h-auto bg-red-200">
+          <div className="w-full h-full relative">
+            <div className="Img-Back" />
+            <div id="Post-Img">
               {postValues != null ? (
                 <PostPhoto img={postValues.image_picture}></PostPhoto>
               ) : null}
             </div>
           </div>
 
-          <div id="Post-Recommend" className="w-full mx-5 shadow ">
+          <div id="Post-Recommend" className="w-full mx-5 shadow">
             <div className="w-[40%] mx-10 mt-10 text-white">
               <h1 className="txt-white"> RECOMMENDED </h1>
               <Masonry
@@ -321,14 +326,3 @@ function ContentPage() {
 }
 
 export default ContentPage;
-
-/**<div className="Comment-Item Inner-Item text-gray-600">
-                <div className="flex">
-                  <div className="rounded-xl bg-red-400 w-[25px] h-[25px]" />
-                  <h1 className="ml-2">name name</h1>
-                </div>
-                <p className="ml-12">
-                  Comment Comment Comment Comment Comment Comment Comment
-                  Comment
-                </p>
-              </div> */

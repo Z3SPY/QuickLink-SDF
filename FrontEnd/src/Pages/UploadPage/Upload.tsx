@@ -10,8 +10,7 @@ function UploadPage() {
   const [returnedObj, setReturnedObj] = useState<any>(null);
 
   const location = useLocation(); // For getting values from navigate
-
-  const DataCont = location.state.recievedData; //gets Data from previous Location after change page
+  const [DataCont, setDatCont] = useState(location.state.recievedData);
   const userReturnedObj = location.state.returnObj; // IMPORTANT FOR RETURNING USER VALUE
 
   console.log(userReturnedObj);
@@ -32,33 +31,26 @@ function UploadPage() {
     const fileInput = document.getElementById("file") as HTMLInputElement;
     const titleInput = document.getElementById("title") as HTMLInputElement;
     const descInput = document.getElementById("desc") as HTMLInputElement;
+    let base64String: any = ""; // For image
 
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
       const userFile: File = fileInput.files[0];
-      const [title, description] = [titleInput.value, descInput.value];
+      if (userFile) {
+        const reader = new FileReader();
 
-      const formData = new FormData();
-      formData.append("user_file", userFile);
-      formData.append("user_title", title);
-      formData.append("user_description", description);
-      formData.append("user_auth", DataCont);
+        reader.onload = async function (e) {
+          try {
+            document.getElementById("loading-screen")!.style.display = "flex";
+            const base64String = e.target?.result;
 
-      //data.form.user_title , data.form.user_file, data.form.user_description
+            const data: any = {
+              user_file: base64String,
+              user_title: titleInput.value,
+              user_description: descInput.value,
+              user_auth: DataCont,
+            };
 
-      try {
-        //PROBLEM WITH TOKEN PLEASE FIX LATER
-        document.getElementById("loading-screen")!.style.display = "flex";
-
-        fetch("https://httpbin.org/post", {
-          method: "POST",
-          body: formData,
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            //const headerData = JSON.stringify(data);
-            //const headerFriendlyStr = Buffer.from(headerData, 'utf8').toString('base64');
-
-            fetch(`/api/createNewPost/`, {
+            const response = await fetch(`/api/createNewPost/`, {
               method: "POST",
               mode: "same-origin",
               headers: {
@@ -66,25 +58,27 @@ function UploadPage() {
               },
               body: JSON.stringify(data),
             })
-              .then((response) => {
-                if (!response.ok) {
+              .then((resp) => {
+                if (!resp.ok) {
                   throw new Error("Network response was not ok");
                 }
-                return response.json();
+                return resp.json();
               })
               .then((d) => {
                 console.log(d);
-                PostNavigate();
+                setTimeout(() => {
+                  PostNavigate();
+                }, 2000); // 2000 milliseconds (adjust as needed)
               })
               .catch((error) => {
-                alert("Error occurred while creating user:" + error);
+                alert("Error occured while creating post: " + error);
               });
-          })
-          .catch((e) => console.log(e));
-      } catch (e) {
-        console.log(e);
-        document.getElementById("loading-screen")!.style.display = "none";
-        alert("Problem With Uploading Photo");
+          } catch (error) {
+            console.error("An error occurred:", error);
+          }
+        };
+
+        reader.readAsDataURL(userFile);
       }
     } else {
       alert("Please select a file before uploading.");

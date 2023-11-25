@@ -54,7 +54,6 @@ class GetAllPostValues(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     image_picture = Base64ImageField()
-
     class Meta:
         model= ImagePost
         fields= ('title','image_picture','description')

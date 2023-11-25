@@ -5,29 +5,33 @@
 
 #Post-Page {
   background-color: var(--bg);
-  min-height: 300vh;
   position: absolute;
-  max-height: 300vh;
+  min-height: 250vh;
+  max-height: 250vh;
 }
 
 #Post-Container {
   height: calc(100vh * 0.85); /* opera */
   min-width: 600px;
   flex: 3;
+  margin-left: 20px;
 }
 
 #Post-Recommend {
   min-height: 75vh;
   background-color: var(--fg);
   height: auto;
-  overflow-x: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   max-height: 200vh;
+  padding-bottom: 5rem;
 }
 
 #Post-Description {
   min-height: 50vh; /* opera */
   max-height: 50vh;
   max-width: 480px;
+  z-index: 1;
   background-color: var(--fg);
 }
 
@@ -41,6 +45,18 @@
   box-shadow: 0 0 50px black;
   min-height: 300px;
   min-width: 300px;
+}
+
+.Img-Back {
+  /*background-image: url(a.jpg);*/
+  height: 95%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  box-shadow: 0 0 205px black;
 }
 
 #Post-UserValues {
