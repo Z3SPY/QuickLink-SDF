@@ -161,8 +161,25 @@ def GetSpecificUserPost(request, pk):
 @api_view(['GET', 'POST'])
 def GetAllPosts(request):
     ListPosts = ImagePost.objects.all()
-    serializer = GetPostValuesSerializer(ListPosts, many=True)
-    return JsonResponse({'Posts': serializer.data})
+    serialized_data = []
+
+    for post in ListPosts:
+        post_serializer = GetPostValuesSerializer(post)
+
+        profile_page_serializer = ProfileSerializer(post.user)
+
+        post_data = {
+            'post': post_serializer.data,
+            'display_name': profile_page_serializer.data['displayName'],
+            'profile_picture': str(post.user.profile_picture.url) if post.user.profile_picture else None,
+        }
+
+        serialized_data.append(post_data)
+
+    print(serialized_data[0])
+
+    return JsonResponse({'Posts': serialized_data})
+        
 
 @api_view(['GET'])
 def GetSpecificPost(request, pk):
@@ -171,6 +188,9 @@ def GetSpecificPost(request, pk):
         GetPost = get_object_or_404(ImagePost,id=pk)
         comments = Comment.objects.filter(post=GetPost)
         serializer = GetAllPostValues(GetPost, many=False)
+
+
+        profile_serializer = ProfileSerializer(GetPost.user)
 
                 
          # Serialize comments separately
@@ -181,7 +201,8 @@ def GetSpecificPost(request, pk):
 
         response_data = {
             'post': serialized_data,
-            'user_ID': GetPost.user.user.id
+            'user_ID': GetPost.user.user.id,
+            'profile_pic': str(GetPost.user.profile_picture.url) if GetPost.user.profile_picture else None,
             
         }
 

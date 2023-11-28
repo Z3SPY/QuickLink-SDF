@@ -35,7 +35,7 @@ class GetUserNameSerializer(serializers.ModelSerializer):
 
 # USER POST VALUES
 class GetPostValuesSerializer(serializers.ModelSerializer):
-    user = serializers.CharField()
+    #user = serializers.CharField()
     image_picture = serializers.ImageField()
     class Meta:
         model =  ImagePost

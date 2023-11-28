@@ -34,15 +34,21 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
     };
   }, []);
 
+  //For Base64 `data:image/png;base64,${src.image_picture}`
+
   const handleIntersection = (entries: any, observer: any) => {
     entries.forEach((entry: any) => {
       if (entry.isIntersecting) {
+        // Load the image when it enters the viewport
+        //NOT LOADING BECAUSE NOT ENOUGH
         const img = new Image();
-        img.src = `http://127.0.0.1:8000/${src.image_picture}`;
+        img.src = `http://127.0.0.1:8000/${src.post.image_picture}`;
         console.log(img.src);
         img.onload = () => {
           imageRef.current.src = img.src!;
         };
+
+        // Stop observing the image once it's loaded
         observer.unobserve(imageRef.current);
       }
     });
@@ -50,18 +56,23 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
 
   const navigate = useNavigate();
   const SwitchPage = (id: any) => {
+    console.log("USERDATA", userdata);
     navigate(`/UserPost/${id}`, { state: { recievedData: userdata } });
-    location.reload();
+
+    // /const userData = location.state.recievedData;
+
+    //    navigate("/posts", { state: { recievedData: data } });
   };
 
+  //GET PROFILE IMAGE LATOR
   return (
     <div
       className="img-card-container"
       onClick={() => {
-        SwitchPage(src.id);
+        SwitchPage(src.post.id);
       }}
     >
-      <div className="card-img rounded-3xl card-back-rec">
+      <div className="card-img rounded-3xl card-back-rec  ">
         <img
           ref={imageRef}
           src={"./gir.jpg"}
@@ -70,10 +81,17 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
         />
       </div>
       <div className="text-card">
-        <div className="m-0 text-container">
-          <h1 className="font-semibold mb-2">{src.title}</h1>
-          <div className="absolute rounded-full bg-red-500 h-6 w-6" />
-          <h2 className="ml-8">{src.user}</h2>
+        <div className="m-0 pb-4 text-container">
+          <h1 className="font-semibold ">{src.post.title}</h1>
+          <div
+            className="absolute rounded-full bg-red-500 h-10 w-10"
+            style={{
+              backgroundImage: `url(http://127.0.0.1:8000/${src.profile_picture})`,
+              backgroundSize: "cover", // Adjust as needed
+              backgroundPosition: "center", // Adjust as needed
+            }}
+          ></div>
+          <h2 className="ml-12 mt-2">{src.display_name}</h2>
         </div>
       </div>
     </div>
@@ -145,7 +163,7 @@ function PostPhoto(props: any) {
   return (
     <div className="aboslute top-1/2 left-1/2 ">
       <img
-        className="max-h-[80vh] object-fill min-w-[10vw] min-h-[30vh] max-w-[60vw]  w-full h-full"
+        className="max-h-[80vh] object-fill min-w-[10vw] min-h-[30vh] max-w-[60vw]  w-full h-full "
         src={`http://127.0.0.1:8000/${image}`}
       ></img>
     </div>
@@ -162,11 +180,12 @@ function ContentPage() {
   const params = useParams();
   const curID = params.PostsID;
   console.log(params.PostsID);
-  const [images, setImages] = useState<{ encodedString: string }[]>([]);
+  const [images, setImages] = useState<any[]>([]);
 
   const [postValues, setPostValues] = useState<any>();
   const [postComments, setPostComments] = useState<any>();
   const [curAccUser, setUser] = useState<any>();
+  const [profilePic, setProfilePic] = useState<string>();
 
   const getPost = async () => {
     try {
@@ -176,6 +195,7 @@ function ContentPage() {
         setPostValues(data.post); // Handles Post Values
         setPostComments(data.post.comments); //Handles Post Comments
         setUser(userData.data.UserData.id);
+        setProfilePic(data.profile_pic);
       } else {
         console.log("NO");
         // Handle the case when the response is not ok (e.g., show an error message).
@@ -198,9 +218,9 @@ function ContentPage() {
       .then((data) => {
         if (data) {
           //console.log(data);
-          const images = data.Posts.map((d: any) => ({
+          /*const images = data.Posts.map((d: any) => ({
             encodedString: d.image_picture,
-          }));
+          }));*/
 
           setImages(data.Posts);
           //console.log(images);
@@ -233,25 +253,6 @@ function ContentPage() {
               ) : null}
             </div>
           </div>
-
-          <div id="Post-Recommend" className="w-full mx-5 shadow">
-            <div className="w-[40%] mx-10 mt-10 text-white">
-              <h1 className="txt-white"> RECOMMENDED </h1>
-              <Masonry
-                className="mt-10 mx-10"
-                columns={{ 600: 2, 1200: 3, 1532: 4, 1628: 5 }}
-                gap={16}
-              >
-                {images.map((base64: any, index: number) => {
-                  return (
-                    <div key={index}>
-                      <PhotoComp src={base64} userdata={userData} />
-                    </div>
-                  );
-                })}
-              </Masonry>
-            </div>
-          </div>
         </div>
 
         <div
@@ -261,7 +262,14 @@ function ContentPage() {
           <div id="Post-UserValues" className="text-white">
             <div className="Design bg-red-700"></div>
             <div className="ProfilePic relative bottom-[2rem] left-[1rem] flex text-xl ">
-              <div className="bg-red-500 h-[4.4rem] w-[4.5rem] "></div>
+              <div
+                className="bg-red-500 h-[4.4rem] w-[4.5rem] "
+                style={{
+                  backgroundImage: `url(http://127.0.0.1:8000/${profilePic})`,
+                  backgroundSize: "cover", // Adjust as needed
+                  backgroundPosition: "center", // Adjust as needed
+                }}
+              ></div>
               <p className="mt-9 ml-3">
                 {postValues != null ? postValues.user : "Name Description"}
               </p>
@@ -318,6 +326,24 @@ function ContentPage() {
                 />
               </form>
             </div>
+          </div>
+        </div>
+        <div id="Post-Recommend" className="w-full mx-5 shadow">
+          <div className=" mx-0 mt-10 text-white">
+            <h1 className="txt-white mx-5"> RECOMMENDED </h1>
+            <Masonry
+              className="mt-10 mx-10"
+              columns={{ 1200: 3, 1532: 4, 1628: 5 }}
+              gap={16}
+            >
+              {images.map((base64: any, index: number) => {
+                return (
+                  <div key={index}>
+                    <PhotoComp src={base64} userdata={userData} />
+                  </div>
+                );
+              })}
+            </Masonry>
           </div>
         </div>
       </div>

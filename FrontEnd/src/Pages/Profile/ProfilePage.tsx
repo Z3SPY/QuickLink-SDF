@@ -14,6 +14,7 @@ import {
   Navbar,
 } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
+import noneImage from "./none.png";
 
 //Take User
 //Get User Profile Values
@@ -285,7 +286,11 @@ function ProfilePage() {
           <div className="userBorder relative">
             <div id="userPic" className="bg-red-300 absolute">
               <img
-                src={`http://127.0.0.1:8000/${profile[0].profile_picture}`}
+                src={
+                  profile[0].profile_picture !== null
+                    ? `http://127.0.0.1:8000/${profile[0].profile_picture}`
+                    : noneImage
+                }
                 alt=""
                 className=""
               />

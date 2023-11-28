@@ -39,7 +39,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
         // Load the image when it enters the viewport
         //NOT LOADING BECAUSE NOT ENOUGH
         const img = new Image();
-        img.src = `http://127.0.0.1:8000/${src.image_picture}`;
+        img.src = `http://127.0.0.1:8000/${src.post.image_picture}`;
         console.log(img.src);
         img.onload = () => {
           imageRef.current.src = img.src!;
@@ -66,7 +66,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
     <div
       className="img-card-container"
       onClick={() => {
-        SwitchPage(src.id);
+        SwitchPage(src.post.id);
       }}
     >
       <div className="card-img rounded-3xl card-back">
@@ -79,12 +79,17 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
         />
       </div>
       <div className="text-card">
-        <div className="m-0 text-container">
-          <h1 className="font-semibold mb-2">{src.title}</h1>
-          <div className="absolute rounded-full bg-red-500 h-6 w-6">
-            <img src={`http://127.0.0.1:8000/${src.image_picture}`} alt="" />
-          </div>
-          <h2 className="ml-8">{src.user}</h2>
+        <div className="m-0 pb-4 text-container">
+          <h1 className="font-semibold ">{src.post.title}</h1>
+          <div
+            className="absolute rounded-full bg-red-500 h-10 w-10"
+            style={{
+              backgroundImage: `url(http://127.0.0.1:8000/${src.profile_picture})`,
+              backgroundSize: "cover", // Adjust as needed
+              backgroundPosition: "center", // Adjust as needed
+            }}
+          ></div>
+          <h2 className="ml-12 mt-2">{src.display_name}</h2>
         </div>
       </div>
     </div>
@@ -102,7 +107,7 @@ function FreelanceSelector() {
   // Check if token valid
   // If token Valid Call a serializer to populate data
 
-  const [images, setImages] = useState<{ encodedString: string }[]>([]);
+  const [images, setImages] = useState<any[]>([]);
   useEffect(() => {
     fetch(`/api/obtainPostList`)
       .then((response) => {
@@ -114,10 +119,10 @@ function FreelanceSelector() {
       })
       .then((data) => {
         if (data) {
-          console.log(data);
-          const images = data.Posts.map((d: any) => ({
+          console.log(data.Posts[0].post.image_picture);
+          /*const images = data.Posts.map((d: any) => ({
             encodedString: d.image_picture,
-          }));
+          }));*/
 
           setImages(data.Posts);
           console.log(images);
