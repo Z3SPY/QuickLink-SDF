@@ -15,7 +15,8 @@ urlpatterns = [
     path('post/<str:pk>/', views.GetSpecificPost, name="GetSpecificPost"),
     path('profile/<str:pk>/', views.GetProfilePageDetail, name="getProfile"),
     path('createNewPost/', views.CreateNewPost, name="createNewPost"),
-    path('createComment/', views.CreateComment, name="userCreateComment")
+    path('createComment/', views.CreateComment, name="userCreateComment"),
+    path('search/', views.search_posts, name='search_posts')
     #The line of code below is for getting a singular note, from our notes database, the dir needs to defined and the variable pk can be changed in views.py
 ]
 

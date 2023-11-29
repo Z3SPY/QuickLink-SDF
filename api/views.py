@@ -242,6 +242,16 @@ def CreateComment(request):
 
     return JsonResponse({'error': 'Invalid request method. Use POST to create an comment.'})
 
+@api_view(['GET'])
+def search_posts(request):
+    query = request.GET.get('query', '')
+    
+    # Perform the search logic based on the query parameter
+    # You can search in your database using filters or any custom logic
+    search_results = ImagePost.objects.filter(title__icontains=query)
+    
+    serializer = GetPostValuesSerializer(search_results, many=True)
+    return JsonResponse({'search_results': serializer.data})
    
 
 
