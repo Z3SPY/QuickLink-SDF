@@ -1,4 +1,4 @@
-import Header from "../../Components/Header/LoggedInHeader.tsx";
+import Header from "../../Components/Header/GeneralLoggedInHeader.tsx";
 import React, {
   useState,
   useEffect,
@@ -257,7 +257,7 @@ function ContentPage() {
 
         <div
           id="Post-Description"
-          className="flex-wrap flexgrow rounded-3xl shadow m-5 mr-6"
+          className="flex-wrap flexgrow rounded-3xl shadow m-5 mr-6 "
         >
           <div id="Post-UserValues" className="text-white">
             <div className="Design bg-red-700"></div>
@@ -275,17 +275,29 @@ function ContentPage() {
               </p>
             </div>
 
-            <div className="ProfileVals">
+            <div className="ProfileVals max-w-[391.5px]">
               <h1 className="text-gray-200 text-2xl">
-                {" "}
                 {postValues != null ? postValues.title : "Placeholder"}{" "}
               </h1>
-              <h2 className="text-gray-500">
-                {" "}
-                {postValues != null
-                  ? postValues.description
-                  : "Description"}{" "}
+              <h2 className="text-gray-500 min-h-[5.5rem] ">
+                {postValues != null ? postValues.description : "Description"}{" "}
               </h2>
+
+              <div className="flex flex-wrap w-[100%] mt-6 profile-tag-box">
+                {postValues != null ? (
+                  postValues.tags.map((tag: any, index: any) => {
+                    return (
+                      <div key={index} className="">
+                        <div className="tag-content bg-gray-500">
+                          <div className="p-1 rounded-r text-white">{tag}</div>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           </div>
 
@@ -305,7 +317,6 @@ function ContentPage() {
                 : null}
             </div>
             <h1 className="text-gray-400 p-5">
-              {" "}
               {postComments != null ? postComments.length : 0} Comments
             </h1>
             <div className="Comment-Submit pb-5">

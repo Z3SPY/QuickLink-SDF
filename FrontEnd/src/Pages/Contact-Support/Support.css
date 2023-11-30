@@ -1,0 +1,113 @@
+.dashboard {
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  background-color: #3498db; /* Blue background color for the header */
+  padding: 25px;
+  text-align: center;
+  color: #fff; /* Text color for the header */
+}
+
+.maincontainer {
+  margin: 10%;
+  width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  background-color: #fff;
+  display: flex;
+}
+
+.left-side {
+  width: 60%;
+  flex: 1;
+  padding: 20px;
+}
+
+.right-side img {
+  width: 60%; /* Make the image fill the container */
+  border-radius: 10px; /* Add border-radius if desired */
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.dashboard h1 {
+  color: black;
+}
+
+h1,
+h2 {
+  color: #3498db;
+}
+
+p {
+  line-height: 1.6;
+  color: #666;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.contact-info,
+.faqs,
+.submit-ticket {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.contact-info ul {
+  margin-top: 10px;
+}
+
+.contact-info a {
+  color: #3498db;
+}
+
+.contact-info a:hover {
+  text-decoration: none;
+  color: #0056b3;
+}
+
+.submit-ticket {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.ticket-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.ticket-button:hover {
+  background-color: #007bff;
+}

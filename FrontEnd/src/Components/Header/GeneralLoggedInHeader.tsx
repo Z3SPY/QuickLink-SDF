@@ -89,45 +89,6 @@ const LoggedInHeader = React.memo((props: any) => {
       </div>
 
       <Navbar.Collapse id="navBarButtons" className="mt-3">
-        <input
-          type="text"
-          id="search-navbar"
-          className="md:hidden mx-2 mb-2 text-gray-500 bg-white hover:bg-gray-100  focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-2.5 mr-1 "
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={handleKeyPress}
-        />
-
-        <div className="relative hidden md:block">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg
-              className="w-4 h-4 text-gray-500 dark:text-gray-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
-            <span className="sr-only">Search icon</span>
-          </div>
-          <input
-            type="text"
-            id="search-navbar"
-            className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 "
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyPress}
-          />
-        </div>
         {navItems.map((item: { name: string; id: number; goTo: string }) => {
           return (
             <NavBtn
@@ -143,7 +104,7 @@ const LoggedInHeader = React.memo((props: any) => {
           onClick={() => {
             ProfileNavFunc(curUserData);
           }}
-          className="sm:mt-3 sm:p-2 md:mt-0 md:p-0 px-10 rounded-3xl border-4 border-red-500 hover:bg-white"
+          className="sm:mt-3 sm:p-2 md:mt-0 px-10 rounded-3xl border-4 border-red-500 hover:bg-white"
           id="profileBtn"
         >
           PROFILE

@@ -1,15 +1,96 @@
 .background {
-  background-color: #303034;
+  background-color: #181819;
   min-width: 100vw;
   min-height: 100vh;
 }
 
-.bU {
+.m-auto {
+  padding: 15px;
+  background-color: #303034 !important;
+}
+
+.txtFile {
+  font-weight: bolder;
+  font-size: x-large;
+  margin-bottom: 15px;
+}
+
+.txtUpload {
+  font-weight: bolder;
+  font-size: x-large;
+  margin-top: 10px;
+}
+
+.addTagBtn {
   background-color: #f08200 !important;
+  padding: 5px;
+}
+
+.addTagBtn:hover {
+  background-color: #eec087 !important;
+  padding: 5px;
+}
+
+.bU {
+  font-weight: bold;
+  background-color: #f08200 !important;
+  border-radius: 5px;
+  bottom: 185px;
 }
 
 .bU:hover {
   background-color: #eec087 !important;
+}
+
+.chooseFile-button {
+  background-color: #f08200 !important;
+}
+
+.chooseFile-button:hover {
+  background-color: #eec087 !important;
+}
+
+.chooseFile {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.txtBox {
+  width: 100%;
+  border-radius: 5px;
+  background-color: #55555c;
+  color: white;
+}
+
+.tagInput {
+  background-color: #55555c;
+  color: white;
+  width: 30%;
+  height: 35px;
+  border-radius: 5px;
+}
+
+.tag-container {
+  display: flex;
+  margin-right: 5px;
+  margin-top: 5px;
+  background-color: #303034;
+}
+
+.tag-content {
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  margin-top: 4px;
+  border-radius: 5px;
+  height: 25px;
+}
+
+.tag-box {
+  max-height: 10rem;
+  min-height: 10rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #loading-screen {

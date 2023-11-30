@@ -9,6 +9,8 @@ import JobsContentPage from "./Pages/Job-Page-Content-Page/JobsContentPage";
 import JobsPage from "./Pages/Jobs-Page/JobsPage";
 import LoggedInHeader from "./Components/Header/LoggedInHeader";
 import UploadPage from "./Pages/UploadPage/Upload.tsx";
+import Blog from "./Pages/Freelance-Blog-Page/Blog.tsx";
+import Support from "./Pages/Contact-Support/Support.tsx";
 
 import "./css/App.css";
 
@@ -34,6 +36,9 @@ function App() {
             return params;
           }}
         />
+
+        <Route path="/Blog" element={<Blog />} />
+        <Route path="/Support" element={<Support />} />
 
         <Route path="/Jobs" element={<JobsPage />} />
         <Route path="/JobsPage/:JobsID" element={<JobsContentPage />} />

@@ -8,9 +8,12 @@ import { useNavigate } from "react-router-dom";
 function UploadPage() {
   const [curProfile, setCurProfile] = useState<string>("");
   const [returnedObj, setReturnedObj] = useState<any>(null);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
 
   const location = useLocation(); // For getting values from navigate
-  const [DataCont, setDatCont] = useState(location.state.recievedData);
+
+  const DataCont = location.state.recievedData; //gets Data from previous Location after change page
   const userReturnedObj = location.state.returnObj; // IMPORTANT FOR RETURNING USER VALUE
 
   console.log(userReturnedObj);
@@ -48,6 +51,7 @@ function UploadPage() {
               user_title: titleInput.value,
               user_description: descInput.value,
               user_auth: DataCont,
+              user_tags: tags,
             };
 
             const response = await fetch(`/api/createNewPost/`, {
@@ -85,6 +89,19 @@ function UploadPage() {
     }
   }
 
+  const AddTag = () => {
+    if (tagInput.trim() !== "") {
+      setTags([...tags, tagInput.trim()]);
+      setTagInput("");
+    }
+  };
+
+  const RemoveTag = (index: number) => {
+    const newTags = [...tags];
+    newTags.splice(index, 1);
+    setTags(newTags);
+  };
+
   useEffect(() => {}, []);
 
   return (
@@ -101,38 +118,81 @@ function UploadPage() {
           <div></div>
         </div>
       </div>
-
-      <div className="m-auto bg-gray-600 rounded-xl lg:w-[40vw] h-[70vh] md:w-[50vw] shadow-2xl">
+      <div className="m-auto rounded-xl lg:w-[40vw] h-[80vh] md:w-[50vw] shadow-2xl">
         <form
           action="POST"
           onSubmit={submit}
-          className="flex flex-col [&>*]:p-2 text-white"
+          className="relative flex flex-col [&>*]:p-2 text-white"
         >
+          <label htmlFor="details" className="txtFile">
+            FILE UPLOAD
+          </label>
           <input
             type="file"
             id="file"
             accept=".png, .jpg"
-            className="w-[90%] mx-[5%]"
+            className="chooseFile"
           />
-          <label htmlFor="title"> TITLE </label>
+          <label htmlFor="details" className="txtUpload">
+            UPLOAD DETAILS
+          </label>
+          <label htmlFor="title" className="mt-3">
+            <b>TITLE</b>
+          </label>
           <input
             type="text"
             id="title"
-            className="w-[90%] mx-[5%] text-black"
+            placeholder="Insert Title Here"
+            className="txtBox"
           ></input>
-          <label htmlFor="desc"> DESCRIPTION</label>
+          <label htmlFor="desc" className="mt-3">
+            <b>DESCRIPTION</b>
+          </label>
           <input
             type="text"
             id="desc"
-            className="w-[90%] mx-[5%] text-black"
+            placeholder="Insert Description Here"
+            className="txtBox"
           ></input>
+          <label htmlFor="tg" className="mt-5">
+            <b>TAGS</b>
+          </label>
+          <div className="w-[90%] mx-[5%] mt-2">
+            <input
+              type="text"
+              id="tag"
+              placeholder="Type Tags Here"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              className="tagInput"
+            />
+            <button type="button" onClick={AddTag} className="ml-2 addTagBtn">
+              <b>Add Tag</b>
+            </button>
+          </div>
+          <div className="flex flex-wrap w-[50%]  mx-[5%] mt-2 tag-box">
+            {tags.map((tag, index) => (
+              <div key={index} className="tag-container">
+                <div className="tag-content bg-gray-500">
+                  <div className="p-1 rounded-r text-white">{tag}</div>
+                  <button
+                    type="button"
+                    onClick={() => RemoveTag(index)}
+                    className="rounded-l p-1 text-white"
+                  >
+                    <b>×</b>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
           <button
             ref={uploadDivRef}
             type="submit"
-            className="w-[90%] mx-[5%] mt-4 bU"
+            className=" w-[90%] mx-[5%] bU"
           >
-            {" "}
-            Upload File
+            UPLOAD FILE
           </button>
         </form>
       </div>

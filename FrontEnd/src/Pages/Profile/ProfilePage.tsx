@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Header from "../../Components/Header/LoggedInHeader.tsx";
+import Header from "../../Components/Header/GeneralLoggedInHeader.tsx";
 import "./ProfilePage.css";
 import axios from "axios";
 import "flowbite";

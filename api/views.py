@@ -220,7 +220,8 @@ def CreateNewPost(request):
     postDataDesc = data['user_description']
     postUserAuth = data['user_auth']
     postDataImage = data['user_file']
-    print(data)    
+    postTags = data['user_tags']
+    print(postTags)    
 
         
     if postDataTitle and postDataDesc:
@@ -234,7 +235,7 @@ def CreateNewPost(request):
             profile_response = ProfilePage.objects.filter(user__username__startswith=postUserAuth).first()
             
             #Create New Profile Page
-            newPost = ImagePost(title=postDataTitle, description=postDataDesc, image_picture=data, user=profile_response)
+            newPost = ImagePost(tags=postTags,title=postDataTitle, description=postDataDesc, image_picture=data, user=profile_response)
             newPost.save()
             
             return JsonResponse({'message': 'Image post created successfully!'})
@@ -275,7 +276,6 @@ def CreateComment(request):
 
     return JsonResponse({'error': 'Invalid request method. Use POST to create an comment.'})
 
-<<<<<<< HEAD
 # UPDATE PROFILE
 @csrf_exempt
 def EditProfile(request):
@@ -319,7 +319,6 @@ def EditProfile(request):
 
     return JsonResponse({'error': 'Invalid '})
 
-=======
 @api_view(['GET'])
 def search_posts(request):
     query = request.GET.get('query', '')
@@ -330,7 +329,6 @@ def search_posts(request):
     
     serializer = GetPostValuesSerializer(search_results, many=True)
     return JsonResponse({'search_results': serializer.data})
->>>>>>> 9e8203ecf68884a96a1c6bd373450200cb872651
    
 
 
