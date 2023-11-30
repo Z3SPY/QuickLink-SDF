@@ -42,6 +42,7 @@ const NavBtn = (p: any) => {
 
 const LoggedInHeader = React.memo((props: any) => {
   const curUserData = props.UserData;
+  const [searchQuery, setSearchQuery] = useState('');
   console.log(curUserData);
 
   const navigate = useNavigate();
@@ -51,6 +52,21 @@ const LoggedInHeader = React.memo((props: any) => {
     navigate("/Profile", { state: { recievedData: data } });
   };
 
+  const handleSearch = () => {
+    // Call the backend API to perform the search
+    fetch(`/api/search/?query=${searchQuery}`)
+        .then(response => response.json())
+        .then(data => {
+            // Handle the search results, update state, etc.
+            console.log('Search results:', data.search_results);
+        });
+};
+
+const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === 'Enter') {
+      handleSearch();
+  }
+};
   /*Dunno What an Aria Current is, putting this here so I remember */
   /** Note IM Using FlowBite for popup */
 
@@ -121,9 +137,11 @@ const LoggedInHeader = React.memo((props: any) => {
             id="search-navbar"
             className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 "
             placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyPress}
           />
         </div>
-
         {navItems.map((item: { name: string; id: number; goTo: string }) => {
           return (
             <NavBtn

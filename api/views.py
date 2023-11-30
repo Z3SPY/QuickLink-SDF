@@ -275,6 +275,7 @@ def CreateComment(request):
 
     return JsonResponse({'error': 'Invalid request method. Use POST to create an comment.'})
 
+<<<<<<< HEAD
 # UPDATE PROFILE
 @csrf_exempt
 def EditProfile(request):
@@ -318,6 +319,18 @@ def EditProfile(request):
 
     return JsonResponse({'error': 'Invalid '})
 
+=======
+@api_view(['GET'])
+def search_posts(request):
+    query = request.GET.get('query', '')
+    
+    # Perform the search logic based on the query parameter
+    # You can search in your database using filters or any custom logic
+    search_results = ImagePost.objects.filter(title__icontains=query)
+    
+    serializer = GetPostValuesSerializer(search_results, many=True)
+    return JsonResponse({'search_results': serializer.data})
+>>>>>>> 9e8203ecf68884a96a1c6bd373450200cb872651
    
 
 
