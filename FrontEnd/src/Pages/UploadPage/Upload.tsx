@@ -105,7 +105,7 @@ function UploadPage() {
   useEffect(() => {}, []);
 
   return (
-    <div className="background p-0 m-0 pt-32">
+    <div className="background p-0 m-0 py-1 ">
       <div id="loading-screen">
         <div className="lds-roller">
           <div></div>
@@ -118,7 +118,7 @@ function UploadPage() {
           <div></div>
         </div>
       </div>
-      <div className="m-auto rounded-xl lg:w-[40vw] h-[80vh] md:w-[50vw] shadow-2xl">
+      <div className=" rounded-xl lg:w-[40vw] h-[auto] m-auto md:w-[50vw] shadow-2xl">
         <form
           action="POST"
           onSubmit={submit}

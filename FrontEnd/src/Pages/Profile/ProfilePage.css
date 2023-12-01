@@ -99,6 +99,9 @@ html {
 /*SIDE PROFILE END*/
 
 /*EDIT*/
+.edit-design {
+  background-color: #303034;
+}
 
 #editBut {
   min-height: 2rem;

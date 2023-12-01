@@ -107,9 +107,9 @@ const EditProfileView = (p: any) => {
       show={p.propsOpenModal === "form-edit-profile"}
       popup
       onClose={() => p.OpenModalFunc(undefined)}
-      className="p-[5rem]"
+      className="p-[5rem] "
     >
-      <Modal.Body className=" shadow-3xl pt-1">
+      <Modal.Body className="shadow-3xl pt-1 edit-design">
         <Modal.Header className="closeModal ">
           <h1 className="text-3xl text-white m-0 p-0">EDIT PROFILE</h1>
         </Modal.Header>
@@ -149,7 +149,7 @@ const EditProfileView = (p: any) => {
 
             <input
               type="submit"
-              className="w-[10rem] bottom-[0] left-[37%] rounded-3xl absolute bg-white text-black hover:text-white hover:bg-red-700"
+              className="w-[100%] relative mt-3  rounded-xl absolute bg-white text-black hover:text-white hover:bg-red-700"
               value={"SUBMIT"}
             ></input>
           </form>
