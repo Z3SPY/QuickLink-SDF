@@ -63,15 +63,6 @@ const EditProfileView = (p: any) => {
               id: curUserID,
             };
 
-            /*
-            //THIS PART SHOULD BE OBSOLETE
-            const formData = new FormData();
-            formData.append("user_pic", data.picFile);
-            formData.append("user_dispName", data.name);
-            formData.append("user_desc", data.desc);
-            formData.append("user_cont", data.cont);
-            //*/
-
             const response = await fetch("/api/editProfile/", {
               method: "POST",
               mode: "same-origin",
@@ -94,10 +85,36 @@ const EditProfileView = (p: any) => {
 
         reader.readAsDataURL(userFile);
       }
-
-      //data.form.user_title , data.form.user_file, data.form.user_description
     } else {
-      alert("Please select a file before uploading.");
+      const data: any = {
+        id: curUserID,
+        name: dispNameInput.value.trim() !== "" ? dispNameInput.value : null,
+        desc: descInput.value.trim() !== "" ? descInput.value : null,
+        cont: contInput.value.trim() !== "" ? contInput.value : null,
+        picFile: null, // Assuming this property is set later based on conditions
+      };
+
+      if (data) {
+        try {
+          const response = fetch("/api/editProfile/", {
+            method: "POST",
+            mode: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((resp) => {
+              console.log(resp.json());
+              location.reload(); // Refresh Page
+            })
+            .catch((error) => {
+              alert("Error occurred while creating user:" + error);
+            });
+        } catch (error) {
+          console.error("An error occurred:", error);
+        }
+      }
     }
   }
 
@@ -149,7 +166,7 @@ const EditProfileView = (p: any) => {
 
             <input
               type="submit"
-              className="w-[100%] relative mt-3  rounded-xl absolute bg-white text-black hover:text-white hover:bg-red-700"
+              className="w-[100%] relative mt-3 rounded-xl bg-white text-black hover:text-white hover:bg-red-700"
               value={"SUBMIT"}
             ></input>
           </form>
@@ -305,7 +322,7 @@ function ProfilePage() {
               </span>
             </h1>
             <p className="mt-2 text-gray-400 text-xl">{profile[0].bio}</p>
-            <p className="mt-1 text-gray-600 text-sm">Contact Info</p>
+            <p className="mt-1 text-gray-600 text-sm">{profile[0].contacts}</p>
           </div>
 
           <div className="mt-5 mb-10 pt-3 rounded-xl relative" id="Experience">

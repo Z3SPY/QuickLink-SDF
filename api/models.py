@@ -43,6 +43,7 @@ class ProfilePage(models.Model):
     )
     displayName = models.TextField(null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
+    contacts = models.TextField(null=True, blank=True)
     profile_picture = models.ImageField(upload_to='profile/', null=True, blank=True)
     exp_container = models.JSONField(null=True, blank=True)
 

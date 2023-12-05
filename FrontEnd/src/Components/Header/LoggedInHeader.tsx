@@ -43,6 +43,8 @@ const NavBtn = (p: any) => {
 const LoggedInHeader = React.memo((props: any) => {
   const curUserData = props.UserData;
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [curSearchVal, setSearchVal] = useState([]);
   //console.log(curUserData);
 
   const navigate = useNavigate();
@@ -52,23 +54,32 @@ const LoggedInHeader = React.memo((props: any) => {
     navigate("/Profile", { state: { recievedData: data } });
   };
 
+  //SERCH
   const handleSearch = () => {
     // Call the backend API to perform the search
-    fetch(`/api/search/?query=${searchQuery}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the search results, update state, etc.
-        console.log("Search results:", data.search_results);
-      });
+    if (searchQuery == null || searchQuery.trim() === "") {
+      setSearchVal([]);
+      console.log("YO", curSearchVal);
+    } else {
+      fetch(`/api/search/?query=${searchQuery}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the search results, update state, etc.
+          console.log("Search results:", data.Posts);
+          setSearchVal(data.Posts);
+        });
+    }
   };
+
+  useEffect(() => {
+    props.searchFunc(curSearchVal);
+  }, [curSearchVal]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
-  /*Dunno What an Aria Current is, putting this here so I remember */
-  /** Note IM Using FlowBite for popup */
 
   return (
     <Navbar
@@ -91,7 +102,7 @@ const LoggedInHeader = React.memo((props: any) => {
       <Navbar.Collapse id="navBarButtons" className="mt-3">
         <input
           type="text"
-          id="search-navbar"
+          id="h-navbar"
           className="md:hidden mx-2 mb-2 text-gray-500 bg-white hover:bg-gray-100  focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-2.5 mr-1 "
           placeholder="Search..."
           value={searchQuery}
@@ -102,7 +113,7 @@ const LoggedInHeader = React.memo((props: any) => {
         <div className="relative hidden md:block">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
-              className="w-4 h-4 text-gray-500 dark:text-gray-400"
+              className="w-4 h-4 mb-3 text-gray-500 dark:text-gray-400"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -143,7 +154,7 @@ const LoggedInHeader = React.memo((props: any) => {
           onClick={() => {
             ProfileNavFunc(curUserData);
           }}
-          className="sm:mt-3 sm:p-2 md:mt-0 md:p-0 px-10 rounded-3xl border-4 border-red-500 hover:bg-white"
+          className="sm:mt-3 sm:p-2 md:mt-0 md:px-10  rounded-xl border-4 border-red-500 hover:bg-white"
           id="profileBtn"
         >
           PROFILE

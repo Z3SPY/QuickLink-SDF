@@ -42,34 +42,6 @@ footer {
   color: black;
 }
 
-h1,
-h2 {
-  color: #3498db;
-}
-
-p {
-  line-height: 1.6;
-  color: #666;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 10px;
-}
-
-a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 .contact-info,
 .faqs,
 .submit-ticket {

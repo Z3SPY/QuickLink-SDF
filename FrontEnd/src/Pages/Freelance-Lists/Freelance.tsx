@@ -40,7 +40,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
         //NOT LOADING BECAUSE NOT ENOUGH
         const img = new Image();
         img.src = `http://127.0.0.1:8000/${src.post.image_picture}`;
-        console.log(img.src);
+        //console.log(img.src);
         img.onload = () => {
           imageRef.current.src = img.src!;
         };
@@ -57,8 +57,6 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
     navigate(`/UserPost/${id}`, { state: { recievedData: userdata } });
 
     // /const userData = location.state.recievedData;
-
-    //    navigate("/posts", { state: { recievedData: data } });
   };
 
   //GET PROFILE IMAGE LATOR
@@ -99,50 +97,74 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
 function FreelanceSelector() {
   //Might Use USESTATE if problematic
   const location = useLocation();
-  const userData = location.state.recievedData; // Only functional Data
-  console.log("YO", userData);
+  const [userData, setUserData] = useState(location.state.recievedData);
+
+  const [searchedValues, setSearchVal] = useState<any[]>([]);
 
   /**CREATE A TOKEN SYSTEM */
   //If Token Available
   // Check if token valid
   // If token Valid Call a serializer to populate data
 
+  // console.log("YO", userData);
+
   const [images, setImages] = useState<any[]>([]);
-  useEffect(() => {
+
+  const fetchImages = () => {
     fetch(`/api/obtainPostList`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log("worked");
         return response.json();
       })
       .then((data) => {
         if (data) {
-          console.log(data.Posts[0].post.image_picture);
-          /*const images = data.Posts.map((d: any) => ({
-            encodedString: d.image_picture,
-          }));*/
-
           setImages(data.Posts);
-          console.log(images);
         }
       });
-  }, []);
+  };
+
+  //GET SEARCH QUERY FUNCTION
+  const getSearch = (val: any) => {
+    setSearchVal(val);
+    fetchImages();
+  };
+
+  useEffect(() => {
+    console.log("SEARCHED USE STATE", searchedValues);
+  }, [searchedValues]);
+
+  useEffect(() => {
+    fetchImages();
+  }, [searchedValues, images]);
 
   return (
     <div>
-      <Header UserData={userData} />
+      <Header UserData={userData} searchFunc={getSearch} />
       <div id="User-Tags"></div>
       <div id="User-Container" className="w-auto mx-40 mt-28">
         <Masonry columns={{ 640: 2, 768: 3, 1024: 4, 1280: 6 }} gap={16}>
-          {images.map((base64: any, index: number) => {
+          {searchedValues.map((base64: any) => {
             return (
-              <div key={index}>
+              <div key={base64.post.id}>
                 <PhotoComp src={base64} userdata={userData} />
               </div>
             );
           })}
+
+          {images
+            .filter(
+              (image) =>
+                !searchedValues.some(
+                  (searchedValue) => searchedValue.post.id === image.post.id
+                )
+            )
+            .map((base64: any) => (
+              <div key={base64.post.id}>
+                <PhotoComp src={base64} userdata={userData} />
+              </div>
+            ))}
         </Masonry>
       </div>
     </div>

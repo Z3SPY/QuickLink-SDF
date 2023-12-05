@@ -584,6 +584,7 @@ const Header = () => {
         {navItems.map((item: { name: string; id: number; goTo: number }) => {
           return <NavBtn name={item.name} id={item.id} goTo={item.goTo} />;
         })}
+
         <div id="selector" className="sm:hidden md:hidden lg:block">
           <svg width="50" height="50">
             <rect

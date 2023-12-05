@@ -5,8 +5,6 @@
 
 #Post-Page {
   background-color: var(--bg);
-  min-height: 250vh;
-  max-height: 250vh;
 }
 
 #Post-Container {
@@ -17,13 +15,12 @@
 }
 
 #Post-Recommend {
-  min-height: 75vh;
   background-color: var(--fg);
   height: auto;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 100vh;
-  padding-bottom: 5rem;
+  min-height: 75vh;
+  max-height: 75vh;
   max-width: 75vw;
   margin-bottom: 20%;
 }

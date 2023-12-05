@@ -158,6 +158,27 @@ def GetSpecificUserPost(request, pk):
 
 
 # POST BASED VIEWS
+def GetUserFromUsername(request):
+    userNm = request.GET.get('UserData', None)
+    print(userNm)
+
+    if userNm is not None:
+        try:
+            filtered_profilePage = ProfilePage.objects.get(displayName=userNm)
+            serialized_profilePage = ProfileSerializer(filtered_profilePage, many=True)
+            filtered_User = User.objects.get(id=1)
+            userVal = GetUserNameSerializer(filtered_User, many=True)
+            print(serialized_profilePage.data)
+
+            return JsonResponse({'error': 'Invalid request method. ',})
+        except Exception as e: 
+            print(e)
+            return JsonResponse({'error': 'Invalid request method. ',})
+
+        
+
+    return JsonResponse({'error': 'Invalid request method. ',})
+
 @api_view(['GET', 'POST'])
 def GetAllPosts(request):
     ListPosts = ImagePost.objects.all()
@@ -307,6 +328,10 @@ def EditProfile(request):
             ext = format.split('/')[-1] 
             data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
             filtered_Profile.profile_picture = data
+
+        if postUserCont is not None:
+            filtered_Profile.contacts = postUserCont
+
             
 
 
@@ -322,13 +347,25 @@ def EditProfile(request):
 @api_view(['GET'])
 def search_posts(request):
     query = request.GET.get('query', '')
-    
-    # Perform the search logic based on the query parameter
-    # You can search in your database using filters or any custom logic
-    search_results = ImagePost.objects.filter(title__icontains=query)
-    
-    serializer = GetPostValuesSerializer(search_results, many=True)
-    return JsonResponse({'search_results': serializer.data})
+    search_results = ImagePost.objects.filter(title__icontains=query).order_by('title')
+    serialized_data = []
+
+    for post in search_results:
+        post_serializer = GetPostValuesSerializer(post)
+
+        profile_page_serializer = ProfileSerializer(post.user)
+
+        post_data = {
+            'post': post_serializer.data,
+            'display_name': profile_page_serializer.data['displayName'],
+            'profile_picture': str(post.user.profile_picture.url) if post.user.profile_picture else None,
+        }
+
+        serialized_data.append(post_data)
+
+    print(serialized_data[0])
+
+    return JsonResponse({'Posts': serialized_data})
    
 
 

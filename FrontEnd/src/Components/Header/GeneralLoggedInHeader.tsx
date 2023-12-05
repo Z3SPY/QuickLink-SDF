@@ -104,7 +104,7 @@ const LoggedInHeader = React.memo((props: any) => {
           onClick={() => {
             ProfileNavFunc(curUserData);
           }}
-          className="sm:mt-3 sm:p-2 md:mt-0 px-10 rounded-3xl border-4 border-red-500 hover:bg-white"
+          className="sm:mt-3 sm:p-2 md:mt-0 md:px-10  rounded-xl border-4 border-red-500 hover:bg-white"
           id="profileBtn"
         >
           PROFILE

@@ -14,6 +14,7 @@ urlpatterns = [
     path('obtainPostList/', views.GetAllPosts, name="GetAllPost"),
     path('post/<str:pk>/', views.GetSpecificPost, name="GetSpecificPost"),
     path('profile/<str:pk>/', views.GetProfilePageDetail, name="getProfile"),
+    path('getUserFromUsername/', views.GetUserFromUsername, name="UserFromUsername"),
     path('createNewPost/', views.CreateNewPost, name="createNewPost"),
     path('createComment/', views.CreateComment, name="userCreateComment"),
     path('getUserPostsList/<int:pk>/', views.GetSpecificUserPost, name="getUserPostsList"),

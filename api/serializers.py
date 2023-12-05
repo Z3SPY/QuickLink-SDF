@@ -33,6 +33,7 @@ class GetUserNameSerializer(serializers.ModelSerializer):
 
 
 
+
 # USER POST VALUES
 class GetPostValuesSerializer(serializers.ModelSerializer):
     #user = serializers.CharField()

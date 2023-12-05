@@ -10,6 +10,7 @@ import Masonry from "react-layout-masonry";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./UserContentPage.css";
 import "../Freelance-Lists/Freelance.css";
+import axios from "axios";
 
 //RECOMMENDED
 function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
@@ -187,6 +188,26 @@ function ContentPage() {
   const [curAccUser, setUser] = useState<any>();
   const [profilePic, setProfilePic] = useState<string>();
 
+  const navigate = useNavigate();
+  const GoToProfile = (data: any) => {
+    let changedUserData = userData;
+    console.log(postValues);
+    console.log(changedUserData.data.UserData);
+
+    fetch(`/api/getUserFromUsername/?UserData=${postValues.user}`)
+      .then((response) => {
+        console.log(response);
+        //changedUserData.data.Userdata
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    navigate("/profile", {
+      state: { recievedData: userData },
+    });
+  };
+
   const getPost = async () => {
     try {
       let response = await fetch(`/api/post/${curID}/`);
@@ -236,8 +257,7 @@ function ContentPage() {
   }, [location]);
 
   useEffect(() => {
-    //console.log("Post values:", postValues);
-    //console.log("Post comments:", postComments);
+    console.log(postValues);
   }, [postValues]);
 
   return (
@@ -263,7 +283,8 @@ function ContentPage() {
             <div className="Design bg-red-700"></div>
             <div className="ProfilePic relative bottom-[2rem] left-[1rem] flex text-xl ">
               <div
-                className="bg-red-500 h-[4.4rem] w-[4.5rem] "
+                onClick={GoToProfile}
+                className="bg-red-500 h-[4.4rem] w-[4.5rem] cursor-pointer"
                 style={{
                   backgroundImage: `url(http://127.0.0.1:8000/${profilePic})`,
                   backgroundSize: "cover", // Adjust as needed
@@ -339,11 +360,11 @@ function ContentPage() {
             </div>
           </div>
         </div>
-        <div id="Post-Recommend" className="w-full mx-5 shadow">
+        <div className="w-full mx-5 shadow lg:mt-96 pb-24 md:mt-[50rem]">
           <div className=" mx-0 mt-10 text-white">
-            <h1 className="txt-white mx-5"> RECOMMENDED </h1>
+            <h1 className="txt-white mx-5 text-3xl"> RECOMMENDED </h1>
             <Masonry
-              className="mt-10 mx-10"
+              className="mt-10 mx-10 "
               columns={{ 1200: 3, 1532: 4, 1628: 5 }}
               gap={16}
             >
