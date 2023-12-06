@@ -165,12 +165,12 @@ def GetUserFromUsername(request):
     if userNm is not None:
         try:
             filtered_profilePage = ProfilePage.objects.get(displayName=userNm)
-            serialized_profilePage = ProfileSerializer(filtered_profilePage, many=True)
-            filtered_User = User.objects.get(id=1)
-            userVal = GetUserNameSerializer(filtered_User, many=True)
-            print(serialized_profilePage.data)
+            serialized_profilePage = ProfileSerializer(filtered_profilePage).data
+            filtered_User = User.objects.get(id=serialized_profilePage["user"])
+            userVal = GetUserNameSerializer(filtered_User).data
+            print(userVal)
 
-            return JsonResponse({'error': 'Invalid request method. ',})
+            return JsonResponse({'error': 'Invalid request method. ', 'UserValues' : userVal})
         except Exception as e: 
             print(e)
             return JsonResponse({'error': 'Invalid request method. ',})
@@ -197,7 +197,7 @@ def GetAllPosts(request):
 
         serialized_data.append(post_data)
 
-    print(serialized_data[0])
+    #print(serialized_data[0])
 
     return JsonResponse({'Posts': serialized_data})
         

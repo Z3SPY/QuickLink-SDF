@@ -58,11 +58,11 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
   const navigate = useNavigate();
   const SwitchPage = (id: any) => {
     console.log("USERDATA", userdata);
-    navigate(`/UserPost/${id}`, { state: { recievedData: userdata } });
+    navigate(`/UserPost/${id}`, { state: { receivedData: userdata } });
 
-    // /const userData = location.state.recievedData;
+    // /const userData = location.state.receivedData;
 
-    //    navigate("/posts", { state: { recievedData: data } });
+    //    navigate("/posts", { state: { receivedData: data } });
   };
 
   //GET PROFILE IMAGE LATOR
@@ -173,7 +173,8 @@ function PostPhoto(props: any) {
 
 function ContentPage() {
   const location = useLocation();
-  const [userData, setUserData] = useState(location.state.recievedData);
+  const [userData, setUserData] = useState(location.state.receivedData);
+  console.log(userData);
   //console.log("BAM", userData);
 
   window.scrollTo(0, 0);
@@ -190,22 +191,25 @@ function ContentPage() {
 
   const navigate = useNavigate();
   const GoToProfile = (data: any) => {
-    let changedUserData = userData;
-    console.log(postValues);
-    console.log(changedUserData.data.UserData);
+    console.log(userData);
+    //console.log(changedUserData.data.UserData);
 
     fetch(`/api/getUserFromUsername/?UserData=${postValues.user}`)
-      .then((response) => {
-        console.log(response);
-        //changedUserData.data.Userdata
+      .then((response) => response.json()) // Parse the JSON from the response
+      .then((jsonData) => {
+        const newUserData = JSON.parse(JSON.stringify(userData));
+        newUserData.data.UserData = jsonData.UserValues;
+
+        // Do something with changedUserData.data.UserData if needed
+        // ...
+        // Now that you have the updated data, navigate to the profile page
+        navigate("/profile", {
+          state: { receivedData: newUserData, userProfileData: userData },
+        });
       })
       .catch((err) => {
         console.error(err);
       });
-
-    navigate("/profile", {
-      state: { recievedData: userData },
-    });
   };
 
   const getPost = async () => {
@@ -251,7 +255,7 @@ function ContentPage() {
 
   //Set Values On Click
   useEffect(() => {
-    setUserData(location.state.recievedData);
+    setUserData(location.state.receivedData);
     getPost();
     getAllPost();
   }, [location]);

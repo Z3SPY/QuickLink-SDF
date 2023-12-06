@@ -7,7 +7,7 @@ import gooseHatImage from "./goosehat.png";
 
 function Blog() {
   const location = useLocation();
-  const [DataCont, setDataCont] = useState(location.state.recievedData);
+  const [DataCont, setDataCont] = useState(location.state.receivedData);
   return (
     <>
       <Header UserData={DataCont}> </Header>
@@ -16,11 +16,18 @@ function Blog() {
         <header className="dashboard">
           <h1>Space For Dashboard</h1>
         </header>
-        <div
-          className="content"
-          style={{ backgroundImage: `url(${gooseHatImage})` }}
-        >
-          <h1>We Are Currently Working on this Page right now</h1>
+        <div className="content text-blue-700">
+          <img
+            src={gooseHatImage}
+            alt=""
+            className="absolute bottom-0 left-0 z-0"
+          />
+          <h1 className="z-10">
+            ​🇸​​🇴​​🇷​​🇷​​🇾​ ​🇫​​🇴​​🇷​ ​🇹​​🇭​​🇪​
+            ​🇮​​🇳​​🇨​​🇴​​🇳​​🇻​​🇪​​🇳​​🇮​​🇪​​🇳​​🇨​​🇪​. ​🇹​​🇭​​🇪​
+            ​🇵​​🇦​​🇬​​🇪​ ​🇮​​🇸​ ​🇨​​🇺​​🇷​​🇷​​🇪​​🇳​​🇹​​🇱​​🇾​
+            ​🇺​​🇳​​🇩​​🇪​​🇷​ ​🇷​​🇪​​🇳​​🇴​​🇻​​🇦​​🇹​​🇮​​🇴​​🇳​
+          </h1>
         </div>
       </div>
     </>

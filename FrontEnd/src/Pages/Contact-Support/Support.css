@@ -15,6 +15,7 @@
   border-radius: 50px;
   background-color: #fff;
   display: flex;
+  box-shadow: 0 4px 50px rgba(0, 0, 0, 0.6); /* Adjust the values as needed */
 }
 
 .left-side {
@@ -70,6 +71,7 @@ footer {
 }
 
 .ticket-button {
+  margin-top: 50px;
   display: inline-block;
   padding: 10px 20px;
   background-color: #3498db;

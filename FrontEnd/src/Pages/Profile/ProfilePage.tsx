@@ -186,7 +186,7 @@ const UserPostsStruct = (p: any) => {
 
   const SwitchPage = () => {
     navRef(`/UserPost/${userPostValCont.id}`, {
-      state: { recievedData: userData },
+      state: { receivedData: userData },
     });
   };
   return (
@@ -211,27 +211,33 @@ function ProfilePage() {
 
   //Get Variable from useLocation function REACT DOM
   const location = useLocation();
-  const [DataCont, setDataCont] = useState(location.state.recievedData);
-  const userContainer = DataCont.data.UserData;
+  const [DataCont, setDataCont] = useState(location.state.userProfileData);
+  const [newData, setNewData] = useState(
+    location.state.receivedData ?? JSON.parse(JSON.stringify(DataCont))
+  );
 
-  //NOTE:
-  //WE CAN USE USER TOKEN TO VERIFY ACCOUNT
   const navigate = useNavigate();
 
   const UploadNavigate = (data: any) => {
     console.log(data.userAuth);
     navigate("/profile/Upload", {
-      state: { recievedData: data.userAuth, returnObj: DataCont },
+      state: { receivedData: data.userAuth, returnObj: DataCont },
     });
   };
 
+  const userContainer = newData.data.UserData;
+  console.log("CUR USER CONTAINER", userContainer);
+
   useEffect(() => {
     if (userContainer.username) {
+      console.log("PRINTED USER CONTAINER", userContainer);
+
       axios
         .get(`/api/profile/${userContainer.username}/`)
         .then((response) => {
           setProfile(response.data);
           console.log("Set Successful");
+
           //console.log(response.data); // Log the updated profile data
         })
         .catch((err) => {
@@ -248,7 +254,7 @@ function ProfilePage() {
           console.log(err);
         });
     }
-  }, [userContainer.username]);
+  }, [userContainer]);
 
   if (profile === null) {
     return <div>Loading...</div>;

@@ -44,6 +44,7 @@ const LoggedInHeader = React.memo((props: any) => {
   const curUserData = props.UserData;
   const [searchQuery, setSearchQuery] = useState("");
   //console.log(curUserData);
+  console.log("VALUE", curUserData);
 
   const navigate = useNavigate();
 
@@ -100,16 +101,6 @@ const LoggedInHeader = React.memo((props: any) => {
             />
           );
         })}
-        <button
-          onClick={() => {
-            ProfileNavFunc(curUserData);
-            window.location.reload();
-          }}
-          className="sm:mt-3 sm:p-2 md:mt-0 md:px-10  rounded-xl border-4 border-red-500 hover:bg-white"
-          id="profileBtn"
-        >
-          PROFILE
-        </button>
       </Navbar.Collapse>
     </Navbar>
   );

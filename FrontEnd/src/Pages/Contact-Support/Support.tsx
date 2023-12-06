@@ -7,7 +7,7 @@ import Header from "../../Components/Header/GeneralLoggedInHeader.tsx";
 
 function Support() {
   const location = useLocation();
-  const [DataCont, setDataCont] = useState(location.state.recievedData);
+  const [DataCont, setDataCont] = useState(location.state.receivedData);
   return (
     <>
       <Header UserData={DataCont}> </Header>

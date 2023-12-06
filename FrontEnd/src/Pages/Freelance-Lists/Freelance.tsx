@@ -54,15 +54,15 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
   const navigate = useNavigate();
   const SwitchPage = (id: any) => {
     console.log("USERDATA", userdata);
-    navigate(`/UserPost/${id}`, { state: { recievedData: userdata } });
+    navigate(`/UserPost/${id}`, { state: { receivedData: userdata } });
 
-    // /const userData = location.state.recievedData;
+    // /const userData = location.state.receivedData;
   };
 
   //GET PROFILE IMAGE LATOR
   return (
     <div
-      className="img-card-container"
+      className="img-card-container "
       onClick={() => {
         SwitchPage(src.post.id);
       }}
@@ -77,17 +77,17 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
         />
       </div>
       <div className="text-card">
-        <div className="m-0 pb-4 text-container">
+        <div className="m-0 text-container ml-5">
           <h1 className="font-semibold ">{src.post.title}</h1>
           <div
-            className="absolute rounded-full bg-red-500 h-10 w-10"
+            className="absolute rounded-full bg-red-500 h-10 w-10 img"
             style={{
               backgroundImage: `url(http://127.0.0.1:8000/${src.profile_picture})`,
               backgroundSize: "cover", // Adjust as needed
               backgroundPosition: "center", // Adjust as needed
             }}
           ></div>
-          <h2 className="ml-12 mt-2">{src.display_name}</h2>
+          <h2 className="ml-12 mt-2 disp">{src.display_name}</h2>
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
 function FreelanceSelector() {
   //Might Use USESTATE if problematic
   const location = useLocation();
-  const [userData, setUserData] = useState(location.state.recievedData);
+  const [userData, setUserData] = useState(location.state.receivedData);
 
   const [searchedValues, setSearchVal] = useState<any[]>([]);
 
@@ -111,6 +111,7 @@ function FreelanceSelector() {
   const [images, setImages] = useState<any[]>([]);
 
   const fetchImages = () => {
+    console.log(1);
     fetch(`/api/obtainPostList`)
       .then((response) => {
         if (!response.ok) {
@@ -137,7 +138,7 @@ function FreelanceSelector() {
 
   useEffect(() => {
     fetchImages();
-  }, [searchedValues, images]);
+  }, [searchedValues]);
 
   return (
     <div>

@@ -8,6 +8,12 @@ import ScrollMagic from "scrollmagic";
 import gsap from "gsap";
 import "scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators";
 
+import tree from "./Tree.jpg";
+import banana from "./Banana.jpg";
+import birb from "./Birb.jpg";
+import peeps from "./Peeps.jpg";
+import paint from "./Paint.jpg";
+
 function LandingPage() {
   const tl: gsap.core.Timeline = gsap.timeline();
 
@@ -136,7 +142,24 @@ function LandingPage() {
         className="w-screen h-auto  absolute bottom-96 bg-black"
       />
 
-      <div id="Showcase" className="w-screen h-full"></div>
+      <div id="Showcase" className="w-screen h-full">
+        <h1 className="text-7xl absolute top-40 text-white mx-auto showcase-shadow">
+          FIND TALENTED ARTISTS
+        </h1>
+        <h2 className="text-xl absolute text-orange-400 top-[15rem]  mx-auto">
+          browse through the webpage
+        </h2>
+        <h2></h2>
+        <div className="images_box">
+          <img src={tree} />
+          <img src={birb} />
+          <img src={banana} />
+          <img src={peeps} />
+          <img src={paint} />
+          <img src={tree} />
+          <img src={birb} />
+        </div>
+      </div>
 
       <div
         id="Blog"
@@ -147,7 +170,9 @@ function LandingPage() {
           className="Image-Content [&>*]:relative drop-shadow-2xl	"
         >
           <h1 className="ml-5 pr-[6vw] relative text-White Blog-Text left-[2vw] top-10 flex flex-col font-custom word-holder">
-            <span>INSP IRING STOR IES</span>
+            <span>
+              INSP IRING <span className="text-white">STOR IES</span>
+            </span>
           </h1>
 
           <img
@@ -158,11 +183,38 @@ function LandingPage() {
           />
           <img src="/Showcase2.jpg" className="bottom-[5vh]" id="Pic2" alt="" />
           <img src="/Showcase3.jpg" className="bottom-[5vh] ml-10" id="Pic3" />
-          <img src="/Showcase2.jpg" className="bottom-[5vh]" id="Pic4" />
+          <h1 className="ml-5 pr-[6vw] relative text-White Blog-Text left-[2vw] top-10 flex flex-col font-custom word-holder2">
+            <span>
+              Keep Updated With Our{" "}
+              <span className="text-white myspan">Website Blog</span>
+            </span>
+          </h1>
         </div>
       </div>
       <div id="Support" className="w-screen h-screen z-20  relative">
-        a
+        <h1 className="text-7xl text-orange-400">DO YOU HAVE A QUESTION?</h1>
+        <h1 className="text-2xl text-white">contact us</h1>
+
+        <form className="cf rounded-3xl">
+          <div className="half left cf">
+            <input type="text" id="input-name" placeholder="Name" />
+            <input type="email" id="input-email" placeholder="Email address" />
+            <input type="text" id="input-subject" placeholder="Subject" />
+          </div>
+          <div className="half right cf">
+            <textarea
+              name="message"
+              id="input-message"
+              placeholder="Message"
+            ></textarea>
+          </div>
+          <input
+            type="submit"
+            value="SUBMIT"
+            id="input-submit"
+            className="bg-orange-400"
+          />
+        </form>
       </div>
     </div>
   );

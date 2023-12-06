@@ -13,7 +13,7 @@ function UploadPage() {
 
   const location = useLocation(); // For getting values from navigate
 
-  const DataCont = location.state.recievedData; //gets Data from previous Location after change page
+  const DataCont = location.state.receivedData; //gets Data from previous Location after change page
   const userReturnedObj = location.state.returnObj; // IMPORTANT FOR RETURNING USER VALUE
 
   console.log(userReturnedObj);
@@ -21,7 +21,7 @@ function UploadPage() {
   const navigate = useNavigate();
 
   const PostNavigate = () => {
-    navigate("/Posts", { state: { recievedData: userReturnedObj } });
+    navigate("/Posts", { state: { receivedData: userReturnedObj } });
   };
 
   //<LandingPage/>

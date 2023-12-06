@@ -30,7 +30,7 @@ const NavBtn = (p: any) => {
       <a
         onClick={() => {
           console.log(p.goTo);
-          p.Nav(p.goTo, { state: { recievedData: p.curUserData } });
+          p.Nav(p.goTo, { state: { receivedData: p.curUserData } });
         }}
         className="block py-2 lg:pl-3  text-gray-900 md:pl-1 cursor-pointer"
       >
@@ -51,7 +51,7 @@ const LoggedInHeader = React.memo((props: any) => {
 
   const ProfileNavFunc = (data: any) => {
     console.log("Check");
-    navigate("/Profile", { state: { recievedData: data } });
+    navigate("/Profile", { state: { userProfileData: data } });
   };
 
   //SERCH
@@ -89,7 +89,7 @@ const LoggedInHeader = React.memo((props: any) => {
       id="Header"
     >
       <Navbar.Brand href="https://flowbite-react.com">
-        <a href="#" className="flex items-center">
+        <a href="/" className="flex items-center">
           <span className="ml-7  self-center text-2xl font-semibold whitespace-nowrap text-red-500">
             Quick-<span className="text-black">Link</span>
           </span>
