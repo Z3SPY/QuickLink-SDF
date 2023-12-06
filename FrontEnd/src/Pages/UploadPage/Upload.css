@@ -5,6 +5,8 @@
   padding: 0px;
 }
 
+
+
 .m-auto {
   padding: 15px;
   background-color: #303034 !important;
@@ -17,7 +19,7 @@
 }
 
 .txtUpload {
-  font-weight: bolder;
+  font-weight: bolde  r;
   font-size: x-large;
   margin-top: 10px;
 }
@@ -88,8 +90,8 @@
 }
 
 .tag-box {
-  max-height: 10rem;
-  min-height: 10rem;
+  max-height: 7rem;
+  min-height: 7rem;
   overflow-y: auto;
   overflow-x: hidden;
 }

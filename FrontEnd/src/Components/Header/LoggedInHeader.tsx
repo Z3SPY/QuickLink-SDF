@@ -29,10 +29,10 @@ const NavBtn = (p: any) => {
     <li>
       <a
         onClick={() => {
-          console.log(p.goTo);
+          // console.log(p.goTo);
           p.Nav(p.goTo, { state: { receivedData: p.curUserData } });
         }}
-        className="block py-2 lg:pl-3  text-gray-900 md:pl-1 cursor-pointer"
+        className="block py-2 lg:pl-3  text-gray-900 md:pl-1 md:text-xs lg:text-sm   	 cursor-pointer"
       >
         {p.name}
       </a>
@@ -50,7 +50,7 @@ const LoggedInHeader = React.memo((props: any) => {
   const navigate = useNavigate();
 
   const ProfileNavFunc = (data: any) => {
-    console.log("Check");
+    // console.log("Check");
     navigate("/Profile", { state: { userProfileData: data } });
   };
 
@@ -59,13 +59,13 @@ const LoggedInHeader = React.memo((props: any) => {
     // Call the backend API to perform the search
     if (searchQuery == null || searchQuery.trim() === "") {
       setSearchVal([]);
-      console.log("YO", curSearchVal);
+      // console.log("YO", curSearchVal);
     } else {
       fetch(`/api/search/?query=${searchQuery}`)
         .then((response) => response.json())
         .then((data) => {
           // Handle the search results, update state, etc.
-          console.log("Search results:", data.Posts);
+          // console.log("Search results:", data.Posts);
           setSearchVal(data.Posts);
         });
     }
@@ -132,7 +132,7 @@ const LoggedInHeader = React.memo((props: any) => {
           <input
             type="text"
             id="search-navbar"
-            className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 "
+            className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 "
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

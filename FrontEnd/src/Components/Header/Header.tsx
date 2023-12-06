@@ -41,11 +41,11 @@ const Login = (p: any) => {
   }
 
   function LoginFunction(event: any) {
-    console.log("logged");
+    // console.log("logged");
     event.preventDefault();
     const curUsername = event.target.userNm.value;
     const curPassword = event.target.password.value;
-    console.log(curPassword + " " + curUsername);
+    // console.log(curPassword + " " + curUsername);
     getUserVal(curUsername, curPassword);
   }
 
@@ -62,7 +62,7 @@ const Login = (p: any) => {
       .then((data) => {
         if (data.user_logged_in) {
           alert("User exists!");
-          console.log("PASSED DATA", data); // Pass to Authenticated Page After Success
+          // console.log("PASSED DATA", data); // Pass to Authenticated Page After Success
           if (data.data.Token) {
             localStorage.setItem("authToken", data.data.token);
             setUserData(data);
@@ -183,14 +183,14 @@ const Login = (p: any) => {
 const Register = (p: any) => {
   const [date, setDate] = useState<Date | null>(new Date());
   function RegisterFunction(event: any) {
-    console.log("Registered");
+    // console.log("Registered");
     event.preventDefault();
     const curUsername = event.target.regUserNm.value;
     const curEmail = event.target.regEmail.value;
     const curPassword = event.target.regPassword.value;
     const passConf = event.target.regPasswordConf.value;
 
-    console.log(curPassword + " " + curUsername + " " + curEmail);
+    // console.log(curPassword + " " + curUsername + " " + curEmail);
 
     if (passConf === curPassword) {
       createUserVal(curUsername, curEmail, curPassword);
@@ -373,7 +373,7 @@ const Header = () => {
 
       for (let i = 0; i < navItems.length; i++) {
         if (navItems[i].id == p.id) {
-          console.log(navItems[i].id);
+          // console.log(navItems[i].id);
           curID = navItems[i].id;
         }
       }
@@ -393,7 +393,7 @@ const Header = () => {
       // Smoothly scroll to the specified y-coordinate
       const h: any = document.body;
       const scrollPos = h.clientHeight * p.goTo;
-      console.log(scrollPos);
+      // console.log(scrollPos);
 
       window.scrollTo({
         top: scrollPos,

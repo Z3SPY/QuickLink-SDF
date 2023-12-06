@@ -53,7 +53,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
 
   const navigate = useNavigate();
   const SwitchPage = (id: any) => {
-    console.log("USERDATA", userdata);
+    // console.log("USERDATA", userdata);
     navigate(`/UserPost/${id}`, { state: { receivedData: userdata } });
 
     // /const userData = location.state.receivedData;
@@ -111,7 +111,7 @@ function FreelanceSelector() {
   const [images, setImages] = useState<any[]>([]);
 
   const fetchImages = () => {
-    console.log(1);
+    // console.log(1);
     fetch(`/api/obtainPostList`)
       .then((response) => {
         if (!response.ok) {
@@ -133,7 +133,7 @@ function FreelanceSelector() {
   };
 
   useEffect(() => {
-    console.log("SEARCHED USE STATE", searchedValues);
+    // console.log("SEARCHED USE STATE", searchedValues);
   }, [searchedValues]);
 
   useEffect(() => {
@@ -145,7 +145,7 @@ function FreelanceSelector() {
       <Header UserData={userData} searchFunc={getSearch} />
       <div id="User-Tags"></div>
       <div id="User-Container" className="w-auto mx-40 mt-28">
-        <Masonry columns={{ 640: 2, 768: 3, 1024: 4, 1280: 6 }} gap={16}>
+        <Masonry columns={{ 640: 2, 768: 3, 1030: 4, 1400: 5}} gap={16}>
           {searchedValues.map((base64: any) => {
             return (
               <div key={base64.post.id}>

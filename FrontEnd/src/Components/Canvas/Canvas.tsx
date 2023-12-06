@@ -104,7 +104,7 @@ const settings = {
 let fontSize = 1200;
 let fontFamily = "Isidora Sans";
 
-console.log("yo" + settings.dimensions[0] + settings.dimensions[1]);
+// console.log("yo" + settings.dimensions[0] + settings.dimensions[1]);
 // Canvas Component Start //
 const Canvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);

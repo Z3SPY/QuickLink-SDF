@@ -32,7 +32,7 @@ function App() {
           path="/UserPost/:PostsID"
           element={<UserContentPage />}
           loader={({ params }) => {
-            console.log(params.PostsID);
+            // console.log(params.PostsID);
             return params;
           }}
         />

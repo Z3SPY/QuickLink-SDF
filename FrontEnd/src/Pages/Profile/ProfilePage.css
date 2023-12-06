@@ -31,11 +31,11 @@ html {
 #Upload-Btn {
   background-color: #29292b;
 }
-#Upload-Btn:hover > h1 > button {
+#Upload-Btn:hover > button {
   transition: 0.3s;
 }
 
-#Upload-Btn:hover > h1 > button {
+#Upload-Btn:hover  > button {
   background-color: #ffffffb9;
   transform: translateX(5px);
   color: #000000;
@@ -108,7 +108,7 @@ html {
   min-width: 2rem;
   height: 2rem;
   width: 5rem;
-  left: 85%;
+  right: 5%;
   margin-top: 10px;
 }
 

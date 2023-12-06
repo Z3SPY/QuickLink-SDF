@@ -44,7 +44,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
         //NOT LOADING BECAUSE NOT ENOUGH
         const img = new Image();
         img.src = `http://127.0.0.1:8000/${src.post.image_picture}`;
-        console.log(img.src);
+        // console.log(img.src);
         img.onload = () => {
           imageRef.current.src = img.src!;
         };
@@ -57,7 +57,7 @@ function PhotoComp({ src, userdata }: { src: any; userdata: any }) {
 
   const navigate = useNavigate();
   const SwitchPage = (id: any) => {
-    console.log("USERDATA", userdata);
+    // console.log("USERDATA", userdata);
     navigate(`/UserPost/${id}`, { state: { receivedData: userdata } });
 
     // /const userData = location.state.receivedData;
@@ -174,14 +174,14 @@ function PostPhoto(props: any) {
 function ContentPage() {
   const location = useLocation();
   const [userData, setUserData] = useState(location.state.receivedData);
-  console.log(userData);
+  // console.log(userData);
   //console.log("BAM", userData);
 
   window.scrollTo(0, 0);
 
   const params = useParams();
   const curID = params.PostsID;
-  console.log(params.PostsID);
+  // console.log(params.PostsID);
   const [images, setImages] = useState<any[]>([]);
 
   const [postValues, setPostValues] = useState<any>();
@@ -191,7 +191,7 @@ function ContentPage() {
 
   const navigate = useNavigate();
   const GoToProfile = (data: any) => {
-    console.log(userData);
+    // console.log(userData);
     //console.log(changedUserData.data.UserData);
 
     fetch(`/api/getUserFromUsername/?UserData=${postValues.user}`)
@@ -222,7 +222,7 @@ function ContentPage() {
         setUser(userData.data.UserData.id);
         setProfilePic(data.profile_pic);
       } else {
-        console.log("NO");
+        // console.log("NO");
         // Handle the case when the response is not ok (e.g., show an error message).
       }
     } catch (error) {
@@ -237,7 +237,7 @@ function ContentPage() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log("worked");
+        // console.log("worked");
         return response.json();
       })
       .then((data) => {
@@ -261,7 +261,7 @@ function ContentPage() {
   }, [location]);
 
   useEffect(() => {
-    console.log(postValues);
+    // console.log(postValues);
   }, [postValues]);
 
   return (

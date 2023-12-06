@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+  import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../../Components/Header/GeneralLoggedInHeader.tsx";
 import "./ProfilePage.css";
@@ -72,7 +72,7 @@ const EditProfileView = (p: any) => {
               body: JSON.stringify(data),
             })
               .then((resp) => {
-                console.log(resp.json());
+                // console.log(resp.json());
                 location.reload(); // Refresh Page
               })
               .catch((error) => {
@@ -105,7 +105,7 @@ const EditProfileView = (p: any) => {
             body: JSON.stringify(data),
           })
             .then((resp) => {
-              console.log(resp.json());
+              // console.log(resp.json());
               location.reload(); // Refresh Page
             })
             .catch((error) => {
@@ -131,7 +131,7 @@ const EditProfileView = (p: any) => {
           <h1 className="text-3xl text-white m-0 p-0">EDIT PROFILE</h1>
         </Modal.Header>
 
-        <div className="m-auto rounded-xl w-[full] h-[60vh] ">
+        <div className="m-auto rounded-xl w-[full] h-auto ">
           <form
             action="POST"
             onSubmit={EditProfile}
@@ -195,7 +195,7 @@ const UserPostsStruct = (p: any) => {
       onClick={SwitchPage}
     >
       <img
-        className="object-cover min-w-[15rem]  min-h-[15rem] max-h-[15rem] max-w-[15rem] user-posts"
+        className="object-cover sm:min-w-[14rem] sm:max-w-[14rem]  md:min-w-[12rem] md:max-w-[12rem]  min-h-[12rem] max-h-[12rem]  user-posts"
         src={`http://127.0.0.1:8000/${userPostValCont.image_picture}`}
         alt=""
       />
@@ -219,24 +219,24 @@ function ProfilePage() {
   const navigate = useNavigate();
 
   const UploadNavigate = (data: any) => {
-    console.log(data.userAuth);
+    // console.log(data.userAuth);
     navigate("/profile/Upload", {
       state: { receivedData: data.userAuth, returnObj: DataCont },
     });
   };
 
   const userContainer = newData.data.UserData;
-  console.log("CUR USER CONTAINER", userContainer);
+  // console.log("CUR USER CONTAINER", userContainer);
 
   useEffect(() => {
     if (userContainer.username) {
-      console.log("PRINTED USER CONTAINER", userContainer);
+      // console.log("PRINTED USER CONTAINER", userContainer);
 
       axios
         .get(`/api/profile/${userContainer.username}/`)
         .then((response) => {
           setProfile(response.data);
-          console.log("Set Successful");
+          // console.log("Set Successful");
 
           //console.log(response.data); // Log the updated profile data
         })
@@ -260,6 +260,7 @@ function ProfilePage() {
     return <div>Loading...</div>;
   }
 
+
   return (
     <div className="backGround">
       <Header UserData={DataCont}> </Header>
@@ -267,19 +268,22 @@ function ProfilePage() {
         <div id="portfolio" className="mt-10 rounded-xl p-5 ">
           <div
             id="Upload-Btn"
-            className="w-full h-[6rem] rounded-xl text-center p-8"
+            className="w-full h-[6rem] rounded-xl text-center lg:p-8 text-gray-200 md:p-[1rem] sm:md:p-[4rem]"
+            style={userContainer.username === DataCont.data.UserData.username ? { display:'block'} : {display : 'none'}}
           >
-            <h1 className="text-gray-200 text-xl ">
-              Start your journey by uploading your work.
-              <button
+            <h1 className="text-gray-200 text-xl " >
+              
+            </h1>
+            Start your journey by uploading your work.
+            <button
                 onClick={() => {
                   UploadNavigate(profile[0]);
                 }}
                 className="text-base p-2 ml-2 rounded-lg bg-gray-600"
+                
               >
                 Upload Content
               </button>
-            </h1>
           </div>
           <div id="Selector">
             <h1 className="text-gray-200 text-2xl mt-5">Portfolio</h1>
@@ -297,14 +301,15 @@ function ProfilePage() {
           </div>
         </div>
 
-        <div id="profile" className="mt-10 ml-10 rounded-xl  relative">
+        <div id="profile" className="mt-10 ml-10 rounded-xl relative">
           <div id="background" className="bg-gray-300 "></div>
           <Button
             id="editBut"
             onClick={() => props.setOpenModal("form-edit-profile")}
-            className="bg-yellow-300 absolute hover:bg-orange-100"
+            className="bg-yellow-300 absolute hover:bg-orange-100 "
+            style={userContainer.username === DataCont.data.UserData.username ? { display:'block'} : {display : 'none'}}  
           >
-            <img src="/edit.png" alt="" className="object-cover" />
+            <img src="/edit.png" alt="" className="object-cover absolute" />
           </Button>
           <div className="userBorder relative">
             <div id="userPic" className="bg-red-300 absolute">

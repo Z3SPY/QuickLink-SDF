@@ -34,7 +34,7 @@ function LandingPage() {
       .addTo(controller)
       .on("end", (event: any) => {
         if (event.scrollDirection == "FORWARD") {
-          console.log("enter");
+          // console.log("enter");
 
           if (window.innerHeight <= 685) {
             tl.to("#Showcase", { duration: 0.5, y: "-110vh" }); //Slide when Scrolling Downwards
@@ -42,7 +42,9 @@ function LandingPage() {
         } else if (event.scrollDirection == "REVERSE") {
           tl.to("#Showcase", { duration: 1, y: "20vh" }); //Slide when Scrolling Backwards
         }
-      }).addIndicators!();
+      })
+      
+      //.addIndicators!();
 
     let blogRef = document.getElementById("Blog")!;
 
@@ -84,7 +86,7 @@ function LandingPage() {
       .on("progress", (event: any) => {
         blogRef.scrollLeft = event.progress * 2000;
         const progress = event.progress;
-        console.log("Scroll Progress:", progress);
+        // console.log("Scroll Progress:", progress);
 
         // Reverse the timeline if scrolling up
         if (event.scrollDirection === "REVERSE" && progress <= 0.1) {
@@ -93,7 +95,9 @@ function LandingPage() {
           Sidetl.play();
         }
         //Set Position
-      }).addIndicators!();
+      })
+      
+      //addIndicators!();
 
     /**THIS IS A DIVIDER */
 
@@ -104,7 +108,8 @@ function LandingPage() {
       offset: 100,
     })
       .addTo(BboglogController)
-      .on("progress", (event: any) => {}).addIndicators!();
+      .on("progress", (event: any) => {})
+      //.addIndicators!();
 
     return () => {
       controller.destroy(true);
@@ -156,8 +161,7 @@ function LandingPage() {
           <img src={banana} />
           <img src={peeps} />
           <img src={paint} />
-          <img src={tree} />
-          <img src={birb} />
+        
         </div>
       </div>
 

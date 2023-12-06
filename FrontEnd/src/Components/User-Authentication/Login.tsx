@@ -7,12 +7,11 @@ function Login() {
   //const [curUser, getUser] = useState<{ user: string, pass: string }>({ user: "", pass: "" });
 
   function LoginFunction(event: any) {
-    console.log("logged");
     event.preventDefault();
 
     const curEmail = event.target.email.value;
     const curPassword = event.target.password.value;
-    console.log(curPassword + " " + curEmail);
+    // console.log(curPassword + " " + curEmail);
     getUserVal(curEmail, curPassword);
   }
 

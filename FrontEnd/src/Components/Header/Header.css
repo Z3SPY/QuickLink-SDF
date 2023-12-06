@@ -164,7 +164,7 @@ a:hover {
     max-width: calc(100% - 1rem);
   }
   #search-navbar {
-    width: calc(100vw * 0.3);
+    width: calc(100vw * 0.15);
   }
 
   #navBarButtons {

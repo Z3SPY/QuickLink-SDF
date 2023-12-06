@@ -16,7 +16,7 @@ function UploadPage() {
   const DataCont = location.state.receivedData; //gets Data from previous Location after change page
   const userReturnedObj = location.state.returnObj; // IMPORTANT FOR RETURNING USER VALUE
 
-  console.log(userReturnedObj);
+  // console.log(userReturnedObj);
 
   const navigate = useNavigate();
 
@@ -69,7 +69,7 @@ function UploadPage() {
                 return resp.json();
               })
               .then((d) => {
-                console.log(d);
+                // console.log(d);
                 setTimeout(() => {
                   PostNavigate();
                 }, 2000); // 2000 milliseconds (adjust as needed)
@@ -118,7 +118,7 @@ function UploadPage() {
           <div></div>
         </div>
       </div>
-      <div className=" rounded-xl lg:w-[40vw] h-[auto] m-auto md:w-[50vw] shadow-2xl">
+      <div className=" rounded-xl lg:w-[40vw] m-auto md:w-[50vw] shadow-2xl">
         <form
           action="POST"
           onSubmit={submit}
@@ -190,7 +190,7 @@ function UploadPage() {
           <button
             ref={uploadDivRef}
             type="submit"
-            className=" w-[90%] mx-[5%] bU"
+            className="  bU"
           >
             UPLOAD FILE
           </button>
