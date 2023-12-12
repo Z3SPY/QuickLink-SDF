@@ -43,14 +43,10 @@ function Support() {
                   If you can't find the information you need, you can submit a
                   support ticket.
                 </p>
-                <a href="ticket.html" className="ticket-button">
+                <a href="" className="ticket-button">
                   Submit a Ticket
                 </a>
               </section>
-            </div>
-
-            <div className="right-side">
-              <img src={callcenterguy} alt="Guy" />
             </div>
           </div>
         </main>
