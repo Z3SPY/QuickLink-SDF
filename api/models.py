@@ -43,7 +43,8 @@ class ProfilePage(models.Model):
     )
     displayName = models.TextField(null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
-    profile_picture = models.ImageField(null=True, blank=True)
+    contacts = models.TextField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile/', null=True, blank=True)
     exp_container = models.JSONField(null=True, blank=True)
 
     userAuth = models.TextField(null=True, blank=True)
@@ -78,19 +79,6 @@ class ImagePost(models.Model):
     #image_picture = models.ImageField(null=True, blank=True, upload_to='uploads/')
 
     image_picture = models.ImageField(upload_to='image_posts/', null=True)
-
-
-    
-    """
-    image_picture = models.TextField(null=True,
-            db_column='data',
-            blank=True)
-    def set_data(self, data):
-        self._data = base64.encodestring(data)
-
-    def get_data(self):
-        return base64.decodestring(self._data)
-    """
 
 
     def set_data(self, data):
@@ -128,7 +116,7 @@ class Comment(models.Model):
     
     # User who posted the comment
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    profileName =  models.CharField(max_length=200, null=True, blank=True)
     # Image post associated with the comment
     post = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
 

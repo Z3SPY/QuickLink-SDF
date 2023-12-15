@@ -1,116 +1,140 @@
 .backGround {
-    background-color: #303034;
-    width: 100vw;
-    min-height: 100vh;
-    height: auto;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+  background-color: #303034;
+  width: 100vw;
+  min-height: 100vh;
+  height: auto;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 html {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
-
-
-/*PHOTOS AND UPLOAD*/ 
+/*PHOTOS AND UPLOAD*/
 /*Portfolio*/
 #portfolio {
-    background-color: #303034;
-    width: 150%;
-    min-height: 56vh;
-    height: auto;
-    box-shadow: 0 0 100px black;
-    flex-grow: 4;
+  background-color: #303034;
+  width: 150%;
+  min-height: 56vh;
+  height: auto;
+  box-shadow: 0 0 100px black;
+  flex-grow: 4;
+}
 
+.closeModal {
+  margin: 0;
+  padding: 0;
 }
 
 #Upload-Btn {
-    background-color: #29292b;
+  background-color: #29292b;
 }
-#Upload-Btn:hover > h1 > button{ 
-    transition: 0.3s;
+#Upload-Btn:hover > button {
+  transition: 0.3s;
 }
 
-#Upload-Btn:hover > h1 > button {
-    background-color: #ffffffb9;
-    transform: translateX(5px);
-    color: #000000;
+#Upload-Btn:hover  > button {
+  background-color: #ffffffb9;
+  transform: translateX(5px);
+  color: #000000;
 }
 
 #Photo-List {
-    overflow: auto;
-    max-height: 80vh;
+  overflow: auto;
+  max-height: 80vh;
 }
 
-
+.user-posts:hover {
+  filter: invert(0%) sepia(4%) saturate(16%) hue-rotate(63deg) brightness(60%)
+    contrast(80%);
+}
 
 /*SIDE PROFILE*/
 #profile {
-    min-height: 20.25rem;
-    height: auto;
-    width: 95vw;
-    background-color: #303034 ;
-    box-shadow: 0 0 50px black;
+  min-height: 20.25rem;
+  height: auto;
+  width: 95vw;
+  background-color: #303034;
+  box-shadow: 0 0 50px black;
 }
 
 #background {
-    min-height: 20rem;
-    border-radius: 15px 15px 0px 0px;
-
-}
-
-#editBut {
-    min-height: 2rem;
-    min-width: 2rem;
-    width: 2rem;
-    left: 90%;
-    margin-top: 10px;
+  min-height: 20rem;
+  border-radius: 15px 15px 0px 0px;
 }
 
 #userPic {
-    min-height: 90%;
-    min-width: 92%;
-    border-radius: 15px;
-    left: 5px;
-    top: 5px;
+  min-height: 90%;
+  min-width: 92%;
+  border-radius: 15px;
+  left: 5px;
+  top: 5px;
+}
+
+#userPic img {
+  position: absolute;
+  border-radius: 15px;
+  box-shadow: 3px 3px 10px rgb(0, 0, 0), -3px -3px 6px rgba(255, 255, 255, 0.5);
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 
 .userBorder {
-    min-height: 8rem;
-    min-width: 8rem;
-    width: 6%;
-    border-radius: 15px;
-    bottom: 5rem;
-    left: 2rem;
-    background-color: #303034 ;
-
+  min-height: 8rem;
+  min-width: 8rem;
+  width: 6%;
+  border-radius: 15px;
+  bottom: 5rem;
+  left: 2rem;
+  background-color: #303034;
 }
 
 #userDesc {
-    bottom: 70px;
-    width: 90%;
+  bottom: 70px;
+  width: 90%;
 }
+/*SIDE PROFILE END*/
+
+/*EDIT*/
+.edit-design {
+  background-color: #303034;
+}
+
+#editBut {
+  min-height: 2rem;
+  min-width: 2rem;
+  height: 2rem;
+  width: 5rem;
+  right: 5%;
+  margin-top: 10px;
+}
+
+#editBut img {
+  height: 50px;
+}
+
+#ProfileDescription,
+#ProfileContacts {
+  height: 20%;
+}
+/*EDIT END*/
 
 #Experience {
 }
 
 #Experience-Cont {
-    width: auto;
+  width: auto;
 }
 
 /*Experience Card*/
 .ExpCard {
-    min-height: 10rem;
-    width: 90%;
-    
+  min-height: 10rem;
+  width: 90%;
 }
 
 /*END*/
 
-
-
 /*Mini Search Bar*/
-
-

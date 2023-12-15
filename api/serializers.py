@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer # Different types of serializers exist. We are using model serailizer
-from .models import ProfilePage, ImagePost
+from .models import ProfilePage, ImagePost, Comment
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -14,12 +14,11 @@ Serializers also provide deserialization, allowing parsed data to be converted b
 """
 
 
+# PROFILE VALUES 
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model = ProfilePage
         fields = '__all__'
-
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,8 +32,11 @@ class GetUserNameSerializer(serializers.ModelSerializer):
         fields = ('id', 'username')
 
 
+
+
+# USER POST VALUES
 class GetPostValuesSerializer(serializers.ModelSerializer):
-    user = serializers.CharField()
+    #user = serializers.CharField()
     image_picture = serializers.ImageField()
     class Meta:
         model =  ImagePost
@@ -46,19 +48,25 @@ class GetPostValuesSerializer(serializers.ModelSerializer):
             return f"http://127.0.0.1:8000{self.image_picture.url}"
 
 class GetAllPostValues(serializers.ModelSerializer):
+    user = serializers.CharField()
     class Meta:
         model = ImagePost
         fields = '__all__'
 
 class PostSerializer(serializers.ModelSerializer):
     image_picture = Base64ImageField()
-
     class Meta:
         model= ImagePost
         fields= ('title','image_picture','description')
 
     
 
+# Comment Values
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.CharField()
+    class Meta: 
+        model = Comment
+        fields = '__all__'
 
 
 # fields = '__all__' shows all values in our notes class

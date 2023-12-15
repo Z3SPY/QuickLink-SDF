@@ -1,121 +1,203 @@
-import "./Upload.css"
-import { useState, useEffect, useRef } from 'react';
-import {useLocation} from 'react-router-dom';
-import 'flowbite';
-import 'flowbite/dist/flowbite.js';
+import "./Upload.css";
+import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import "flowbite";
+import "flowbite/dist/flowbite.js";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 function UploadPage() {
-    const [curProfile, setCurProfile] = useState<string>("");
-    const [returnedObj, setReturnedObj] = useState<any>(null);
+  const [curProfile, setCurProfile] = useState<string>("");
+  const [returnedObj, setReturnedObj] = useState<any>(null);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
 
-    const location = useLocation(); // For getting values from navigate
-    
-    const DataCont = location.state.recievedData; //gets Data from previous Location after change page
-    const userReturnedObj = location.state.returnObj; // IMPORTANT FOR RETURNING USER VALUE
+  const location = useLocation(); // For getting values from navigate
 
-    console.log(userReturnedObj);
+  const DataCont = location.state.receivedData; //gets Data from previous Location after change page
+  const userReturnedObj = location.state.returnObj; // IMPORTANT FOR RETURNING USER VALUE
 
-    const navigate = useNavigate();
+  // console.log(userReturnedObj);
 
-    const PostNavigate = () => {
-      navigate("/Posts", {state:{recievedData: userReturnedObj}});
-    }
+  const navigate = useNavigate();
 
-  
-    //<LandingPage/>
+  const PostNavigate = () => {
+    navigate("/Posts", { state: { receivedData: userReturnedObj } });
+  };
 
-    const uploadDivRef = useRef<HTMLButtonElement>(null);
-  
+  //<LandingPage/>
 
-    function submit(event : any) {
-      event.preventDefault()
+  const uploadDivRef = useRef<HTMLButtonElement>(null);
 
-      const fileInput = document.getElementById('file') as HTMLInputElement;
-      const titleInput = document.getElementById('title') as HTMLInputElement;
-      const descInput = document.getElementById('desc') as HTMLInputElement;
+  function submit(event: any) {
+    event.preventDefault();
 
-      if (fileInput && fileInput.files && fileInput.files.length > 0) {
-        const userFile: File = fileInput.files[0];  
-        const [title, description] = [titleInput.value, descInput.value];
+    const fileInput = document.getElementById("file") as HTMLInputElement;
+    const titleInput = document.getElementById("title") as HTMLInputElement;
+    const descInput = document.getElementById("desc") as HTMLInputElement;
+    let base64String: any = ""; // For image
 
-    
-        const formData = new FormData();
-        formData.append('user_file', userFile);
-        formData.append('user_title', title);
-        formData.append('user_description', description);
-        formData.append('user_auth', DataCont);
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      const userFile: File = fileInput.files[0];
+      if (userFile) {
+        const reader = new FileReader();
 
-          
-        //data.form.user_title , data.form.user_file, data.form.user_description
-        try {
+        reader.onload = async function (e) {
+          try {
+            document.getElementById("loading-screen")!.style.display = "flex";
+            const base64String = e.target?.result;
 
-            //PROBLEM WITH TOKEN PLEASE FIX LATER
+            const data: any = {
+              user_file: base64String,
+              user_title: titleInput.value,
+              user_description: descInput.value,
+              user_auth: DataCont,
+              user_tags: tags,
+            };
 
-            fetch('https://httpbin.org/post', {
+            const response = await fetch(`/api/createNewPost/`, {
               method: "POST",
-              body: formData,
+              mode: "same-origin",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
             })
-            .then(res => res.json())
-            .then(data => {
-              //const headerData = JSON.stringify(data);
-              //const headerFriendlyStr = Buffer.from(headerData, 'utf8').toString('base64');
-
-              fetch(`/api/createNewPost/`, {
-                method: 'POST',
-                mode: 'same-origin',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
+              .then((resp) => {
+                if (!resp.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                return resp.json();
               })
-                  .then((response) => {
-                      if (!response.ok) {
-                          throw new Error("Network response was not ok");
-                      }
-                      return response.json();
-                  })
-                  .then((d) => {
-                        console.log(d);
-                        PostNavigate();
-              
-                    })
-                  .catch((error) => {
-                        alert("Error occurred while creating user:" + error);
-                    });
-            })
-            .catch(e => console.log(e))
+              .then((d) => {
+                // console.log(d);
+                setTimeout(() => {
+                  PostNavigate();
+                }, 2000); // 2000 milliseconds (adjust as needed)
+              })
+              .catch((error) => {
+                alert("Error occured while creating post: " + error);
+              });
+          } catch (error) {
+            console.error("An error occurred:", error);
           }
-            catch (e) {
-              console.log(e);
-            }
+        };
 
-        } else {
-          console.log('Please select a file before uploading.');
-        }
+        reader.readAsDataURL(userFile);
+      }
+    } else {
+      alert("Please select a file before uploading.");
     }
-
-  
-    useEffect(() => {
-      
-    }, []);
-
-    return (
-      <div className="background p-0 m-0 pt-32">
-        <div className="m-auto bg-gray-600 rounded-xl lg:w-[40vw] h-[70vh] md:w-[50vw] shadow-2xl">
-          <form action="POST"  onSubmit={submit}>
-            <input type="file" id="file" accept=".png, .jpg" />
-            <input type="text" id="title"></input>
-            <input type="text" id="desc"></input>
-            <button ref={uploadDivRef} type="submit">Upload File</button>
-          </form>
-        </div>
-      </div>
-    )
   }
 
+  const AddTag = () => {
+    if (tagInput.trim() !== "") {
+      setTags([...tags, tagInput.trim()]);
+      setTagInput("");
+    }
+  };
+
+  const RemoveTag = (index: number) => {
+    const newTags = [...tags];
+    newTags.splice(index, 1);
+    setTags(newTags);
+  };
+
+  useEffect(() => {}, []);
+
+  return (
+    <div className="background p-0 m-0 py-1 ">
+      <div id="loading-screen">
+        <div className="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <div className=" rounded-xl lg:w-[40vw] m-auto md:w-[50vw] shadow-2xl">
+        <form
+          action="POST"
+          onSubmit={submit}
+          className="relative flex flex-col [&>*]:p-2 text-white"
+        >
+          <label htmlFor="details" className="txtFile">
+            FILE UPLOAD
+          </label>
+          <input
+            type="file"
+            id="file"
+            accept=".png, .jpg"
+            className="chooseFile"
+          />
+          <label htmlFor="details" className="txtUpload">
+            UPLOAD DETAILS
+          </label>
+          <label htmlFor="title" className="mt-3">
+            <b>TITLE</b>
+          </label>
+          <input
+            type="text"
+            id="title"
+            placeholder="Insert Title Here"
+            className="txtBox"
+          ></input>
+          <label htmlFor="desc" className="mt-3">
+            <b>DESCRIPTION</b>
+          </label>
+          <input
+            type="text"
+            id="desc"
+            placeholder="Insert Description Here"
+            className="txtBox"
+          ></input>
+          <label htmlFor="tg" className="mt-5">
+            <b>TAGS</b>
+          </label>
+          <div className="w-[90%] mx-[5%] mt-2">
+            <input
+              type="text"
+              id="tag"
+              placeholder="Type Tags Here"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              className="tagInput"
+            />
+            <button type="button" onClick={AddTag} className="ml-2 addTagBtn">
+              <b>Add Tag</b>
+            </button>
+          </div>
+          <div className="flex flex-wrap w-[50%]  mx-[5%] mt-2 tag-box">
+            {tags.map((tag, index) => (
+              <div key={index} className="tag-container">
+                <div className="tag-content bg-gray-500">
+                  <div className="p-1 rounded-r text-white">{tag}</div>
+                  <button
+                    type="button"
+                    onClick={() => RemoveTag(index)}
+                    className="rounded-l p-1 text-white"
+                  >
+                    <b>×</b>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            ref={uploadDivRef}
+            type="submit"
+            className="  bU"
+          >
+            UPLOAD FILE
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
 
 export default UploadPage;

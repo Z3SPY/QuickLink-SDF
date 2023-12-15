@@ -1,0 +1,22 @@
+.Design-Jobs {
+  background-image: url("Design.png");
+  background-repeat: no-repeat;
+  object-fit: fill;
+  background-size: cover;
+  filter: sepia(50%) saturate(206%) hue-rotate(1deg) brightness(55%);
+  box-shadow: 5px 10px 100px black;
+}
+
+.title-job {
+  font-size: 10rem !important;
+}
+
+.tag-hoverAnchor {
+  transition: 0.25s all;
+}
+
+.tag-hoverAnchor:hover {
+  transform: translateX(1rem);
+  background-color: black;
+  cursor: pointer;
+}

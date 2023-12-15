@@ -1,0 +1,33 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+}
+
+.dashboard {
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  background-color: #3498db; /* Blue background color for the header */
+  padding: 25px;
+  text-align: center;
+  color: #fff; /* Text color for the header */
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background-size: contain; /* Adjusted background size */
+  background-position: center; /* Adjusted background position */
+  background-repeat: no-repeat; /* Prevent background image from repeating */
+}
+
+.content h1 {
+  text-align: center;
+  font-size: 28px;
+  color: bl;
+}

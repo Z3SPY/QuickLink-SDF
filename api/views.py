@@ -21,11 +21,11 @@ from django.http import JsonResponse
 
 
 #For DB Values
-from .models import ProfilePage, ImagePost
+from .models import ProfilePage, ImagePost, Comment
 from django.contrib.auth import authenticate
 
 
-from .serializers import ProfileSerializer, GetPostValuesSerializer
+from .serializers import ProfileSerializer, GetPostValuesSerializer, CommentSerializer
 
 
 #Django User 
@@ -50,7 +50,7 @@ def getUsers(request):
 
 
 
-def create_user(request):
+def create_user(request): 
     userNm = request.GET.get('username', None)
     email = request.GET.get('email', None)
     pssWrd = request.GET.get('password', None)
@@ -143,30 +143,106 @@ def GetProfilePageDetail(request, pk):
     serializer = ProfileSerializer(profileDetails, many=True)
     return Response(serializer.data)
 
+def GetSpecificUserPost(request, pk):
+    filtered_User = User.objects.get(id=pk)
+    filtered_UserProfile = ProfilePage.objects.get(user=filtered_User)
+    ListPostsUser = ImagePost.objects.filter(user=filtered_UserProfile)
+    serialized_Posts =  GetPostValuesSerializer(ListPostsUser, many=True).data
+
+    data = {
+        'message': 'Obtained all user posts.',
+        'posts': serialized_Posts
+    }
+    return JsonResponse(data)
+
 
 
 # POST BASED VIEWS
+def GetUserFromUsername(request):
+    userNm = request.GET.get('UserData', None)
+    print(userNm)
+
+    if userNm is not None:
+        try:
+            filtered_profilePage = ProfilePage.objects.get(displayName=userNm)
+            serialized_profilePage = ProfileSerializer(filtered_profilePage).data
+            filtered_User = User.objects.get(id=serialized_profilePage["user"])
+            userVal = GetUserNameSerializer(filtered_User).data
+            print(userVal)
+
+            return JsonResponse({'error': 'Invalid request method. ', 'UserValues' : userVal})
+        except Exception as e: 
+            print(e)
+            return JsonResponse({'error': 'Invalid request method. ',})
+
+        
+
+    return JsonResponse({'error': 'Invalid request method. ',})
+
 @api_view(['GET', 'POST'])
 def GetAllPosts(request):
     ListPosts = ImagePost.objects.all()
-    serializer = GetPostValuesSerializer(ListPosts, many=True)
-    return JsonResponse({'Posts': serializer.data})
+    serialized_data = []
+
+    for post in ListPosts:
+        post_serializer = GetPostValuesSerializer(post)
+
+        profile_page_serializer = ProfileSerializer(post.user)
+
+        post_data = {
+            'post': post_serializer.data,
+            'display_name': profile_page_serializer.data['displayName'],
+            'profile_picture': str(post.user.profile_picture.url) if post.user.profile_picture else None,
+        }
+
+        serialized_data.append(post_data)
+
+    #print(serialized_data[0])
+
+    return JsonResponse({'Posts': serialized_data})
+        
 
 @api_view(['GET'])
 def GetSpecificPost(request, pk):
-    GetPost = ImagePost.objects.filter(id=pk)
-    serializer = GetAllPostValues(GetPost, many=True)
-    return Response(serializer.data)
+
+    try: 
+        GetPost = get_object_or_404(ImagePost,id=pk)
+        comments = Comment.objects.filter(post=GetPost)
+        serializer = GetAllPostValues(GetPost, many=False)
+
+
+        profile_serializer = ProfileSerializer(GetPost.user)
+
+                
+         # Serialize comments separately
+        comment_serializer = CommentSerializer(comments, many=True)
+        serialized_data = serializer.data
+        serialized_data['comments'] = comment_serializer.data
+
+
+        response_data = {
+            'post': serialized_data,
+            'user_ID': GetPost.user.user.id,
+            'profile_pic': str(GetPost.user.profile_picture.url) if GetPost.user.profile_picture else None,
+            
+        }
+
+        
+
+        return Response(response_data)
+    except ImagePost.DoesNotExist as e:
+        return Response(str(e), status=404)
 
 @csrf_exempt
 def CreateNewPost(request):
     data = json.loads(request.body)
 
-    postDataTitle =  data['form']['user_title']
-    postDataDesc = data['form']['user_description']
-    postUserAuth = data['form']['user_auth']
-    postDataImage = data['files']['user_file']
-    print(data)    
+    postDataTitle =  data['user_title']
+    postDataDesc = data['user_description']
+    postUserAuth = data['user_auth']
+    postDataImage = data['user_file']
+    postTags = data['user_tags']
+    print(postTags)    
 
         
     if postDataTitle and postDataDesc:
@@ -180,7 +256,7 @@ def CreateNewPost(request):
             profile_response = ProfilePage.objects.filter(user__username__startswith=postUserAuth).first()
             
             #Create New Profile Page
-            newPost = ImagePost(title=postDataTitle, description=postDataDesc, image_picture=data, user=profile_response)
+            newPost = ImagePost(tags=postTags,title=postDataTitle, description=postDataDesc, image_picture=data, user=profile_response)
             newPost.save()
             
             return JsonResponse({'message': 'Image post created successfully!'})
@@ -190,6 +266,106 @@ def CreateNewPost(request):
     return JsonResponse({'error': 'Invalid request method. Use POST to create an image post.', 'code': postDataTitle})
 
 
+# COMMENT VIEWS
+@csrf_exempt
+def CreateComment(request):
+    data = json.loads(request.body)
+    
+
+    if data is not None:
+        comment = data['comment']
+        user = data['user']
+        post = data['post_ID']
+
+        # Get the user instance
+        try:
+            filtered_User = User.objects.get(id=user)
+            filtered_UserName = ProfilePage.objects.get(user=filtered_User)
+            print(filtered_UserName.displayName)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=400)
+        
+         # Get the specific post
+        try:
+            specific_post = ImagePost.objects.get(id=post)
+        except Comment.DoesNotExist:
+            return JsonResponse({'error': 'Post not found'}, status=400)
+
+        newComment = Comment(text=comment, user=filtered_User, profileName=filtered_UserName.displayName, post=specific_post)
+        newComment.save()
+        return JsonResponse({'message': 'Comment post created successfully!', 'username': filtered_UserName.displayName})
+
+    return JsonResponse({'error': 'Invalid request method. Use POST to create an comment.'})
+
+# UPDATE PROFILE
+@csrf_exempt
+def EditProfile(request):
+    data = json.loads(request.body)
+    if data is not None:
+        postDataName =  data['name']
+        postDataDesc = data['desc']
+        postUserCont = data['cont']
+        postFileImage = data['picFile']
+        userID = data['id']
+
+        filtered_User = User.objects.get(id=userID)
+
+    if filtered_User is not None: 
+        #Retrieve object to be updated
+        try:
+            filtered_Profile = ProfilePage.objects.get(user=filtered_User)
+        except filtered_User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'})
+        
+        if postDataName is not None:
+            filtered_Profile.displayName = postDataName
+
+        if postDataDesc is not None:
+            filtered_Profile.bio = postDataDesc
+
+        if postFileImage is not None:
+            format, imgstr = postFileImage.split(';base64,') 
+            ext = format.split('/')[-1] 
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+            filtered_Profile.profile_picture = data
+
+        if postUserCont is not None:
+            filtered_Profile.contacts = postUserCont
+
+            
+
+
+
+        filtered_Profile.save()    
+    else:
+        return JsonResponse({'error': 'User not found'})
+
+
+
+    return JsonResponse({'error': 'Invalid '})
+
+@api_view(['GET'])
+def search_posts(request):
+    query = request.GET.get('query', '')
+    search_results = ImagePost.objects.filter(title__icontains=query).order_by('title')
+    serialized_data = []
+
+    for post in search_results:
+        post_serializer = GetPostValuesSerializer(post)
+
+        profile_page_serializer = ProfileSerializer(post.user)
+
+        post_data = {
+            'post': post_serializer.data,
+            'display_name': profile_page_serializer.data['displayName'],
+            'profile_picture': str(post.user.profile_picture.url) if post.user.profile_picture else None,
+        }
+
+        serialized_data.append(post_data)
+
+    print(serialized_data[0])
+
+    return JsonResponse({'Posts': serialized_data})
    
 
 
