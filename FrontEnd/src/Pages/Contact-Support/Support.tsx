@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./Support.css";
-import callcenterguy from "./guy.png";
 import { useLocation } from "react-router-dom";
 
 import Header from "../../Components/Header/GeneralLoggedInHeader.tsx";
